@@ -1,4 +1,5 @@
 // actions.ts
+/*
 "use server";
 
 import { prisma } from "@/lib/prisma";
@@ -22,3 +23,5 @@ export async function createUser(formData: FormData) {
     console.error(e);
   }
 }
+
+*/
