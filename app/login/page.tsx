@@ -11,7 +11,6 @@ export default function Login() {
   const isLoggedIn = session.data?.user != null;
 
   const onSignIn = async () => {
-  setError(""); // clear old errors
 
   const result = await authClient.signIn.email({
     email,
@@ -19,16 +18,6 @@ export default function Login() {
     // no redirect, no extra props
   });
 
-  if (result.error) {
-    if (result.error.code === "PASSWORD_CHANGE_REQUIRED") {
-      setError("You need to change your password before logging in.");
-    } else {
-      setError("Incorrect email or password.");
-    }
-  } else if (result.data.user) {
-    console.log("Logged in as", result.data.user.name);
-    // optionally redirect or update UI
-  }
     setEmail("");
     setPassword("");
 };
