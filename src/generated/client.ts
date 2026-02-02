@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type User = Prisma.UserModel
 /**
+ * Model DriverProfile
+ * 
+ */
+export type DriverProfile = Prisma.DriverProfileModel
+/**
  * Model Session
  * 
  */

@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  DriverProfile: 'DriverProfile',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
@@ -77,6 +78,7 @@ export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  role: 'role',
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
@@ -84,6 +86,19 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const DriverProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sponsorId: 'sponsorId',
+  pointsBalance: 'pointsBalance',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DriverProfileScalarFieldEnum = (typeof DriverProfileScalarFieldEnum)[keyof typeof DriverProfileScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -151,10 +166,21 @@ export const UserOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  role: 'role',
   image: 'image'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
+export const DriverProfileOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sponsorId: 'sponsorId',
+  status: 'status'
+} as const
+
+export type DriverProfileOrderByRelevanceFieldEnum = (typeof DriverProfileOrderByRelevanceFieldEnum)[keyof typeof DriverProfileOrderByRelevanceFieldEnum]
 
 
 export const SessionOrderByRelevanceFieldEnum = {

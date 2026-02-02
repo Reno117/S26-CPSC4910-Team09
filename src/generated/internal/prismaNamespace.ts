@@ -385,6 +385,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 export const ModelName = {
   User: 'User',
+  DriverProfile: 'DriverProfile',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
@@ -403,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "session" | "account" | "verification"
+    modelProps: "user" | "driverProfile" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -470,6 +471,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.UserCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.UserCountAggregateOutputType> | number
+        }
+      }
+    }
+    DriverProfile: {
+      payload: Prisma.$DriverProfilePayload<ExtArgs>
+      fields: Prisma.DriverProfileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DriverProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverProfilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DriverProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverProfilePayload>
+        }
+        findFirst: {
+          args: Prisma.DriverProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverProfilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DriverProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverProfilePayload>
+        }
+        findMany: {
+          args: Prisma.DriverProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverProfilePayload>[]
+        }
+        create: {
+          args: Prisma.DriverProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverProfilePayload>
+        }
+        createMany: {
+          args: Prisma.DriverProfileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.DriverProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverProfilePayload>
+        }
+        update: {
+          args: Prisma.DriverProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverProfilePayload>
+        }
+        deleteMany: {
+          args: Prisma.DriverProfileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DriverProfileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.DriverProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverProfilePayload>
+        }
+        aggregate: {
+          args: Prisma.DriverProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDriverProfile>
+        }
+        groupBy: {
+          args: Prisma.DriverProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DriverProfileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DriverProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DriverProfileCountAggregateOutputType> | number
         }
       }
     }
@@ -714,6 +781,7 @@ export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  role: 'role',
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
@@ -721,6 +789,19 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const DriverProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sponsorId: 'sponsorId',
+  pointsBalance: 'pointsBalance',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DriverProfileScalarFieldEnum = (typeof DriverProfileScalarFieldEnum)[keyof typeof DriverProfileScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -788,10 +869,21 @@ export const UserOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  role: 'role',
   image: 'image'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
+
+
+export const DriverProfileOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sponsorId: 'sponsorId',
+  status: 'status'
+} as const
+
+export type DriverProfileOrderByRelevanceFieldEnum = (typeof DriverProfileOrderByRelevanceFieldEnum)[keyof typeof DriverProfileOrderByRelevanceFieldEnum]
 
 
 export const SessionOrderByRelevanceFieldEnum = {
@@ -860,6 +952,13 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Int'
  */
 export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 /**
@@ -958,6 +1057,7 @@ export type PrismaClientOptions = ({
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
+  driverProfile?: Prisma.DriverProfileOmit
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit

@@ -22,6 +22,15 @@ export default function Login() {
     setPassword("");
 };
 
+/* This could be good for redirecting based on role after login
+if (session.user.role === "driver") {
+  redirect("/driver");
+} else if (session.user.role === "sponsor") {
+  redirect("/sponsor");
+} else if (session.user.role === "admin") {
+  redirect("/admin");
+}
+  */
   return (
     <div className="flex flex-col justify-center items-center h-screen gap-4">
       {!isLoggedIn ? (
