@@ -1,11 +1,14 @@
 "use client";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import LogoutButton from "../components/logout-button";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const router = useRouter();
 
   const onSignup = async () => {
     await authClient.signUp.email({
@@ -17,6 +20,7 @@ export default function Signup() {
     setEmail("");
     setPassword("");
     setName("");
+    router.refresh();
   };
 
   const r = authClient.useSession();
@@ -66,14 +70,7 @@ export default function Signup() {
           You are logged in as {r.data?.user?.name}
         </h1>
         <div>
-          <button
-            className="hover:bg-red-500"
-            onClick={() => {
-              authClient.signOut();
-            }}
-          >
-            Sign out
-          </button>
+          <LogoutButton />
         </div>
       </div>
     );
