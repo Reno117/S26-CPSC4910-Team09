@@ -1,82 +1,46 @@
 "use client";
-import { prisma } from "@/lib/prisma";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
 export default function Home() {
-  // const result = await prisma.user.findMany();
-
-  const r = authClient.useSession();
-
-  const onSignup = () => {
-    authClient.signUp.email({
-      email: "test2@gmail.com",
-      password: "password",
-      name: "bureger",
-    });
-  };
-  const onSignIn = () => {
-    authClient.signUp.email({
-      email: "test2@gmail.com",
-      password: "password",
-      name: "bureger",
-    });
-  };
+  const router = useRouter();
+  const session = authClient.useSession();
+  const isLoggedIn = !!session.data?.user;
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <button onClick={onSignup}>Sign Up</button>
-        <button onClick={onSignIn}>Sign In</button>
-        <>{r.data?.user.name}</>
-        <button
-          onClick={() => {
-            authClient.signOut();
-          }}
-        >
-          Sign out
-        </button>
+    <div className="min-h-screen bg-[#e9eaeb] text-black">
+      {/* HERO */}
+      <main className="mx-auto max-w-6xl px-6 py-16">
+        <div className="grid items-center gap-12 md:grid-cols-2">
+          {/* LEFT SIDE */}
+          <div className="space-y-8">
+            <h1 className="text-5xl font-semibold leading-tight tracking-tight md:text-6xl">
+              Let the Points <br />
+              Roll In
+            </h1>
 
-        {/* <h1>DB Test Result:</h1>
-        <pre>
-          {
-            <pre>
-              {result.map((user, i) => (
-                <div key={user.id}>
-                  User {i}: {JSON.stringify(user, null, 2)}
-                </div>
-              ))}
-            </pre>
-          }
-        </pre> */}
+            <p className="max-w-md text-sm text-black/70">
+              Track and improve driver preformance, and reward your drivers <br />
+              with customized catalog products changed on demand
+            </p>
+          </div>
 
-        {/* Form for user input */}
-        <form className="flex flex-col gap-2">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-            className="border px-2 py-1"
-          />
-
-          <select
-            name="role"
-            defaultValue="DRIVER"
-            required
-            className="border px-2 py-1"
-          >
-            <option value="ADMIN">Admin</option>
-            <option value="SPONSOR">Sponsor</option>
-            <option value="DRIVER">Driver</option>
-          </select>
-
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            Create User
-          </button>
-        </form>
+          {/* RIGHT SIDE (image/video placeholder) */}
+          <div className="rounded-2xl border border-black/10 bg-white p-3 shadow-sm">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
+              <video
+                src="/hero.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );
