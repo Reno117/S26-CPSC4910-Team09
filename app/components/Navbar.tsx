@@ -1,12 +1,16 @@
+'use client';
+
 import Link from "next/link";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { usePathname } from "next/navigation";
 import LogoutButton from "./logout-button";
 
-export default async function Navbar() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function Navbar() {
+  const pathname = usePathname();
+  const isDriverPage = pathname.startsWith('/driver');
+
+  if (isDriverPage) {
+    return null;
+  }
 
   return (
     <nav className="bg-[#003862] text-[#ffffff] p-4 flex justify-between items-center sticky top-0">
