@@ -20,7 +20,7 @@ export default function SponsorDashboard() {
 
   return (
     <div>
-      <DriverHeader />
+     {/* <DriverHeader />*/} 
       <div> {/* Add padding to account for fixed header */}
         {/* Driver-specific content */}
         <div>

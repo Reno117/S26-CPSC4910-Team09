@@ -53,6 +53,10 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   DriverProfile: 'DriverProfile',
+  Sponsor: 'Sponsor',
+  SponsorUser: 'SponsorUser',
+  DriverApplication: 'DriverApplication',
+  PointChange: 'PointChange',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
@@ -99,6 +103,55 @@ export const DriverProfileScalarFieldEnum = {
 } as const
 
 export type DriverProfileScalarFieldEnum = (typeof DriverProfileScalarFieldEnum)[keyof typeof DriverProfileScalarFieldEnum]
+
+
+export const SponsorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  pointValue: 'pointValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SponsorScalarFieldEnum = (typeof SponsorScalarFieldEnum)[keyof typeof SponsorScalarFieldEnum]
+
+
+export const SponsorUserScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sponsorId: 'sponsorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SponsorUserScalarFieldEnum = (typeof SponsorUserScalarFieldEnum)[keyof typeof SponsorUserScalarFieldEnum]
+
+
+export const DriverApplicationScalarFieldEnum = {
+  id: 'id',
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
+  status: 'status',
+  reason: 'reason',
+  reviewedBy: 'reviewedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DriverApplicationScalarFieldEnum = (typeof DriverApplicationScalarFieldEnum)[keyof typeof DriverApplicationScalarFieldEnum]
+
+
+export const PointChangeScalarFieldEnum = {
+  id: 'id',
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
+  amount: 'amount',
+  reason: 'reason',
+  changedBy: 'changedBy',
+  createdAt: 'createdAt'
+} as const
+
+export type PointChangeScalarFieldEnum = (typeof PointChangeScalarFieldEnum)[keyof typeof PointChangeScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {
@@ -181,6 +234,46 @@ export const DriverProfileOrderByRelevanceFieldEnum = {
 } as const
 
 export type DriverProfileOrderByRelevanceFieldEnum = (typeof DriverProfileOrderByRelevanceFieldEnum)[keyof typeof DriverProfileOrderByRelevanceFieldEnum]
+
+
+export const SponsorOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type SponsorOrderByRelevanceFieldEnum = (typeof SponsorOrderByRelevanceFieldEnum)[keyof typeof SponsorOrderByRelevanceFieldEnum]
+
+
+export const SponsorUserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sponsorId: 'sponsorId'
+} as const
+
+export type SponsorUserOrderByRelevanceFieldEnum = (typeof SponsorUserOrderByRelevanceFieldEnum)[keyof typeof SponsorUserOrderByRelevanceFieldEnum]
+
+
+export const DriverApplicationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
+  status: 'status',
+  reason: 'reason',
+  reviewedBy: 'reviewedBy'
+} as const
+
+export type DriverApplicationOrderByRelevanceFieldEnum = (typeof DriverApplicationOrderByRelevanceFieldEnum)[keyof typeof DriverApplicationOrderByRelevanceFieldEnum]
+
+
+export const PointChangeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
+  reason: 'reason',
+  changedBy: 'changedBy'
+} as const
+
+export type PointChangeOrderByRelevanceFieldEnum = (typeof PointChangeOrderByRelevanceFieldEnum)[keyof typeof PointChangeOrderByRelevanceFieldEnum]
 
 
 export const SessionOrderByRelevanceFieldEnum = {

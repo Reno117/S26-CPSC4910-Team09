@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated"
@@ -7,7 +6,6 @@ generator client {
 datasource db {
   provider = "mysql"
 }
-
 
 model User {
   id            String    @id
@@ -24,6 +22,11 @@ model User {
   sessions      Session[]
   accounts      Account[]
   driverProfile DriverProfile?
+  sponsorUser   SponsorUser?
+  
+  // Audit trail relations
+  pointChangesGiven PointChange[] @relation("PointChanger")
+  applicationReviews DriverApplication[] @relation("ApplicationReviewer")
 
   @@map("user")
 }
@@ -34,6 +37,8 @@ model DriverProfile {
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   sponsorId     String?
+  sponsor       Sponsor? @relation(fields: [sponsorId], references: [id], onDelete: SetNull)
+  
   pointsBalance Int      @default(0)
   status        String   @default("pending")
   // pending | active | dropped
@@ -41,10 +46,85 @@ model DriverProfile {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  // Relations
+  applications  DriverApplication[]
+  pointChanges  PointChange[]
+
   @@map("driver_profile")
 }
 
+model Sponsor {
+  id          String   @id @default(cuid())
+  name        String
+  pointValue  Float    @default(0.01) // dollar value per point
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
+  // Relations
+  drivers         DriverProfile[]
+  sponsorUsers    SponsorUser[]
+  applications    DriverApplication[]
+  pointChanges    PointChange[]
+
+  @@map("sponsor")
+}
+
+model SponsorUser {
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  sponsorId  String
+  sponsor    Sponsor  @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("sponsor_user")
+}
+
+model DriverApplication {
+  id            String   @id @default(cuid())
+  driverProfileId String
+  driverProfile DriverProfile @relation(fields: [driverProfileId], references: [id], onDelete: Cascade)
+  
+  sponsorId     String
+  sponsor       Sponsor  @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+  
+  status        String   @default("pending")
+  // pending | approved | rejected
+  
+  reason        String?  @db.Text
+  reviewedBy    String?
+  reviewer      User?    @relation("ApplicationReviewer", fields: [reviewedBy], references: [id], onDelete: SetNull)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("driver_application")
+}
+
+model PointChange {
+  id              String   @id @default(cuid())
+  driverProfileId String
+  driverProfile   DriverProfile @relation(fields: [driverProfileId], references: [id], onDelete: Cascade)
+  
+  sponsorId       String
+  sponsor         Sponsor  @relation(fields: [sponsorId], references: [id], onDelete: Cascade)
+  
+  amount          Int
+  reason          String   @db.Text
+  
+  changedBy       String
+  changedByUser   User     @relation("PointChanger", fields: [changedBy], references: [id], onDelete: Restrict)
+  
+  createdAt       DateTime @default(now())
+
+  @@index([driverProfileId])
+  @@index([sponsorId])
+  @@index([createdAt])
+  @@map("point_change")
+}
 
 model Session {
   id        String   @id

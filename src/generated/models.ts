@@ -10,6 +10,10 @@
  */
 export type * from './models/User'
 export type * from './models/DriverProfile'
+export type * from './models/Sponsor'
+export type * from './models/SponsorUser'
+export type * from './models/DriverApplication'
+export type * from './models/PointChange'
 export type * from './models/Session'
 export type * from './models/Account'
 export type * from './models/Verification'
