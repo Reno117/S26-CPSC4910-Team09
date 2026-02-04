@@ -386,6 +386,10 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   DriverProfile: 'DriverProfile',
+  Sponsor: 'Sponsor',
+  SponsorUser: 'SponsorUser',
+  DriverApplication: 'DriverApplication',
+  PointChange: 'PointChange',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
@@ -404,7 +408,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "driverProfile" | "session" | "account" | "verification"
+    modelProps: "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -537,6 +541,270 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.DriverProfileCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.DriverProfileCountAggregateOutputType> | number
+        }
+      }
+    }
+    Sponsor: {
+      payload: Prisma.$SponsorPayload<ExtArgs>
+      fields: Prisma.SponsorFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SponsorFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SponsorFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorPayload>
+        }
+        findFirst: {
+          args: Prisma.SponsorFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SponsorFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorPayload>
+        }
+        findMany: {
+          args: Prisma.SponsorFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorPayload>[]
+        }
+        create: {
+          args: Prisma.SponsorCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorPayload>
+        }
+        createMany: {
+          args: Prisma.SponsorCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.SponsorDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorPayload>
+        }
+        update: {
+          args: Prisma.SponsorUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorPayload>
+        }
+        deleteMany: {
+          args: Prisma.SponsorDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SponsorUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.SponsorUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorPayload>
+        }
+        aggregate: {
+          args: Prisma.SponsorAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSponsor>
+        }
+        groupBy: {
+          args: Prisma.SponsorGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SponsorGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SponsorCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SponsorCountAggregateOutputType> | number
+        }
+      }
+    }
+    SponsorUser: {
+      payload: Prisma.$SponsorUserPayload<ExtArgs>
+      fields: Prisma.SponsorUserFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SponsorUserFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorUserPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SponsorUserFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorUserPayload>
+        }
+        findFirst: {
+          args: Prisma.SponsorUserFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorUserPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SponsorUserFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorUserPayload>
+        }
+        findMany: {
+          args: Prisma.SponsorUserFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorUserPayload>[]
+        }
+        create: {
+          args: Prisma.SponsorUserCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorUserPayload>
+        }
+        createMany: {
+          args: Prisma.SponsorUserCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.SponsorUserDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorUserPayload>
+        }
+        update: {
+          args: Prisma.SponsorUserUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorUserPayload>
+        }
+        deleteMany: {
+          args: Prisma.SponsorUserDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SponsorUserUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.SponsorUserUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsorUserPayload>
+        }
+        aggregate: {
+          args: Prisma.SponsorUserAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSponsorUser>
+        }
+        groupBy: {
+          args: Prisma.SponsorUserGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SponsorUserGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SponsorUserCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SponsorUserCountAggregateOutputType> | number
+        }
+      }
+    }
+    DriverApplication: {
+      payload: Prisma.$DriverApplicationPayload<ExtArgs>
+      fields: Prisma.DriverApplicationFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DriverApplicationFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverApplicationPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DriverApplicationFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverApplicationPayload>
+        }
+        findFirst: {
+          args: Prisma.DriverApplicationFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverApplicationPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DriverApplicationFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverApplicationPayload>
+        }
+        findMany: {
+          args: Prisma.DriverApplicationFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverApplicationPayload>[]
+        }
+        create: {
+          args: Prisma.DriverApplicationCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverApplicationPayload>
+        }
+        createMany: {
+          args: Prisma.DriverApplicationCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.DriverApplicationDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverApplicationPayload>
+        }
+        update: {
+          args: Prisma.DriverApplicationUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverApplicationPayload>
+        }
+        deleteMany: {
+          args: Prisma.DriverApplicationDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DriverApplicationUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.DriverApplicationUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverApplicationPayload>
+        }
+        aggregate: {
+          args: Prisma.DriverApplicationAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDriverApplication>
+        }
+        groupBy: {
+          args: Prisma.DriverApplicationGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DriverApplicationGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DriverApplicationCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DriverApplicationCountAggregateOutputType> | number
+        }
+      }
+    }
+    PointChange: {
+      payload: Prisma.$PointChangePayload<ExtArgs>
+      fields: Prisma.PointChangeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PointChangeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointChangePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PointChangeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointChangePayload>
+        }
+        findFirst: {
+          args: Prisma.PointChangeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointChangePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PointChangeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointChangePayload>
+        }
+        findMany: {
+          args: Prisma.PointChangeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointChangePayload>[]
+        }
+        create: {
+          args: Prisma.PointChangeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointChangePayload>
+        }
+        createMany: {
+          args: Prisma.PointChangeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PointChangeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointChangePayload>
+        }
+        update: {
+          args: Prisma.PointChangeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointChangePayload>
+        }
+        deleteMany: {
+          args: Prisma.PointChangeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PointChangeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PointChangeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointChangePayload>
+        }
+        aggregate: {
+          args: Prisma.PointChangeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePointChange>
+        }
+        groupBy: {
+          args: Prisma.PointChangeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PointChangeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PointChangeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PointChangeCountAggregateOutputType> | number
         }
       }
     }
@@ -804,6 +1072,55 @@ export const DriverProfileScalarFieldEnum = {
 export type DriverProfileScalarFieldEnum = (typeof DriverProfileScalarFieldEnum)[keyof typeof DriverProfileScalarFieldEnum]
 
 
+export const SponsorScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  pointValue: 'pointValue',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SponsorScalarFieldEnum = (typeof SponsorScalarFieldEnum)[keyof typeof SponsorScalarFieldEnum]
+
+
+export const SponsorUserScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sponsorId: 'sponsorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SponsorUserScalarFieldEnum = (typeof SponsorUserScalarFieldEnum)[keyof typeof SponsorUserScalarFieldEnum]
+
+
+export const DriverApplicationScalarFieldEnum = {
+  id: 'id',
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
+  status: 'status',
+  reason: 'reason',
+  reviewedBy: 'reviewedBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type DriverApplicationScalarFieldEnum = (typeof DriverApplicationScalarFieldEnum)[keyof typeof DriverApplicationScalarFieldEnum]
+
+
+export const PointChangeScalarFieldEnum = {
+  id: 'id',
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
+  amount: 'amount',
+  reason: 'reason',
+  changedBy: 'changedBy',
+  createdAt: 'createdAt'
+} as const
+
+export type PointChangeScalarFieldEnum = (typeof PointChangeScalarFieldEnum)[keyof typeof PointChangeScalarFieldEnum]
+
+
 export const SessionScalarFieldEnum = {
   id: 'id',
   expiresAt: 'expiresAt',
@@ -884,6 +1201,46 @@ export const DriverProfileOrderByRelevanceFieldEnum = {
 } as const
 
 export type DriverProfileOrderByRelevanceFieldEnum = (typeof DriverProfileOrderByRelevanceFieldEnum)[keyof typeof DriverProfileOrderByRelevanceFieldEnum]
+
+
+export const SponsorOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type SponsorOrderByRelevanceFieldEnum = (typeof SponsorOrderByRelevanceFieldEnum)[keyof typeof SponsorOrderByRelevanceFieldEnum]
+
+
+export const SponsorUserOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  sponsorId: 'sponsorId'
+} as const
+
+export type SponsorUserOrderByRelevanceFieldEnum = (typeof SponsorUserOrderByRelevanceFieldEnum)[keyof typeof SponsorUserOrderByRelevanceFieldEnum]
+
+
+export const DriverApplicationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
+  status: 'status',
+  reason: 'reason',
+  reviewedBy: 'reviewedBy'
+} as const
+
+export type DriverApplicationOrderByRelevanceFieldEnum = (typeof DriverApplicationOrderByRelevanceFieldEnum)[keyof typeof DriverApplicationOrderByRelevanceFieldEnum]
+
+
+export const PointChangeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
+  reason: 'reason',
+  changedBy: 'changedBy'
+} as const
+
+export type PointChangeOrderByRelevanceFieldEnum = (typeof PointChangeOrderByRelevanceFieldEnum)[keyof typeof PointChangeOrderByRelevanceFieldEnum]
 
 
 export const SessionOrderByRelevanceFieldEnum = {
@@ -1058,6 +1415,10 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   driverProfile?: Prisma.DriverProfileOmit
+  sponsor?: Prisma.SponsorOmit
+  sponsorUser?: Prisma.SponsorUserOmit
+  driverApplication?: Prisma.DriverApplicationOmit
+  pointChange?: Prisma.PointChangeOmit
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
