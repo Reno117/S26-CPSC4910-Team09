@@ -1,18 +1,15 @@
 
-import React from 'react';
+"use client"
+import React, { useState } from 'react';
 import DriverHeader from "../components/SponsorHeader";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { headers } from "next/headers";
 // Define the Driver type
 interface Driver {
   id: number;
   name: string;
 }
-export default async function SponsorDashboard() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function SponsorDashboard() {
   // Sample driver data
   const drivers: Driver[] = [
     { id: 1, name: 'Driver1' },
@@ -51,7 +48,6 @@ export default async function SponsorDashboard() {
           backgroundColor: '#f5f5f5',
           borderRadius: '8px',
           padding: '20px',
-          //marginTop: '100px',
           justifyContent: 'center'
         }} >
           {/*Drivers */}
@@ -85,9 +81,8 @@ export default async function SponsorDashboard() {
                     alignItems: 'right',
                     marginLeft: '550px'
                   }}
-                //Was giving errors, commented leave out for time being
-                //onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-                //onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
                 > Modify Points
                 </button>
               </div>
@@ -114,9 +109,8 @@ export default async function SponsorDashboard() {
               fontSize: '14px',
               fontWeight: '500'
             }}
-          //Was giving errors, commented leave out for time being
-          //onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-          //onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
           > Applications
           </button>
           <button
@@ -132,9 +126,8 @@ export default async function SponsorDashboard() {
               fontWeight: '500',
               marginLeft: '250px'
             }}
-          //Was giving errors, commented leave out for time being
-          //onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-          //onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
           > Audits
           </button>
         </div>
