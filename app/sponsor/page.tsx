@@ -1,14 +1,17 @@
 
-"use client"
+"use client";
 import React, { useState } from 'react';
 import DriverHeader from "../components/SponsorHeader";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 // Define the Driver type
 interface Driver {
   id: number;
   name: string;
 }
+
 export default function SponsorDashboard() {
   // Sample driver data
   const drivers: Driver[] = [
@@ -17,6 +20,12 @@ export default function SponsorDashboard() {
     { id: 3, name: 'Driver3' },
     { id: 4, name: 'Driver4' },
   ];
+
+  const router = useRouter();
+  const toApplications = async () => {
+    router.push('/sponsor/driverApplications');
+    router.refresh;
+    };
 
   return (
     <div>
@@ -97,7 +106,7 @@ export default function SponsorDashboard() {
           justifyContent: 'center',
           marginTop: '70px'
         }}>
-          <button
+          <button onClick={toApplications}
             style={{
               backgroundColor: '#007bff',
               color: 'white',
