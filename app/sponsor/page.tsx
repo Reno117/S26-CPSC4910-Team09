@@ -1,36 +1,28 @@
-
-"use client";
-import React, { useState } from 'react';
-import DriverHeader from "../components/SponsorHeader";
+import DriverHeader from "../components/SponsorComponents/SponsorHeader";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-// Define the Driver type
-interface Driver {
-  id: number;
-  name: string;
-}
+import { requireSponsorUser } from "@/lib/auth-helpers";
+import  SponsorToApps from "../components/SponsorComponents/Sponsor-toapps-button"
+import ToMakeDrivers from "../components/SponsorComponents/Sponsor-tomakedriver"
 
-export default function SponsorDashboard() {
-  // Sample driver data
-  const drivers: Driver[] = [
-    { id: 1, name: 'Driver1' },
-    { id: 2, name: 'Driver2' },
-    { id: 3, name: 'Driver3' },
-    { id: 4, name: 'Driver4' },
-  ];
 
-  const router = useRouter();
-  const toApplications = async () => {
-    router.push('/sponsor/driverApplications');
-    router.refresh;
-    };
-  
-  const toMakeDriver = async () => {
-    router.push('/sponsor/create-driver');
-    router.refresh;
-  }
+export default async function SponsorDashboard() {
+
+  const sponsorUser = await requireSponsorUser();
+  const sponsorId = sponsorUser.sponsorUser!.sponsorId;
+  const drivers = await prisma.driverProfile.findMany({
+    where: {
+      sponsorId: sponsorId,
+      status: "active"
+    },
+    include: {
+        user: true
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  })
 
   return (
     <div>
@@ -66,7 +58,15 @@ export default function SponsorDashboard() {
         }} >
           {/*Drivers */}
           <h2 style={{ marginTop: 0, color: '#333', textAlign: 'center' }}>Registered Drivers</h2>
-
+          {drivers.length === 0 ? (
+          <div style={{ 
+            textAlign: 'center', 
+            padding: '20px', 
+            color: '#666' 
+          }}>
+            No registered drivers
+          </div>
+          ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {drivers.map((driver) => (
               <div
@@ -76,12 +76,14 @@ export default function SponsorDashboard() {
                   padding: '15px',
                   borderRadius: '6px',
                   boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-                  textAlign: 'center'
+                  display: 'flex',
+                  textAlign: 'center',
+                  justifyContent: 'space-between'
                 }}
 
               >
-                <span style={{ fontSize: '16px', fontWeight: '500', color: '#000000' }}>
-                  {driver.name}
+                <span style={{ fontSize: '16px', fontWeight: '500', color: '#000000', marginLeft: '20px' }}>
+                {driver.user.name}
                 </span>
                 <button
                   style={{
@@ -92,16 +94,16 @@ export default function SponsorDashboard() {
                     borderRadius: '4px',
                     cursor: 'pointer',
                     fontSize: '14px',
-                    alignItems: 'right',
-                    marginLeft: '550px'
+                    alignItems: 'right'
                   }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
+                //onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+                //onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
                 > Modify Points
                 </button>
               </div>
             ))}
           </div>
+          )}
           {/* Application and Audits buttons */}
         </div>
         <div style={{
@@ -111,22 +113,6 @@ export default function SponsorDashboard() {
           justifyContent: 'center',
           marginTop: '70px'
         }}>
-          <button onClick={toApplications}
-            style={{
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              width: '100px',
-              height: '60px',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '500'
-            }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
-          > Applications
-          </button>
           <button
             style={{
               backgroundColor: '#007bff',
@@ -138,30 +124,15 @@ export default function SponsorDashboard() {
               cursor: 'pointer',
               fontSize: '14px',
               fontWeight: '500',
-              marginLeft: '250px'
+              marginRight: '250px'
             }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
+          //onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
+          //onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
           > Audits
           </button>
+          <SponsorToApps />
           {/*Make Driver button */}
-          <button onClick = {toMakeDriver}
-            style={{
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              width: '100px',
-              height: '60px',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '500',
-              marginLeft: '250px'
-            }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
-          > Make Driver
-          </button>
+          <ToMakeDrivers />
         </div>
       </div>
 
