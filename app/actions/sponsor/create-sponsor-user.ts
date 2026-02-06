@@ -13,6 +13,9 @@ export async function createSponsorUser(sponsorId: string) {
   const sponsor = await prisma.sponsor.findUnique({
     where: { id: sponsorId },
   });
+  //This currently does not work for admin b/c they don't have a sponsorId tied to their account.
+  //This current logic doesn't allow the sponsorUser to be choose which sponsor
+  //they want the sponsor to be tied to.
 
   if (!sponsor) {
     throw new Error("Sponsor not found");

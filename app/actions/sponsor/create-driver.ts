@@ -32,6 +32,9 @@ export async function createDriverManually(data: {
       pointsBalance: 0,
     },
   });
+  //This currently does not work for admin b/c they don't have a sponsorId tied to their account.
+  //This current logic doesn't allow the admin or sponsorUser to choose which sponsor
+  //they want the driver to be tied to.
 
   revalidatePath("/sponsor/drivers");
   

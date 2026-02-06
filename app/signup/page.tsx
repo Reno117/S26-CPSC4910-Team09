@@ -8,6 +8,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [role, setRole] = useState(""); // Add role state
   const router = useRouter();
 
   const onSignup = async () => {
@@ -15,11 +16,13 @@ export default function Signup() {
       email,
       password,
       name,
+      role,
     });
 
     setEmail("");
     setPassword("");
     setName("");
+    setRole("");
     router.refresh();
   };
 
@@ -54,6 +57,12 @@ export default function Signup() {
           onChange={(e) => setPassword(e.target.value)}
           className="border px-3 py-2 rounded w-64"
         />
+
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option>select role</option>
+          <option>sponsor</option>
+          <option>driver</option>
+        </select>
 
         <button
           onClick={onSignup}

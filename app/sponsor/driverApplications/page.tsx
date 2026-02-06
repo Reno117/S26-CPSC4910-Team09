@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { requireSponsorUser } from "@/lib/auth-helpers";
-//import ApplicationCard from "@/components/application-card"; 
-//make a component for application card to keep code clean
+import ApplicationCard from "@/app/components/driver-application-card";
 
 export default async function ApplicationsPage() {
   const sponsorUser = await requireSponsorUser();
@@ -32,18 +31,9 @@ export default async function ApplicationsPage() {
         <p className="text-gray-500">No pending applications</p>
       ) : (
         <div className="space-y-4">
-            reminder to make ApplicationCard component
-            {applications.map((app) => (
-              <div key={app.id} className="p-4 border rounded-lg shadow">
-                <h2 className="text-xl font-semibold mb-2">
-                    {app.driverProfile.user.name}
-
-                </h2>
-                </div>
-            ))}
-          {/*applications.map((app) => (
+          {applications.map((app) => (
             <ApplicationCard key={app.id} application={app} />
-          ))*/}
+          ))}
         </div>
       )}
     </div>
