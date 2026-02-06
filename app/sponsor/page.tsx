@@ -1,9 +1,10 @@
-import DriverHeader from "../components/SponsorHeader";
+import DriverHeader from "../components/SponsorComponents/SponsorHeader";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { authClient } from "@/lib/auth-client";
 import { requireSponsorUser } from "@/lib/auth-helpers";
-import  SponsorToApps from "../components/Sponsor-toapps-button"
+import  SponsorToApps from "../components/SponsorComponents/Sponsor-toapps-button"
+import ToMakeDrivers from "../components/SponsorComponents/Sponsor-tomakedriver"
 
 
 export default async function SponsorDashboard() {
@@ -131,23 +132,7 @@ export default async function SponsorDashboard() {
           </button>
           <SponsorToApps />
           {/*Make Driver button */}
-          <button
-            style={{
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              width: '100px',
-              height: '60px',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '500',
-              marginLeft: '250px'
-            }}
-          //onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
-          //onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
-          > Make Driver
-          </button>
+          <ToMakeDrivers />
         </div>
       </div>
 
