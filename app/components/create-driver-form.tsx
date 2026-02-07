@@ -3,10 +3,21 @@
 import { useState } from "react";
 import { createDriverManually } from "@/app/actions/sponsor/create-driver";
 
-export default function CreateDriverForm() {
+interface CreateDriverFormProps {
+  isAdmin: boolean;
+  sponsorId?: string | null; // For sponsors, this is pre-filled
+  sponsors?: Array<{ id: string; name: string }>; // For admins, they choose
+}
+
+export default function CreateDriverForm({ 
+  isAdmin, 
+  sponsorId, 
+  sponsors 
+}: CreateDriverFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [selectedSponsorId, setSelectedSponsorId] = useState(sponsorId || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -15,6 +26,12 @@ export default function CreateDriverForm() {
     e.preventDefault();
     setError("");
     setSuccess("");
+
+    if (!selectedSponsorId) {
+      setError("Please select a sponsor");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -22,13 +39,15 @@ export default function CreateDriverForm() {
         name,
         email,
         password,
+        sponsorId: selectedSponsorId,
       });
 
       if (result.success) {
-        setSuccess(`Driver created successfully! ID: ${result.driverId}`);
+        setSuccess(`Driver created successfully!`);
         setName("");
         setEmail("");
         setPassword("");
+        if (isAdmin) setSelectedSponsorId("");
       }
     } catch (err: any) {
       setError(err.message || "Failed to create driver");
@@ -52,6 +71,26 @@ export default function CreateDriverForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Admin: Show sponsor selector */}
+        {isAdmin && sponsors && (
+          <div>
+            <label className="block text-sm font-medium mb-1">Sponsor Organization</label>
+            <select
+              value={selectedSponsorId}
+              onChange={(e) => setSelectedSponsorId(e.target.value)}
+              required
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">-- Select Sponsor --</option>
+              {sponsors.map((sponsor) => (
+                <option key={sponsor.id} value={sponsor.id}>
+                  {sponsor.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <div>
           <label className="block text-sm font-medium mb-1">Driver Name</label>
           <input

@@ -9,9 +9,19 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [role, setRole] = useState(""); // Add role state
+  const [error, setError] = useState(""); // Add error state for feedback
   const router = useRouter();
 
   const onSignup = async () => {
+    // Validate that role is selected
+    if (!role) {
+      setError("Please select a role");
+      return;
+    }
+
+    // Clear any previous errors
+    setError("");
+
     await authClient.signUp.email({
       email,
       password,
@@ -28,7 +38,6 @@ export default function Signup() {
 
   const r = authClient.useSession();
   const isLoggedIn = r.data?.user != null;
-
   if (!isLoggedIn) {
     return (
       <div className="flex flex-col justify-center items-center h-screen gap-4">
@@ -58,10 +67,13 @@ export default function Signup() {
           className="border px-3 py-2 rounded w-64"
         />
 
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
         <select value={role} onChange={(e) => setRole(e.target.value)}>
-          <option>select role</option>
+          <option>Select role</option>
           <option>sponsor</option>
           <option>driver</option>
+          {/* KEEP THE SPONSOR AND DRIVER LOWERCASE IT WILL BREAK EVERYTHING IF NOT   */}
         </select>
 
         <button

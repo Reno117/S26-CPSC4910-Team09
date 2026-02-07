@@ -1,28 +1,26 @@
 import { prisma } from "@/lib/prisma";
-import { requireSponsorUser } from "@/lib/auth-helpers";
+import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
 import ApplicationCard from "@/app/components/driver-application-card";
 
 export default async function ApplicationsPage() {
-  const sponsorUser = await requireSponsorUser();
-  const sponsorId = sponsorUser.sponsorUser!.sponsorId;
+  const { isAdmin, sponsorId } = await requireSponsorOrAdmin();
 
   const applications = await prisma.driverApplication.findMany({
-    where: {
-      sponsorId: sponsorId,
-      status: "pending",
-    },
+    where: isAdmin
+      ? { status: "pending" } // Admin sees all pending applications
+      : { sponsorId: sponsorId!, status: "pending" }, // Sponsor sees only theirs
     include: {
       driverProfile: {
         include: {
           user: true,
         },
       },
+      sponsor: true, // Include sponsor name for admin view
     },
     orderBy: {
       createdAt: "desc",
     },
   });
-
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold mb-6">Pending Applications</h1>

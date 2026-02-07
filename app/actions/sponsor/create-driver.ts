@@ -1,16 +1,50 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { requireSponsorUser } from "@/lib/auth-helpers";
+import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
 
 export async function createDriverManually(data: {
   name: string;
   email: string;
   password: string;
+  sponsorId: string; // Now required - sponsor or admin must choose
 }) {
-  const sponsorUser = await requireSponsorUser();
-  const sponsorId = sponsorUser.sponsorUser!.sponsorId;
+  const { isAdmin, sponsorId: userSponsorId } = await requireSponsorOrAdmin();
+
+  // Determine which sponsor to use
+  let targetSponsorId: string;
+  
+  if (isAdmin) {
+    // Admin can create drivers for any sponsor
+    targetSponsorId = data.sponsorId;
+  } else {
+    // Sponsor can only create drivers for their own organization
+    targetSponsorId = userSponsorId!;
+    
+    // Security check: make sure sponsor isn't trying to assign to another sponsor
+    if (data.sponsorId !== userSponsorId) {
+      throw new Error("Unauthorized: Cannot create drivers for other sponsors");
+    }
+  }
+
+  // Verify sponsor exists
+  const sponsor = await prisma.sponsor.findUnique({
+    where: { id: targetSponsorId },
+  });
+
+  if (!sponsor) {
+    throw new Error("Sponsor not found");
+  }
+
+  // Check if email already exists
+  const existingUser = await prisma.user.findUnique({
+    where: { email: data.email },
+  });
+
+  if (existingUser) {
+    throw new Error("Email already in use");
+  }
 
   // Create user account
   const user = await prisma.user.create({
@@ -19,7 +53,8 @@ export async function createDriverManually(data: {
       name: data.name,
       email: data.email,
       role: "driver",
-      // You'll need to hash the password with Better Auth's method
+      // Note: You'll need to handle password hashing with Better Auth
+      // For now, this creates a user without auth credentials
     },
   });
 
@@ -27,16 +62,14 @@ export async function createDriverManually(data: {
   await prisma.driverProfile.create({
     data: {
       userId: user.id,
-      sponsorId: sponsorId,
+      sponsorId: targetSponsorId,
       status: "active", // manually created = auto-approved
       pointsBalance: 0,
     },
   });
-  //This currently does not work for admin b/c they don't have a sponsorId tied to their account.
-  //This current logic doesn't allow the admin or sponsorUser to choose which sponsor
-  //they want the driver to be tied to.
 
   revalidatePath("/sponsor/drivers");
+  revalidatePath("/sponsor");
   
   return { success: true, driverId: user.id };
 }
