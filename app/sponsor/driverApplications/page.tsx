@@ -25,7 +25,7 @@ export default async function ApplicationsPage() {
   return (
     <div>
       <SponsorHeader />
-      <div className="p-8">
+      <div className="p-8 pt-20">
         <h1 className="text-3xl font-bold mb-6">Pending Applications</h1>
 
         {applications.length === 0 ? (
