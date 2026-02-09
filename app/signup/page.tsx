@@ -11,6 +11,7 @@ export default function Signup() {
   const [name, setName] = useState("");
   const [role, setRole] = useState(""); // Add role state
   const [error, setError] = useState(""); // Add error state for feedback
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const onSignup = async () => {
@@ -36,15 +37,12 @@ export default function Signup() {
     setRole("");
     router.refresh();
 
-    if (role === "sponsor") {
-    router.push("/sponsor/create-sponsor-user");
-    } else if (role === "driver") {
-      router.push("/driver"); // or whatever your driver landing page is
-    }
   };
 
   const r = authClient.useSession();
   const isLoggedIn = r.data?.user != null;
+  const userRole = r.data?.user?.role; 
+
   if (isLoggedIn) {
     return (
       <div className="min-h-screen grid place-items-center bg-slate-50 px-4">
@@ -52,15 +50,32 @@ export default function Signup() {
           <h1 className="text-2xl font-semibold text-slate-900">
             You’re logged in!
           </h1>
+
           <p className="mt-2 text-sm text-slate-600">
             Logged in as{" "}
             <span className="font-medium text-slate-900">
               {r.data?.user?.name}
             </span>
           </p>
-          <div className="mt-6 flex justify-center">
-            <LogoutButton />
-          </div>
+
+          {userRole === "sponsor" && (
+            <button
+              onClick={() => router.push("/sponsor/create-sponsor-user")}
+              className="mt-6 w-full rounded-md bg-[#003862] py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#002a4a]"
+            >
+              Join an Organization
+            </button>
+          )}
+
+          {/* Optional: driver button if you want */}
+          {userRole === "driver" && (
+            <button
+              onClick={() => router.push("/driver")}
+              className="mt-6 w-full rounded-md bg-[#003862] py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#002a4a]"
+            >
+              Continue to driver portal
+            </button>
+          )}
         </div>
       </div>
     );
@@ -109,16 +124,27 @@ export default function Signup() {
               />
             </div>
 
-            <div>
+<div>
               <label className="mb-1 block text-sm font-medium text-slate-700">
                 Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
-              />
+               </label>
+
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full rounded-md border border-slate-200 px-3 py-2 pr-12 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-500 hover:text-slate-700"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
             </div>
 
             <div>

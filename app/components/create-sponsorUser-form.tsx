@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { createSponsorUser } from "@/app/actions/sponsor/create-sponsor-user";
 
 export default function CreateSponsorUserForm({
@@ -11,6 +12,7 @@ export default function CreateSponsorUserForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,15 +43,26 @@ export default function CreateSponsorUserForm({
         </div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      {!success && (
+        <form onSubmit={handleSubmit}>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition disabled:bg-gray-400"
+          >
+            {loading ? "Linking..." : "Join Sponsor"}
+          </button>
+        </form>
+      )}
+
+      {success && (
         <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition disabled:bg-gray-400"
+          onClick={() => router.push("/sponsor")}
+          className="mt-4 w-full bg-[#003862] text-white py-2 px-4 rounded hover:bg-[#002a4a] transition"
         >
-          {loading ? "Linking..." : "Join Sponsor"}
+          Go to Sponsor Dashboard
         </button>
-      </form>
+      )}
     </div>
   );
 }
