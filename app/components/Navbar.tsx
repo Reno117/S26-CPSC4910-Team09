@@ -7,12 +7,16 @@ import { authClient } from "@/lib/auth-client";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const isDriverPage = pathname.startsWith("/driver");
+  const isLoginSignupHomeOrApplyPage =
+    pathname === "/" ||
+    pathname === "/login" ||
+    pathname === "/signup" ||
+    pathname === "/driver/apply";
 
   const session = authClient.useSession();
   const user = session.data?.user;
 
-  if (isDriverPage) return null;
+  if (!isLoginSignupHomeOrApplyPage) return null;
 
   return (
     <nav className="bg-[#003862] text-white p-4 flex justify-between items-center sticky top-0">

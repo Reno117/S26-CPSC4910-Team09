@@ -1,18 +1,46 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import LogoutButton from "../components/logout-button";
 import { useRouter } from "next/navigation";
+import { handleDriverSignIn } from "@/app/actions/driver/handle-signin";
+import { handleSponsorSignIn } from "@/app/actions/sponsor/handle-signin";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const session = authClient.useSession();
   const isLoggedIn = session.data?.user != null;
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    let cancelled = false;
+
+    const redirectIfNeeded = async () => {
+      const driverRedirect = await handleDriverSignIn();
+      if (!cancelled && driverRedirect) {
+        router.push(driverRedirect);
+        return;
+      }
+
+      const sponsorRedirect = await handleSponsorSignIn();
+      if (!cancelled && sponsorRedirect) {
+        router.push(sponsorRedirect);
+      }
+    };
+
+    redirectIfNeeded();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isLoggedIn, router]);
 
   const onSignIn = async () => {
     setError(""); // Clear previous errors
@@ -31,10 +59,23 @@ export default function Login() {
         return;
       }
 
-      // Success - clear form and refresh
+      // Success - redirect based on role
       setEmail("");
       setPassword("");
-      setLoading(false); // Add this line
+      
+      // Check role and redirect accordingly
+      const driverRedirect = await handleDriverSignIn();
+      if (driverRedirect) {
+        router.push(driverRedirect);
+        return;
+      }
+      
+      const sponsorRedirect = await handleSponsorSignIn();
+      if (sponsorRedirect) {
+        router.push(sponsorRedirect);
+        return;
+      }
+      
       router.refresh();
     } catch (err) {
       setError("Something went wrong. Please try again.");
@@ -62,13 +103,22 @@ export default function Login() {
             className="border px-3 py-2 rounded w-64"
           />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border px-3 py-2 rounded w-64"
-          />
+          <div className="relative w-64">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="border px-3 py-2 rounded w-full pr-20"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-blue-600 hover:text-blue-800"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
+          </div>
 
           <button
             className="text-xl font-semibold px-6 py-2 border rounded hover:bg-blue-500 hover:text-white disabled:bg-gray-300 disabled:cursor-not-allowed"
