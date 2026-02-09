@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
-import ApplicationCard from "@/app/components/driver-application-card";
+import ApplicationCard from "@/app/components/DriverComponents/driver-application-card";
+import SponsorHeader from "@/app/components/SponsorComponents/SponsorHeader";
 
 export default async function ApplicationsPage() {
   const { isAdmin, sponsorId } = await requireSponsorOrAdmin();
@@ -22,18 +23,21 @@ export default async function ApplicationsPage() {
     },
   });
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Pending Applications</h1>
-      
-      {applications.length === 0 ? (
-        <p className="text-gray-500">No pending applications</p>
-      ) : (
-        <div className="space-y-4">
-          {applications.map((app) => (
-            <ApplicationCard key={app.id} application={app} />
-          ))}
-        </div>
-      )}
+    <div>
+      <SponsorHeader />
+      <div className="p-8">
+        <h1 className="text-3xl font-bold mb-6">Pending Applications</h1>
+
+        {applications.length === 0 ? (
+          <p className="text-gray-500">No pending applications</p>
+        ) : (
+          <div className="space-y-4">
+            {applications.map((app) => (
+              <ApplicationCard key={app.id} application={app} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { requireDriver } from "@/lib/auth-helpers";
-import ApplicationForm from "@/app/components/driver-application-form";
+import ApplicationForm from "@/app/components/DriverComponents/driver-application-form";
 
 export default async function ApplyPage() {
   const user = await requireDriver();

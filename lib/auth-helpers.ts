@@ -77,3 +77,13 @@ export async function requireAdmin() {
   
   return user;
 }
+
+export async function getDriverStatus(): Promise<string | null> {
+  const user = await getCurrentUser();
+  
+  if (!user || user.role !== "driver" || !user.driverProfile) {
+    return null;
+  }
+  
+  return user.driverProfile.status;
+}

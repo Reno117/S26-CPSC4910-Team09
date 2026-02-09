@@ -3,10 +3,12 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import LogoutButton from "../components/logout-button";
+import { handleDriverSignIn } from "@/app/actions/driver/handle-signin";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState(""); // Add role state
   const [error, setError] = useState(""); // Add error state for feedback
@@ -33,7 +35,16 @@ export default function Signup() {
     setPassword("");
     setName("");
     setRole("");
-    router.refresh();
+    
+    // Redirect based on role
+    if (role === "driver") {
+      const redirectUrl = await handleDriverSignIn();
+      if (redirectUrl) {
+        router.push(redirectUrl);
+      }
+    } else {
+      router.refresh();
+    }
   };
 
   const r = authClient.useSession();
@@ -59,13 +70,22 @@ export default function Signup() {
           className="border px-3 py-2 rounded w-64"
         />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border px-3 py-2 rounded w-64"
-        />
+        <div className="relative w-64">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border px-3 py-2 rounded w-full pr-20"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-blue-600 hover:text-blue-800"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        </div>
 
         {error && <p style={{ color: "red" }}>{error}</p>}
 

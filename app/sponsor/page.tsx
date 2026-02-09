@@ -1,8 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
-import SponsorToApps from "../components/SponsorComponents/Sponsor-toapps-button";
-import ToMakeDrivers from "../components/SponsorComponents/Sponsor-tomakedriver";
 import PointsButton from "@/app/components/SponsorComponents/points-button";
+import SponsorHeader from "../components/SponsorComponents/SponsorHeader"; // Adjust the path as necessary
 
 export default async function SponsorDashboard() {
   const { isAdmin, sponsorId } = await requireSponsorOrAdmin();
@@ -23,6 +22,8 @@ export default async function SponsorDashboard() {
 
   return (
     <div>
+      <SponsorHeader />
+
       <div>
         <div className="w-full h-130 overflow-hidden">
           <img
@@ -55,10 +56,10 @@ export default async function SponsorDashboard() {
           </h2>
 
           {drivers.length === 0 ? (
-            <div style={{ 
-              textAlign: 'center', 
-              padding: '20px', 
-              color: '#666' 
+            <div style={{
+              textAlign: 'center',
+              padding: '20px',
+              color: '#666'
             }}>
               No registered drivers
             </div>
@@ -78,11 +79,11 @@ export default async function SponsorDashboard() {
                   }}
                 >
                   <div>
-                    <span style={{ 
-                      fontSize: '16px', 
-                      fontWeight: '500', 
+                    <span style={{
+                      fontSize: '16px',
+                      fontWeight: '500',
                       color: '#000000',
-                      marginLeft: '20px' 
+                      marginLeft: '20px'
                     }}>
                       {driver.user.name}
                     </span>
@@ -115,34 +116,6 @@ export default async function SponsorDashboard() {
               ))}
             </div>
           )}
-        </div>
-
-        {/* Buttons */}
-        <div style={{
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          marginTop: '70px'
-        }}>
-          <button
-            style={{
-              backgroundColor: '#007bff',
-              color: 'white',
-              border: 'none',
-              width: '100px',
-              height: '60px',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: '500',
-              marginRight: '250px'
-            }}
-          >
-            Audits
-          </button>
-          <SponsorToApps />
-          <ToMakeDrivers />
         </div>
       </div>
     </div>

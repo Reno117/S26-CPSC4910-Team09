@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
 
-export default function DriverHeader() {
+export default function SponsorHeader() {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [menuOpen, setMenuOpen] = useState(false);
@@ -72,12 +72,10 @@ export default function DriverHeader() {
                 <div className="p-4">
                     <h2 className="text-lg font-bold mb-4 text-gray-800">Menu</h2>
                     <ul className="space-y-2">
-                        <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>
-                        <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Settings</Link></li>
-                        <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Sponsor Catalog</Link></li>
-                        <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Points History</Link></li>
-                        <li><Link href="/driver/profile" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Profile</Link></li>
-                        {/* Add more menu items as needed */}
+                        <li><Link href="/sponsor" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>
+                        <li><Link href="/sponsor/driverApplications" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Applications</Link></li>
+                        <li><Link href="/sponsor/create-driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Make Driver</Link></li>
+                        <li><Link href="/sponsor/audits" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Audits</Link></li>
                     </ul>
                 </div>
             </div>

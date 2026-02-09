@@ -1,6 +1,7 @@
 import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
 import CreateDriverForm from "@/app/components/create-driver-form";
+import SponsorHeader from "@/app/components/SponsorComponents/SponsorHeader";
 
 export default async function CreateDriverPage() {
   const { isAdmin, sponsorId } = await requireSponsorOrAdmin();
@@ -13,13 +14,16 @@ export default async function CreateDriverPage() {
     : undefined;
 
   return (
-    <div className="p-8 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Create New Driver</h1>
-      <CreateDriverForm 
-        isAdmin={isAdmin} 
-        sponsorId={sponsorId}
-        sponsors={sponsors}
-      />
+    <div>
+      <SponsorHeader />
+      <div className="p-8 max-w-2xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">Create New Driver</h1>
+        <CreateDriverForm 
+          isAdmin={isAdmin} 
+          sponsorId={sponsorId}
+          sponsors={sponsors}
+        />
+      </div>
     </div>
   );
 }
