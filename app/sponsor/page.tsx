@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
-import DriverList from "@/app/components/SponsorComponents/driver-list";
-import SponsorHeader from "../components/SponsorComponents/SponsorHeader"; // Adjust the path as necessary
+import DriverLists from "../components/SponsorComponents/driver-list";
+import SponsorHeader from "../components/SponsorComponents/SponsorHeader"; 
+import DriverListClient from "../components/SponsorComponents/DriverListClient";
 
 export default async function SponsorDashboard() {
   const { isAdmin, sponsorId } = await requireSponsorOrAdmin();
@@ -15,6 +16,7 @@ export default async function SponsorDashboard() {
       id: true,
       pointsBalance: true,
       sponsorId: true,
+      createdAt: true,
       user: {
         select: {
           name: true,
@@ -76,7 +78,7 @@ export default async function SponsorDashboard() {
               No registered drivers
             </div>
           ) : (
-            <DriverList drivers={drivers} isAdmin={isAdmin} initialCount={5} />
+            <DriverListClient drivers={drivers} isAdmin={isAdmin} initialCount={10} />
           )}
         </div>
       </div>

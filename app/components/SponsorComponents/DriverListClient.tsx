@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import PointsButton from './points-button';
 import { updateDriverProfile } from '@/app/actions/sponsor/edit-driver-as-sponsor';
 
@@ -15,13 +15,13 @@ type Driver = {
   sponsor?: {
     name: string;
   } | null;
-  // Add other profile fields you want to display
   createdAt: Date;
 };
 
 type DriverListClientProps = {
   drivers: Driver[];
   isAdmin: boolean;
+  initialCount: number;
 };
 
 type ContextMenuPosition = {
@@ -29,13 +29,34 @@ type ContextMenuPosition = {
   y: number;
 } | null;
 
-export default function DriverListClient({ drivers, isAdmin }: DriverListClientProps) {
+export default function DriverListClient({ drivers, isAdmin, initialCount }: DriverListClientProps) {
+  // Search state
+  const [query, setQuery] = useState("");
+  const normalizedQuery = query.trim().toLowerCase();
+
+  // Modal state
   const [contextMenu, setContextMenu] = useState<ContextMenuPosition>(null);
   const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   const [editedData, setEditedData] = useState<Partial<Driver>>({});
   const [isSaving, setIsSaving] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  // Filter drivers based on search
+  const filteredDrivers = useMemo(() => {
+    if (!normalizedQuery) return drivers;
+
+    return drivers.filter((driver) => {
+      const name = driver.user.name.toLowerCase();
+      const email = driver.user.email.toLowerCase();
+      return name.includes(normalizedQuery) || email.includes(normalizedQuery);
+    });
+  }, [drivers, normalizedQuery]);
+
+  // Limit visible drivers when not searching
+  const visibleDrivers = normalizedQuery
+    ? filteredDrivers
+    : filteredDrivers.slice(0, initialCount);
 
   const handleContextMenu = (e: React.MouseEvent, driver: Driver) => {
     e.preventDefault();
@@ -44,7 +65,7 @@ export default function DriverListClient({ drivers, isAdmin }: DriverListClientP
       user: { ...driver.user }
     });
     setIsEditMode(false);
-    setIsSaving(false); // Reset saving state when opening modal
+    setIsSaving(false);
     setContextMenu({
       x: e.clientX,
       y: e.clientY,
@@ -56,7 +77,7 @@ export default function DriverListClient({ drivers, isAdmin }: DriverListClientP
     setSelectedDriver(null);
     setIsEditMode(false);
     setEditedData({});
-    setIsSaving(false); // Reset saving state when closing modal
+    setIsSaving(false);
   };
 
   const handleEdit = () => {
@@ -82,19 +103,15 @@ export default function DriverListClient({ drivers, isAdmin }: DriverListClientP
         email: editedData.user?.email
       });
 
-      // Success - reset state BEFORE closing
       setIsSaving(false);
       setIsEditMode(false);
       
-      // Close modal after a brief delay to show success state
       setTimeout(() => {
         closeContextMenu();
       }, 300);
-      
-      // The page will automatically refresh due to revalidatePath in the server action
     } catch (error) {
       console.error('Error updating driver:', error);
-      setIsSaving(false); // Reset on error
+      setIsSaving(false);
       alert(error instanceof Error ? error.message : 'Failed to update driver. Please try again.');
     }
   };
@@ -115,61 +132,92 @@ export default function DriverListClient({ drivers, isAdmin }: DriverListClientP
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        {drivers.map((driver) => (
-          <div
-            key={driver.id}
-            style={{
-              backgroundColor: 'white',
-              padding: '15px',
-              borderRadius: '6px',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
-          >
-            <div>
-              <div 
-                onContextMenu={(e) => handleContextMenu(e, driver)}
-                style={{
-                  fontSize: '16px',
-                  fontWeight: '500',
-                  color: '#333',
-                  cursor: 'context-menu',
-                  display: 'inline-block'
-                }}
-              >
-                {driver.user.name}
-              </div>
-              {isAdmin && driver.sponsor && (
-                <span style={{
-                  fontSize: '12px',
-                  color: '#666',
-                  marginLeft: '10px'
-                }}>
-                  ({driver.sponsor.name})
-                </span>
-              )}
-              <div style={{
-                fontSize: '14px',
-                color: '#28a745',
-                fontWeight: '600',
-                marginLeft: '20px',
-                marginTop: '5px'
-              }}>
-                {driver.pointsBalance} points
-              </div>
-            </div>
-
-            <PointsButton 
-              driverProfileId={driver.id} 
-              driverName={driver.user.name}
-              sponsorId={driver.sponsorId!}
-            />
-          </div>
-        ))}
+      {/* Search Input */}
+      <div style={{ marginBottom: "16px" }}>
+        <input
+          type="text"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder="Search by name or email"
+          className="w-full px-3 py-2 border rounded"
+        />
+        {!normalizedQuery && drivers.length > initialCount && (
+          <p className="text-sm text-gray-500 mt-2">
+            Showing first {initialCount} of {drivers.length} drivers
+          </p>
+        )}
       </div>
+
+      {/* Driver List */}
+      {visibleDrivers.length === 0 ? (
+        <div
+          style={{
+            textAlign: "center",
+            padding: "20px",
+            color: "#666",
+          }}
+        >
+          {normalizedQuery ? "No matching drivers" : "No registered drivers"}
+        </div>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {visibleDrivers.map((driver) => (
+            <div
+              key={driver.id}
+              style={{
+                backgroundColor: 'white',
+                padding: '15px',
+                borderRadius: '6px',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}
+            >
+              <div>
+                <div 
+                  onContextMenu={(e) => handleContextMenu(e, driver)}
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    color: '#333',
+                    cursor: 'context-menu',
+                    display: 'inline-block'
+                  }}
+                >
+                  {driver.user.name}
+                </div>
+                {isAdmin && driver.sponsor && (
+                  <span style={{
+                    fontSize: '12px',
+                    color: '#666',
+                    marginLeft: '10px'
+                  }}>
+                    ({driver.sponsor.name})
+                  </span>
+                )}
+                <div style={{
+                  fontSize: '14px',
+                  color: '#28a745',
+                  fontWeight: '600',
+                  marginLeft: '20px',
+                  marginTop: '5px'
+                }}>
+                  {driver.pointsBalance} points
+                </div>
+              </div>
+
+              {driver.sponsorId && (
+                <PointsButton 
+                  driverProfileId={driver.id} 
+                  driverName={driver.user.name}
+                  sponsorId={driver.sponsorId}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Profile Modal */}
       {contextMenu && selectedDriver && (
@@ -271,7 +319,6 @@ export default function DriverListClient({ drivers, isAdmin }: DriverListClientP
               gap: '16px'
             }}>
               {!isEditMode ? (
-                // View Mode
                 <>
                   <ProfileItem label="Name" value={selectedDriver.user.name} />
                   <ProfileItem label="Email" value={selectedDriver.user.email} />
@@ -284,7 +331,6 @@ export default function DriverListClient({ drivers, isAdmin }: DriverListClientP
                   />
                 </>
               ) : (
-                // Edit Mode
                 <>
                   <EditField
                     label="Name"
@@ -306,7 +352,6 @@ export default function DriverListClient({ drivers, isAdmin }: DriverListClientP
                   {selectedDriver.sponsor && (
                     <ProfileItem label="Sponsor" value={selectedDriver.sponsor.name} />
                   )}
-                  
                   <ProfileItem 
                     label="Member Since" 
                     value={new Date(selectedDriver.createdAt).toLocaleDateString()}
