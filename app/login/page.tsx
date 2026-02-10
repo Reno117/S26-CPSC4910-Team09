@@ -1,15 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import LogoutButton from "../components/logout-button";
 import { useRouter } from "next/navigation";
-import { handleDriverSignIn } from "@/app/actions/driver/handle-signin";
-import { handleSponsorSignIn } from "@/app/actions/sponsor/handle-signin";
+import Link from "next/link";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -19,31 +17,6 @@ export default function Login() {
   const isLoggedIn = session.data?.user != null;
   const r = authClient.useSession();
   const userRole = r.data?.user?.role; 
-
-  useEffect(() => {
-    if (!isLoggedIn) return;
-
-    let cancelled = false;
-
-    const redirectIfNeeded = async () => {
-      const driverRedirect = await handleDriverSignIn();
-      if (!cancelled && driverRedirect) {
-        router.push(driverRedirect);
-        return;
-      }
-
-      const sponsorRedirect = await handleSponsorSignIn();
-      if (!cancelled && sponsorRedirect) {
-        router.push(sponsorRedirect);
-      }
-    };
-
-    redirectIfNeeded();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [isLoggedIn, router]);
 
   const onSignIn = async () => {
     setError(""); // Clear previous errors
@@ -62,23 +35,10 @@ export default function Login() {
         return;
       }
 
-      // Success - redirect based on role
+      // Success - clear form and refresh
       setEmail("");
       setPassword("");
-      
-      // Check role and redirect accordingly
-      const driverRedirect = await handleDriverSignIn();
-      if (driverRedirect) {
-        router.push(driverRedirect);
-        return;
-      }
-      
-      const sponsorRedirect = await handleSponsorSignIn();
-      if (sponsorRedirect) {
-        router.push(sponsorRedirect);
-        return;
-      }
-      
+      setLoading(false); // Add this line
       router.refresh();
     } catch (err) {
       setError("Something went wrong. Please try again.");
@@ -126,30 +86,24 @@ if (isLoggedIn) {
             </div>
           )}
 
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="border px-3 py-2 rounded w-64"
-          />
+          <div className="space-y-4">
+            <div>
+              <label className="mb-1 block text-sm font-medium text-slate-700">
+                Email
+              </label>
+              <input
+                type="email"
+                placeholder="you@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+              />
+            </div>
 
-          <div className="relative w-64">
-            <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="border px-3 py-2 rounded w-full pr-20"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-blue-600 hover:text-blue-800"
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
-          </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-slate-700">
+                Password
+               </label>
 
               <div className="relative">
                 <input

@@ -38,12 +38,7 @@ export default function DriverHeader() {
                 >
                     ☰
                 </button>
-                <Link
-                    href="/driver"
-                    className="text-xl font-bold hover:text-blue-100"
-                >
-                    Driver Dashboard
-                </Link>
+                <div className="text-xl font-bold">Driver Dashboard</div>
                 <div className="flex items-center space-x-2">
                     <button
                         onClick={() => {/* Handle shopping cart click */}}
@@ -80,8 +75,7 @@ export default function DriverHeader() {
                         <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>
                         <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Settings</Link></li>
                         <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Sponsor Catalog</Link></li>
-                        <li><Link href="/driver/mysponsor" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>My Sponsor</Link></li>
-                        <li><Link href="/driver/pointshistory" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Points History</Link></li>
+                        <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Points History</Link></li>
                         <li><Link href="/driver/profile" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Profile</Link></li>
                         {/* Add more menu items as needed */}
                     </ul>

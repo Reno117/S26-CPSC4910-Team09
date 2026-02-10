@@ -1,4 +1,4 @@
-import DriverHeader from "../components/DriverComponents/DriverHeader";
+import DriverHeader from "../components/DriverHeader";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";

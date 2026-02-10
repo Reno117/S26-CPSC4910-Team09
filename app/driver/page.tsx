@@ -1,4 +1,4 @@
-import DriverHeader from "../components/DriverComponents/DriverHeader";
+import DriverHeader from "../components/DriverHeader";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
@@ -16,19 +16,6 @@ export default async function DriverDashboard() {
       const driverProfile = await prisma.driverProfile.findUnique({
         where: { userId: session.user.id },
       });
-
-      if (driverProfile?.status === "pending") {
-        return (
-          <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-4">
-            <h1 className="text-3xl font-bold">Unauthorized</h1>
-            <p className="text-gray-600 text-center max-w-xl">
-              Your driver application is still pending. You cannot access the
-              driver dashboard until it is approved.
-            </p>
-          </div>
-        );
-      }
-
       pointsBalance = driverProfile?.pointsBalance || 0;
 
       // Get point transaction history
@@ -77,7 +64,7 @@ export default async function DriverDashboard() {
 
           {/* Right Box - Point Transactions */}
           <div className="w-1/2 p-10 bg-gray-50 rounded-lg border border-gray-200 shadow-sm">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-6">Recent Point Transactions:</h2>
+            <h2 className="text-3xl font-semibold text-gray-800 mb-6">Point Transactions:</h2>
             
             {pointHistory.length === 0 ? (
               <p className="text-gray-500">No transactions yet</p>

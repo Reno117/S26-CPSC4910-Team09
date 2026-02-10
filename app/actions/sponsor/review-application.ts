@@ -25,32 +25,29 @@ export async function reviewApplication(
     throw new Error("Unauthorized");
   }
 
-  await prisma.$transaction(async (tx) => {
-    // Update application
-    await tx.driverApplication.update({
-      where: { id: applicationId },
-      data: {
-        status: decision,
-        reason: reason,
-        reviewedBy: sponsorUser.id,
-      },
-    });
-
-    // If approved, update driver profile
-    if (decision === "approved") {
-      await tx.driverProfile.update({
-        where: { id: application.driverProfileId },
-        data: {
-          sponsorId: application.sponsorId,
-          status: "active",
-        },
-      });
-    }
+  // Update application
+  await prisma.driverApplication.update({
+    where: { id: applicationId },
+    data: {
+      status: decision,
+      reason: reason,
+      reviewedBy: sponsorUser.id,
+    },
   });
 
-  revalidatePath("/sponsor/driverApplications");
-  revalidatePath("/sponsor/viewDrivers");
-  revalidatePath("/sponsor");
+  // If approved, update driver profile
+  if (decision === "approved") {
+    await prisma.driverProfile.update({
+      where: { id: application.driverProfileId },
+      data: {
+        sponsorId: application.sponsorId,
+        status: "active",
+      },
+    });
+  }
+
+  revalidatePath("/sponsor/applications");
+  revalidatePath("/sponsor/drivers");
   
   return { success: true };
 }
