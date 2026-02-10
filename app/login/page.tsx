@@ -12,10 +12,13 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const session = authClient.useSession();
   const isLoggedIn = session.data?.user != null;
+  const r = authClient.useSession();
+  const userRole = r.data?.user?.role; 
 
   useEffect(() => {
     if (!isLoggedIn) return;
@@ -83,14 +86,42 @@ export default function Login() {
     }
   };
 
+if (isLoggedIn) {
   return (
-    <div className="flex flex-col justify-center items-center h-screen gap-4">
-      {!isLoggedIn ? (
-        <>
-          <h1 className="text-3xl font-bold">Login</h1>
+    <div className="min-h-screen grid place-items-center bg-slate-50 px-4">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm text-center">
+        <h1 className="text-2xl font-semibold text-slate-900">
+          You’re logged in!
+        </h1>
 
+        {userRole === "sponsor" && (
+          <button
+            onClick={() => router.push("/sponsor")}
+            className="mt-6 w-full rounded-md bg-[#003862] py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#002a4a]"
+          >
+            Sponsor Dashboard
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+  return (
+    <div className="min-h-screen bg-slate-50 px-4">
+      <div className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center">
+        {/* Heading only – no icon */}
+        <h1 className="text-3xl font-semibold text-slate-900">
+          Welcome back!
+        </h1>
+        <p className="mt-2 text-base text-slate-600">
+          Log in using your email and password to get going.
+        </p>
+
+        {/* Card */}
+        <div className="mt-6 w-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded w-64 text-center">
+            <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
               {error}
             </div>
           )}
@@ -120,20 +151,43 @@ export default function Login() {
             </button>
           </div>
 
-          <button
-            className="text-xl font-semibold px-6 py-2 border rounded hover:bg-blue-500 hover:text-white disabled:bg-gray-300 disabled:cursor-not-allowed"
-            onClick={onSignIn}
-            disabled={loading}
-          >
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </>
-      ) : (
-        <>
-          <h1 className="text-2xl font-bold">You're logged in!</h1>
-          <LogoutButton />
-        </>
-      )}
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full rounded-md border border-slate-200 px-3 py-2 pr-12 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center text-xs font-medium text-slate-500 hover:text-slate-700"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={onSignIn}
+              disabled={loading}
+              className="w-full rounded-md bg-[#003862] py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#002a4a] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? "Signing in..." : "Sign in"}
+            </button>
+
+            <div className="flex items-center justify-between pt-1 text-xs">
+              <Link
+                href="/forgot-password"
+                className="text-sky-600 hover:underline"
+              >
+                Forgot your password?
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

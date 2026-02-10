@@ -76,7 +76,7 @@ export default async function SponsorDashboard() {
               No registered drivers
             </div>
           ) : (
-            <DriverList drivers={drivers} isAdmin={isAdmin} initialCount={5} />
+            <DriverListClient drivers={drivers} isAdmin={isAdmin} />
           )}
         </div>
       </div>

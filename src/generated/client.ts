@@ -50,26 +50,6 @@ export type User = Prisma.UserModel
  */
 export type DriverProfile = Prisma.DriverProfileModel
 /**
- * Model Sponsor
- * 
- */
-export type Sponsor = Prisma.SponsorModel
-/**
- * Model SponsorUser
- * 
- */
-export type SponsorUser = Prisma.SponsorUserModel
-/**
- * Model DriverApplication
- * 
- */
-export type DriverApplication = Prisma.DriverApplicationModel
-/**
- * Model PointChange
- * 
- */
-export type PointChange = Prisma.PointChangeModel
-/**
  * Model Session
  * 
  */
