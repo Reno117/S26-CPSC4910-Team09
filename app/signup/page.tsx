@@ -14,30 +14,39 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const onSignup = async () => {
-    // Validate that role is selected
-    if (!role) {
-      setError("Please select a role");
-      return;
-    }
+const onSignup = async () => {
+  // Validate role
+  if (!role || role === "Select role") {
+    setError("Please select a role");
+    return;
+  }
 
-    // Clear any previous errors
-    setError("");
+  setError("");
 
-    await authClient.signUp.email({
+  try {
+    const result = await authClient.signUp.email({
       email,
       password,
       name,
       role,
     });
 
+    // If your auth client returns errors instead of throwing
+    if (result?.error) {
+      setError(result.error.message ?? "That email is already in use.");
+      return;
+    }
+
+    // Success: clear inputs + refresh
     setEmail("");
     setPassword("");
     setName("");
     setRole("");
     router.refresh();
-
-  };
+  } catch (e) {
+    setError("That email is already in use.");
+  }
+};
 
   const r = authClient.useSession();
   const isLoggedIn = r.data?.user != null;

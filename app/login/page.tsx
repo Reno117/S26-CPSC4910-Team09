@@ -15,6 +15,8 @@ export default function Login() {
 
   const session = authClient.useSession();
   const isLoggedIn = session.data?.user != null;
+  const r = authClient.useSession();
+  const userRole = r.data?.user?.role; 
 
   const onSignIn = async () => {
     setError(""); // Clear previous errors
@@ -44,20 +46,26 @@ export default function Login() {
     }
   };
 
-  if (isLoggedIn) {
-    return (
-      <div className="min-h-screen grid place-items-center bg-slate-50 px-4">
-        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm text-center">
-          <h1 className="text-2xl font-semibold text-slate-900">
-            You’re logged in!
-          </h1>
-          <div className="mt-6 flex justify-center">
-            <LogoutButton />
-          </div>
-        </div>
+if (isLoggedIn) {
+  return (
+    <div className="min-h-screen grid place-items-center bg-slate-50 px-4">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm text-center">
+        <h1 className="text-2xl font-semibold text-slate-900">
+          You’re logged in!
+        </h1>
+
+        {userRole === "sponsor" && (
+          <button
+            onClick={() => router.push("/sponsor")}
+            className="mt-6 w-full rounded-md bg-[#003862] py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#002a4a]"
+          >
+            Sponsor Dashboard
+          </button>
+        )}
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   return (
     <div className="min-h-screen bg-slate-50 px-4">
