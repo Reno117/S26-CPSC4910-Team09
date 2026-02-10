@@ -3,11 +3,12 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import LogoutButton from "../components/logout-button";
-import Link from "next/link";
+import { handleDriverSignIn } from "@/app/actions/driver/handle-signin";
 
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [role, setRole] = useState(""); // Add role state
   const [error, setError] = useState(""); // Add error state for feedback
@@ -42,11 +43,17 @@ const onSignup = async () => {
     setPassword("");
     setName("");
     setRole("");
-    router.refresh();
-  } catch (e) {
-    setError("That email is already in use.");
-  }
-};
+    
+    // Redirect based on role
+    if (role === "driver") {
+      const redirectUrl = await handleDriverSignIn();
+      if (redirectUrl) {
+        router.push(redirectUrl);
+      }
+    } else {
+      router.refresh();
+    }
+  };
 
   const r = authClient.useSession();
   const isLoggedIn = r.data?.user != null;
@@ -54,38 +61,57 @@ const onSignup = async () => {
 
   if (isLoggedIn) {
     return (
-      <div className="min-h-screen grid place-items-center bg-slate-50 px-4">
-        <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm text-center">
-          <h1 className="text-2xl font-semibold text-slate-900">
-            You’re logged in!
-          </h1>
+      <div className="flex flex-col justify-center items-center h-screen gap-4">
+        <h1 className="text-3xl font-bold">Sign Up</h1>
 
-          <p className="mt-2 text-sm text-slate-600">
-            Logged in as{" "}
-            <span className="font-medium text-slate-900">
-              {r.data?.user?.name}
-            </span>
-          </p>
+        <input
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="border px-3 py-2 rounded w-64"
+        />
 
-          {userRole === "sponsor" && (
-            <button
-              onClick={() => router.push("/sponsor/create-sponsor-user")}
-              className="mt-6 w-full rounded-md bg-[#003862] py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#002a4a]"
-            >
-              Join an Organization
-            </button>
-          )}
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="border px-3 py-2 rounded w-64"
+        />
 
-          {/* Optional: driver button if you want */}
-          {userRole === "driver" && (
-            <button
-              onClick={() => router.push("/driver/apply")}
-              className="mt-6 w-full rounded-md bg-[#003862] py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#002a4a]"
-            >
-              Apply to a Sponsor Organization
-            </button>
-          )}
+        <div className="relative w-64">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border px-3 py-2 rounded w-full pr-20"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-blue-600 hover:text-blue-800"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
         </div>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        <select value={role} onChange={(e) => setRole(e.target.value)}>
+          <option>Select role</option>
+          <option>sponsor</option>
+          <option>driver</option>
+          {/* KEEP THE SPONSOR AND DRIVER LOWERCASE IT WILL BREAK EVERYTHING IF NOT   */}
+        </select>
+
+        <button
+          onClick={onSignup}
+          className="text-xl font-semibold px-6 py-2 border rounded hover:bg-blue-500 hover:text-white"
+        >
+          Sign Up
+        </button>
       </div>
     );
   }
