@@ -79,10 +79,10 @@ const onSignup = async () => {
           {/* Optional: driver button if you want */}
           {userRole === "driver" && (
             <button
-              onClick={() => router.push("/driver")}
+              onClick={() => router.push("/driver/apply")}
               className="mt-6 w-full rounded-md bg-[#003862] py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#002a4a]"
             >
-              Continue to driver portal
+              Apply to a Sponsor Organization
             </button>
           )}
         </div>
