@@ -16,7 +16,8 @@ export async function searchEbayProducts(
   const response = await fetch(url);
   const data = await response.json();
 
-  console.log("eBay Response:", JSON.stringify(data, null, 2));
+  //console.log("eBay Response:", JSON.stringify(data, null, 2));
+  //This console log is for testing
 
   if (data.errorMessage) {
     const errorDetail = data.errorMessage[0].error[0];
