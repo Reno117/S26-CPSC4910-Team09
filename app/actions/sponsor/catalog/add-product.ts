@@ -8,14 +8,14 @@ export async function addProductToCatalog(data: {
   ebayItemId: string;
   title: string;
   imageUrl: string;
+  price: number; // ADD THIS
   sponsorId?: string; // For admins to specify which sponsor
 }) {
   const { isAdmin, sponsorId: userSponsorId } = await requireSponsorOrAdmin();
 
   // Determine target sponsor
-  const targetSponsorId = isAdmin && data.sponsorId 
-    ? data.sponsorId 
-    : userSponsorId!;
+  const targetSponsorId =
+    isAdmin && data.sponsorId ? data.sponsorId : userSponsorId!;
 
   // Check if product already exists in this sponsor's catalog
   const existing = await prisma.catalogProduct.findUnique({
@@ -38,11 +38,12 @@ export async function addProductToCatalog(data: {
       ebayItemId: data.ebayItemId,
       title: data.title,
       imageUrl: data.imageUrl,
+      price: data.price, // ADD THIS
       isActive: true,
     },
   });
 
   revalidatePath("/sponsor/catalog");
-  
+
   return { success: true };
 }

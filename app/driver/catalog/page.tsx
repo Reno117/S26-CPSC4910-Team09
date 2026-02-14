@@ -153,7 +153,7 @@ export default async function DriverCatalogPage() {
             {products.map((product) => {
               // Use product's sponsor pointValue if available (for admin view)
               const productPointValue = product.sponsor?.pointValue || pointValue;
-              const pointPrice = convertToPoints(11.99, productPointValue); // Mock price for now
+              const pointPrice = convertToPoints(product.price, productPointValue); // Mock price for now
               const canAfford = isViewingAsDriver ? currentBalance >= pointPrice : true;
 
               return (

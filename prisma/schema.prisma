@@ -183,6 +183,8 @@ model CatalogProduct {
   ebayItemId  String   // eBay's unique item ID (from their API)
   title       String   @db.Text
   imageUrl    String?  @db.Text
+  price       Float    // ADD THIS - USD price from eBay
+
   
   isActive    Boolean  @default(true) // Sponsor can hide without deleting
   

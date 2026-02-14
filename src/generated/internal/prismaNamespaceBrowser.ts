@@ -210,6 +210,7 @@ export const CatalogProductScalarFieldEnum = {
   ebayItemId: 'ebayItemId',
   title: 'title',
   imageUrl: 'imageUrl',
+  price: 'price',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

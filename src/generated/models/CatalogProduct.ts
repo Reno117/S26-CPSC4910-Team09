@@ -20,8 +20,18 @@ export type CatalogProductModel = runtime.Types.Result.DefaultSelection<Prisma.$
 
 export type AggregateCatalogProduct = {
   _count: CatalogProductCountAggregateOutputType | null
+  _avg: CatalogProductAvgAggregateOutputType | null
+  _sum: CatalogProductSumAggregateOutputType | null
   _min: CatalogProductMinAggregateOutputType | null
   _max: CatalogProductMaxAggregateOutputType | null
+}
+
+export type CatalogProductAvgAggregateOutputType = {
+  price: number | null
+}
+
+export type CatalogProductSumAggregateOutputType = {
+  price: number | null
 }
 
 export type CatalogProductMinAggregateOutputType = {
@@ -30,6 +40,7 @@ export type CatalogProductMinAggregateOutputType = {
   ebayItemId: string | null
   title: string | null
   imageUrl: string | null
+  price: number | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -41,6 +52,7 @@ export type CatalogProductMaxAggregateOutputType = {
   ebayItemId: string | null
   title: string | null
   imageUrl: string | null
+  price: number | null
   isActive: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -52,6 +64,7 @@ export type CatalogProductCountAggregateOutputType = {
   ebayItemId: number
   title: number
   imageUrl: number
+  price: number
   isActive: number
   createdAt: number
   updatedAt: number
@@ -59,12 +72,21 @@ export type CatalogProductCountAggregateOutputType = {
 }
 
 
+export type CatalogProductAvgAggregateInputType = {
+  price?: true
+}
+
+export type CatalogProductSumAggregateInputType = {
+  price?: true
+}
+
 export type CatalogProductMinAggregateInputType = {
   id?: true
   sponsorId?: true
   ebayItemId?: true
   title?: true
   imageUrl?: true
+  price?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -76,6 +98,7 @@ export type CatalogProductMaxAggregateInputType = {
   ebayItemId?: true
   title?: true
   imageUrl?: true
+  price?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -87,6 +110,7 @@ export type CatalogProductCountAggregateInputType = {
   ebayItemId?: true
   title?: true
   imageUrl?: true
+  price?: true
   isActive?: true
   createdAt?: true
   updatedAt?: true
@@ -131,6 +155,18 @@ export type CatalogProductAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: CatalogProductAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: CatalogProductSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: CatalogProductMinAggregateInputType
@@ -161,6 +197,8 @@ export type CatalogProductGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   _count?: CatalogProductCountAggregateInputType | true
+  _avg?: CatalogProductAvgAggregateInputType
+  _sum?: CatalogProductSumAggregateInputType
   _min?: CatalogProductMinAggregateInputType
   _max?: CatalogProductMaxAggregateInputType
 }
@@ -171,10 +209,13 @@ export type CatalogProductGroupByOutputType = {
   ebayItemId: string
   title: string
   imageUrl: string | null
+  price: number
   isActive: boolean
   createdAt: Date
   updatedAt: Date
   _count: CatalogProductCountAggregateOutputType | null
+  _avg: CatalogProductAvgAggregateOutputType | null
+  _sum: CatalogProductSumAggregateOutputType | null
   _min: CatalogProductMinAggregateOutputType | null
   _max: CatalogProductMaxAggregateOutputType | null
 }
@@ -203,6 +244,7 @@ export type CatalogProductWhereInput = {
   ebayItemId?: Prisma.StringFilter<"CatalogProduct"> | string
   title?: Prisma.StringFilter<"CatalogProduct"> | string
   imageUrl?: Prisma.StringNullableFilter<"CatalogProduct"> | string | null
+  price?: Prisma.FloatFilter<"CatalogProduct"> | number
   isActive?: Prisma.BoolFilter<"CatalogProduct"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CatalogProduct"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CatalogProduct"> | Date | string
@@ -215,6 +257,7 @@ export type CatalogProductOrderByWithRelationInput = {
   ebayItemId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -232,6 +275,7 @@ export type CatalogProductWhereUniqueInput = Prisma.AtLeast<{
   ebayItemId?: Prisma.StringFilter<"CatalogProduct"> | string
   title?: Prisma.StringFilter<"CatalogProduct"> | string
   imageUrl?: Prisma.StringNullableFilter<"CatalogProduct"> | string | null
+  price?: Prisma.FloatFilter<"CatalogProduct"> | number
   isActive?: Prisma.BoolFilter<"CatalogProduct"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CatalogProduct"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CatalogProduct"> | Date | string
@@ -244,12 +288,15 @@ export type CatalogProductOrderByWithAggregationInput = {
   ebayItemId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CatalogProductCountOrderByAggregateInput
+  _avg?: Prisma.CatalogProductAvgOrderByAggregateInput
   _max?: Prisma.CatalogProductMaxOrderByAggregateInput
   _min?: Prisma.CatalogProductMinOrderByAggregateInput
+  _sum?: Prisma.CatalogProductSumOrderByAggregateInput
 }
 
 export type CatalogProductScalarWhereWithAggregatesInput = {
@@ -261,6 +308,7 @@ export type CatalogProductScalarWhereWithAggregatesInput = {
   ebayItemId?: Prisma.StringWithAggregatesFilter<"CatalogProduct"> | string
   title?: Prisma.StringWithAggregatesFilter<"CatalogProduct"> | string
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"CatalogProduct"> | string | null
+  price?: Prisma.FloatWithAggregatesFilter<"CatalogProduct"> | number
   isActive?: Prisma.BoolWithAggregatesFilter<"CatalogProduct"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"CatalogProduct"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"CatalogProduct"> | Date | string
@@ -271,6 +319,7 @@ export type CatalogProductCreateInput = {
   ebayItemId: string
   title: string
   imageUrl?: string | null
+  price: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -283,6 +332,7 @@ export type CatalogProductUncheckedCreateInput = {
   ebayItemId: string
   title: string
   imageUrl?: string | null
+  price: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -293,6 +343,7 @@ export type CatalogProductUpdateInput = {
   ebayItemId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -305,6 +356,7 @@ export type CatalogProductUncheckedUpdateInput = {
   ebayItemId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -316,6 +368,7 @@ export type CatalogProductCreateManyInput = {
   ebayItemId: string
   title: string
   imageUrl?: string | null
+  price: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -326,6 +379,7 @@ export type CatalogProductUpdateManyMutationInput = {
   ebayItemId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -337,6 +391,7 @@ export type CatalogProductUncheckedUpdateManyInput = {
   ebayItemId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -369,9 +424,14 @@ export type CatalogProductCountOrderByAggregateInput = {
   ebayItemId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CatalogProductAvgOrderByAggregateInput = {
+  price?: Prisma.SortOrder
 }
 
 export type CatalogProductMaxOrderByAggregateInput = {
@@ -380,6 +440,7 @@ export type CatalogProductMaxOrderByAggregateInput = {
   ebayItemId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -391,9 +452,14 @@ export type CatalogProductMinOrderByAggregateInput = {
   ebayItemId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CatalogProductSumOrderByAggregateInput = {
+  price?: Prisma.SortOrder
 }
 
 export type CatalogProductCreateNestedManyWithoutSponsorInput = {
@@ -443,6 +509,7 @@ export type CatalogProductCreateWithoutSponsorInput = {
   ebayItemId: string
   title: string
   imageUrl?: string | null
+  price: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -453,6 +520,7 @@ export type CatalogProductUncheckedCreateWithoutSponsorInput = {
   ebayItemId: string
   title: string
   imageUrl?: string | null
+  price: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -493,6 +561,7 @@ export type CatalogProductScalarWhereInput = {
   ebayItemId?: Prisma.StringFilter<"CatalogProduct"> | string
   title?: Prisma.StringFilter<"CatalogProduct"> | string
   imageUrl?: Prisma.StringNullableFilter<"CatalogProduct"> | string | null
+  price?: Prisma.FloatFilter<"CatalogProduct"> | number
   isActive?: Prisma.BoolFilter<"CatalogProduct"> | boolean
   createdAt?: Prisma.DateTimeFilter<"CatalogProduct"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"CatalogProduct"> | Date | string
@@ -503,6 +572,7 @@ export type CatalogProductCreateManySponsorInput = {
   ebayItemId: string
   title: string
   imageUrl?: string | null
+  price: number
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -513,6 +583,7 @@ export type CatalogProductUpdateWithoutSponsorInput = {
   ebayItemId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -523,6 +594,7 @@ export type CatalogProductUncheckedUpdateWithoutSponsorInput = {
   ebayItemId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -533,6 +605,7 @@ export type CatalogProductUncheckedUpdateManyWithoutSponsorInput = {
   ebayItemId?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -546,6 +619,7 @@ export type CatalogProductSelect<ExtArgs extends runtime.Types.Extensions.Intern
   ebayItemId?: boolean
   title?: boolean
   imageUrl?: boolean
+  price?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -560,12 +634,13 @@ export type CatalogProductSelectScalar = {
   ebayItemId?: boolean
   title?: boolean
   imageUrl?: boolean
+  price?: boolean
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CatalogProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sponsorId" | "ebayItemId" | "title" | "imageUrl" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["catalogProduct"]>
+export type CatalogProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sponsorId" | "ebayItemId" | "title" | "imageUrl" | "price" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["catalogProduct"]>
 export type CatalogProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sponsor?: boolean | Prisma.SponsorDefaultArgs<ExtArgs>
 }
@@ -581,6 +656,7 @@ export type $CatalogProductPayload<ExtArgs extends runtime.Types.Extensions.Inte
     ebayItemId: string
     title: string
     imageUrl: string | null
+    price: number
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -959,6 +1035,7 @@ export interface CatalogProductFieldRefs {
   readonly ebayItemId: Prisma.FieldRef<"CatalogProduct", 'String'>
   readonly title: Prisma.FieldRef<"CatalogProduct", 'String'>
   readonly imageUrl: Prisma.FieldRef<"CatalogProduct", 'String'>
+  readonly price: Prisma.FieldRef<"CatalogProduct", 'Float'>
   readonly isActive: Prisma.FieldRef<"CatalogProduct", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"CatalogProduct", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"CatalogProduct", 'DateTime'>
