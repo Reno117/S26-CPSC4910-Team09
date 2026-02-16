@@ -81,7 +81,10 @@ export default function SponsorHeader() {
                         <li><Link href="/sponsor/driverApplications" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Applications</Link></li>
                         <li><Link href="/sponsor/create-driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Make Driver</Link></li>
                         <li><Link href="/sponsor/audits" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Audits</Link></li>
+                        <li><Link href="/sponsor/catalog" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>View Catalog</Link></li>
                         <li><Link href="/sponsor/catalog/add" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Add to Catalog</Link></li>
+                        <li><Link href="/sponsor/view-orders" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>View Orders</Link></li>
+
                     </ul>
                 </div>
             </div>
