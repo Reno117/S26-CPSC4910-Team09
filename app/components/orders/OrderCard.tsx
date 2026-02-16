@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import CancelOrderButton from "./cancel-order-button";
 
 type OrderWithRelations = {
   id: string
@@ -17,12 +18,10 @@ type OrderWithRelations = {
     id: string
     title: string
     quantity: number
-    // add other OrderItem fields you're using
   }[]
 }
 
 export default function OrderCard({ order }: { order: OrderWithRelations }) {
-    console.log(order)
     return (
         <div className="border rounded-lg p-6 shadow-md bg-white mb-4">
         {/* Header with driver name and status */}
@@ -59,8 +58,9 @@ export default function OrderCard({ order }: { order: OrderWithRelations }) {
         </div>
 
         {/* Order date */}
-        <div className="text-sm text-gray-500 mt-2">
+        <div className="flex justify-between items-center text-sm text-gray-500 mt-2">
             Ordered: {new Date(order.createdAt).toLocaleDateString()}
+            <CancelOrderButton orderId = {order.id} />
         </div>
         </div>
   )
