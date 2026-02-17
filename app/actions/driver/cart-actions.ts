@@ -1,8 +1,33 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { requireDriver } from "@/lib/auth-helpers";
+import { getCurrentUser, requireDriver } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
+
+export async function getCartItemCount() {
+  const user = await getCurrentUser();
+
+  if (!user?.driverProfile) {
+    return 0;
+  }
+
+  const cart = await prisma.cart.findUnique({
+    where: { driverProfileId: user.driverProfile.id },
+    include: {
+      items: {
+        select: {
+          quantity: true,
+        },
+      },
+    },
+  });
+
+  if (!cart) {
+    return 0;
+  }
+
+  return cart.items.reduce((sum, item) => sum + item.quantity, 0);
+}
 
 export async function addToCart(catalogProductId: string) {
   const user = await requireDriver();

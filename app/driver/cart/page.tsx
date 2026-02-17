@@ -1,6 +1,7 @@
 import { requireDriver } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
+import DriverHeader from "@/app/components/DriverComponents/DriverHeader";
 import CartItemCard from "@/app/components/cart/cart-item-card";
 import CheckoutButton from "@/app/components/cart/checkout-button";
 
@@ -31,7 +32,10 @@ export default async function CartPage() {
     totalPoints > currentBalance ? totalPoints - currentBalance : 0;
 
   return (
-    <div className="p-8 max-w-6xl mx-auto">
+    <div>
+      <DriverHeader />
+
+      <div className="pt-20 p-8 max-w-6xl mx-auto">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Shopping Cart</h1>
@@ -135,6 +139,7 @@ export default async function CartPage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

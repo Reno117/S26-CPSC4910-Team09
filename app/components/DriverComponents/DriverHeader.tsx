@@ -2,13 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
+import { getCartItemCount } from '@/app/actions/driver/cart-actions';
 
 export default function DriverHeader() {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [menuOpen, setMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
+    const [cartItemCount, setCartItemCount] = useState(0);
+    const router = useRouter();
+    const pathname = usePathname();
     
     useEffect(() => {
         const handleScroll = () => {
@@ -23,6 +28,33 @@ export default function DriverHeader() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const loadCartCount = async () => {
+            try {
+                const count = await getCartItemCount();
+                if (isMounted) {
+                    setCartItemCount(count);
+                }
+            } catch {
+                if (isMounted) {
+                    setCartItemCount(0);
+                }
+            }
+        };
+
+        loadCartCount();
+
+        const intervalId = setInterval(loadCartCount, 5000);
+
+        return () => {
+            isMounted = false;
+            clearInterval(intervalId);
+        };
+    }, [pathname]);
+
     const handleLogout = async () => {
         await authClient.signOut();
         window.location.href = '/login';
@@ -45,13 +77,20 @@ export default function DriverHeader() {
                     Driver Dashboard
                 </Link>
                 <div className="flex items-center space-x-2">
-                    <button
-                        onClick={() => {/* Handle shopping cart click */}}
-                        className="text-white text-2xl focus:outline-none hover:text-blue-200"
-                        title="Shopping Cart"
-                    >
-                        🛒
-                    </button>
+                    <div className="relative">
+                        <button
+                            onClick={() => router.push('/driver/cart')}
+                            className="text-white text-2xl focus:outline-none hover:text-blue-200"
+                            title="Shopping Cart"
+                        >
+                            🛒
+                        </button>
+                        {cartItemCount > 0 && (
+                            <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 bg-red-500 text-white text-[10px] leading-4 rounded-full text-center font-semibold">
+                                {cartItemCount > 99 ? '99+' : cartItemCount}
+                            </span>
+                        )}
+                    </div>
                     <button
                         onClick={() => {/* Handle settings click */}}
                         className="text-white text-2xl focus:outline-none hover:text-blue-200"
@@ -79,7 +118,7 @@ export default function DriverHeader() {
                     <ul className="space-y-2">
                         <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>
                         <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Settings</Link></li>
-                        <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Sponsor Catalog</Link></li>
+                        <li><Link href="/driver/catalog" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Sponsor Catalog</Link></li>
                         <li><Link href="/driver/mysponsor" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>My Sponsor</Link></li>
                         <li><Link href="/driver/pointshistory" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Points History</Link></li>
                         <li><Link href="/driver/profile" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Profile</Link></li>

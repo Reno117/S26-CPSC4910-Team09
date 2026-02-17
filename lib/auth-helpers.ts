@@ -2,6 +2,10 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 
+function normalizeRole(role: string | null | undefined) {
+  return role?.trim().toLowerCase() ?? "";
+}
+
 export async function getCurrentUser() {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -25,7 +29,7 @@ export async function getCurrentUser() {
 export async function requireSponsorUser() {
   const user = await getCurrentUser();
   
-  if (!user || user.role !== "sponsor") {
+  if (!user || normalizeRole(user.role) !== "sponsor") {
     throw new Error("Unauthorized: Sponsor access required");
   }
   
@@ -44,11 +48,13 @@ export async function requireSponsorOrAdmin() {
     throw new Error("Unauthorized");
   }
   
-  if (user.role === "admin") {
+  const role = normalizeRole(user.role);
+
+  if (role === "admin") {
     return { user, isAdmin: true, sponsorId: null };
   }
   
-  if (user.role === "sponsor") {
+  if (role === "sponsor") {
     if (!user.sponsorUser) {
       throw new Error("Sponsor user profile not found");
     }
@@ -60,18 +66,42 @@ export async function requireSponsorOrAdmin() {
 
 export async function requireDriver() {
   const user = await getCurrentUser();
-  
-  if (!user || user.role !== "driver") {
+
+  if (user?.driverProfile) {
+    return user;
+  }
+
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session?.user?.id) {
     throw new Error("Unauthorized: Driver access required");
   }
-  
-  return user;
+
+  const fallbackUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    include: {
+      driverProfile: true,
+      sponsorUser: {
+        include: {
+          sponsor: true,
+        },
+      },
+    },
+  });
+
+  if (!fallbackUser?.driverProfile) {
+    throw new Error("Unauthorized: Driver access required");
+  }
+
+  return fallbackUser;
 }
 
 export async function requireAdmin() {
   const user = await getCurrentUser();
   
-  if (!user || user.role !== "admin") {
+  if (!user || normalizeRole(user.role) !== "admin") {
     throw new Error("Unauthorized: Admin access required");
   }
   
@@ -81,7 +111,7 @@ export async function requireAdmin() {
 export async function getDriverStatus(): Promise<string | null> {
   const user = await getCurrentUser();
   
-  if (!user || user.role !== "driver" || !user.driverProfile) {
+  if (!user || normalizeRole(user.role) !== "driver" || !user.driverProfile) {
     return null;
   }
   

@@ -44,3 +44,34 @@ export async function searchEbayProducts(
 export function convertToPoints(usdPrice: number, pointValue: number): number {
   return Math.ceil(usdPrice / pointValue);
 }
+
+export async function getEbayItemDescription(itemId: string): Promise<string | null> {
+  const appId = process.env.EBAY_APP_ID;
+
+  if (!appId || !itemId) {
+    return null;
+  }
+
+  const url = `https://open.api.sandbox.ebay.com/shopping?callname=GetSingleItem&responseencoding=JSON&appid=${encodeURIComponent(appId)}&siteid=0&version=967&ItemID=${encodeURIComponent(itemId)}&IncludeSelector=Description`;
+
+  try {
+    const response = await fetch(url, { cache: "no-store" });
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+    const description = data?.Item?.Description;
+
+    if (typeof description !== "string" || !description.trim()) {
+      return null;
+    }
+
+    return description
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  } catch {
+    return null;
+  }
+}
