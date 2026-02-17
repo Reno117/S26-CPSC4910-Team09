@@ -11,7 +11,8 @@ export default function Navbar() {
     pathname === "/" ||
     pathname === "/login" ||
     pathname === "/signup" ||
-    pathname === "/driver/apply";
+    pathname === "/driver/apply" ||
+    pathname === "/about";
 
   const session = authClient.useSession();
   const user = session.data?.user;
@@ -28,6 +29,12 @@ export default function Navbar() {
         <div className="text-sm opacity-80">Loading…</div>
       ) : user ? (
         <div className="flex items-center space-x-4">
+          <Link 
+            href="/about" 
+            className="text-sm hover:text-white/80 transition-colors duration-200"
+          >
+            About
+          </Link>
           <span className="text-sm">
             Logged in as: <strong>{user.name ?? "User"}</strong> | Role:{" "}
             <strong>{(user as any).role ?? "User"}</strong>
@@ -35,7 +42,14 @@ export default function Navbar() {
           <LogoutButton />
         </div>
       ) : (
-        <div className="space-x-4">
+        <div className="flex items-center space-x-4">
+          <Link 
+            href="/about" 
+            className="text-sm hover:text-white/80 transition-colors duration-200"
+          >
+            About
+          </Link>
+          
           <Link
             href="/login"
             className="px-6 py-2 rounded-full border border-white text-white hover:bg-white/10 transition-colors duration-200"
