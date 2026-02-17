@@ -1,12 +1,15 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { requireDriver } from "@/lib/auth-helpers";
+import { getCurrentUser } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
 
 export async function cancelOrder(orderId: string) {
-  const user = await requireDriver();
-  const driverProfile = user.driverProfile!;
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
 
   // Get the order
   const order = await prisma.order.findUnique({
@@ -17,8 +20,20 @@ export async function cancelOrder(orderId: string) {
     throw new Error("Order not found");
   }
 
-  // Verify ownership
-  if (order.driverProfileId !== driverProfile.id) {
+  const role = user.role?.trim().toLowerCase();
+  const isAdmin = role === "admin";
+  const isSponsor = role === "sponsor";
+  const isDriver = role === "driver";
+
+  if (isDriver) {
+    if (!user.driverProfile || order.driverProfileId !== user.driverProfile.id) {
+      throw new Error("Unauthorized");
+    }
+  } else if (isSponsor) {
+    if (!user.sponsorUser || user.sponsorUser.sponsorId !== order.sponsorId) {
+      throw new Error("Unauthorized");
+    }
+  } else if (!isAdmin) {
     throw new Error("Unauthorized");
   }
 
@@ -37,7 +52,7 @@ export async function cancelOrder(orderId: string) {
 
     // 2. Refund points to driver
     await tx.driverProfile.update({
-      where: { id: driverProfile.id },
+      where: { id: order.driverProfileId },
       data: {
         pointsBalance: {
           increment: order.totalPoints,
@@ -48,7 +63,7 @@ export async function cancelOrder(orderId: string) {
     // 3. Create point change record (positive for refund)
     await tx.pointChange.create({
       data: {
-        driverProfileId: driverProfile.id,
+        driverProfileId: order.driverProfileId,
         sponsorId: order.sponsorId,
         amount: order.totalPoints,
         reason: `Order #${order.id.slice(-8)} - Cancelled (Refund)`,
@@ -59,6 +74,7 @@ export async function cancelOrder(orderId: string) {
 
   revalidatePath("/driver/orders");
   revalidatePath(`/driver/orders/${orderId}`);
+  revalidatePath("/sponsor/view-orders");
 
   return { success: true };
 }
