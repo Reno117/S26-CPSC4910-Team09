@@ -243,14 +243,20 @@ export default function ActiveUsersList({ users }: ActiveUsersListProps) {
                     </span>
                   </p>
 
-                  {/* NEW: Toggle Status Button for Sponsors */}
+                  {/* Toggle Status Button and Edit Button for Sponsors */}
                   {selectedUser.sponsorUserId && (
-                    <div className="pt-3">
+                    <div className="pt-3 space-y-3">
                       <ToggleStatusButton
                         profileId={selectedUser.sponsorUserId}
                         currentStatus={selectedUser.sponsorUserStatus || 'active'}
                         userType="sponsor"
                       />
+                      <Link
+                        href={`/admin/sponsor/${selectedUser.sponsorUserId}`}
+                        className="inline-flex rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                      >
+                        Edit Sponsor Profile
+                      </Link>
                     </div>
                   )}
                 </>
