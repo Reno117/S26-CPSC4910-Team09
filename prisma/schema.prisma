@@ -43,8 +43,7 @@ model DriverProfile {
 
   sponsorId     String?
   sponsor       Sponsor? @relation(fields: [sponsorId], references: [id], onDelete: SetNull)
-  disabledaccwiount
-  pointsBalancedisabledaccwiount Int      @default(0)
+  pointsBalance Int      @default(0)
   status        String   @default("pending")
   // pending | active | dropped
 
@@ -58,6 +57,7 @@ model DriverProfile {
   pointChanges  PointChange[]
   cart          Cart?
   orders        Order[]
+  sponsorships  SponsoredBy[]
 
   @@map("driver_profile")
 }
@@ -75,6 +75,7 @@ model Sponsor {
   pointChanges    PointChange[]
   catalogProducts CatalogProduct[]
   orders          Order[]
+  sponsorships    SponsoredBy[]
 
   @@map("sponsor")
 }
@@ -297,4 +298,18 @@ model Verse {
   @@index([book])
   @@index([isMemorized])
   @@map("verse")
+}
+
+model SponsoredBy {
+  id           String       @id @default(cuid())
+  driverId     String
+  sponsorOrgId String
+  points       Float        @default(0.01)
+  createdAt    DateTime     @default(now())
+
+  driver       DriverProfile @relation(fields: [driverId], references: [id])
+  sponsorOrg   Sponsor       @relation(fields: [sponsorOrgId], references: [id])
+
+  @@unique([driverId, sponsorOrgId])
+  @@map("sponsored_by")
 }
