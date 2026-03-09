@@ -6,9 +6,10 @@ import Link from "next/link";
 import AddToCartButton from "@/app/components/catalog/add-to-cart-button";
 import DriverHeader from "@/app/components/DriverComponents/DriverHeader";
 import { checkDriverNotDisabled } from "@/lib/auth-helpers";
+import  DriverSettings from "@/app/components/DriverComponents/dropdown-support"
 
 
-export default async function DriverCatalogPage() {
+export default async function DriverCatalogPage({ searchParams }: { searchParams: {sponsorId?: string}}) {
   const user = await getCurrentUser();
   await checkDriverNotDisabled();
   
@@ -36,13 +37,14 @@ export default async function DriverCatalogPage() {
       throw new Error("Driver profile not found");
     }
 
-    const catalog = await getDriverCatalog(driverProfile.id);
+    const catalog = await getDriverCatalog(driverProfile.id, searchParams.sponsorId);
     products = catalog.products;
     pointValue = catalog.pointValue;
     sponsorName = catalog.sponsorName;
     currentBalance = driverProfile.pointsBalance;
     driverProfileId = driverProfile.id;
     isViewingAsDriver = true;
+  
   }
 
   else if (user.role === "sponsor") {
@@ -95,6 +97,12 @@ export default async function DriverCatalogPage() {
         <h1 className="text-3xl font-bold mb-2">
           {user.role === "admin" ? "All Products" : "Product Catalog"}
         </h1>
+
+      <DriverSettings
+        driverId={driverProfileId ?? ""}
+        defaultSponsorId={searchParams.sponsorId ?? user.driverProfile?.sponsorId ?? undefined}
+      />
+
         {sponsorName && (
           <p className="text-gray-600">
             {user.role === "driver"

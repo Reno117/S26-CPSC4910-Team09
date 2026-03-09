@@ -3,22 +3,30 @@ import { prisma } from "@/lib/prisma";
 /**
  * Get catalog products for a driver's sponsor with point prices
  */
-export async function getDriverCatalog(driverProfileId: string) {
-  const driverProfile = await prisma.driverProfile.findUnique({
-    where: { id: driverProfileId },
+export async function getDriverCatalog(driverProfileId: string, sponsorIdOverride?: string) {
+  const sponsorships = await prisma.sponsoredBy.findMany({
+    where: { driverId: driverProfileId },
     include: {
-      sponsor: true,
+      sponsorOrg: true,
     },
   });
 
-  if (!driverProfile || !driverProfile.sponsorId) {
+  if (sponsorships.length === 0) {
     return { products: [], pointValue: 0.01, sponsorName: null };
   }
 
+  const activeSponsor = sponsorIdOverride 
+    ? sponsorships.find(s => s.sponsorOrgId === sponsorIdOverride)?.sponsorOrg
+    : sponsorships[0].sponsorOrg;
+  
+  if(!activeSponsor) {
+    return { products: [], pointValue: 0.01, sponsorName: null };
+  }
+    
   const products = await prisma.catalogProduct.findMany({
     where: {
-      sponsorId: driverProfile.sponsorId,
-      isActive: true, // Only show active products
+      sponsorId: activeSponsor.id,
+       isActive: true, // Only show active products
     },
     orderBy: {
       createdAt: "desc",
@@ -27,8 +35,8 @@ export async function getDriverCatalog(driverProfileId: string) {
 
   return {
     products,
-    pointValue: driverProfile.sponsor!.pointValue,
-    sponsorName: driverProfile.sponsor!.name,
+    pointValue: activeSponsor.pointValue,
+    sponsorName: activeSponsor.name,
   };
 }
 
