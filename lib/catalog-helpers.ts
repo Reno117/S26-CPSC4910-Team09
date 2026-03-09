@@ -22,7 +22,7 @@ export async function getDriverCatalog(driverProfileId: string, sponsorIdOverrid
   if(!activeSponsor) {
     return { products: [], pointValue: 0.01, sponsorName: null };
   }
-    
+
   const products = await prisma.catalogProduct.findMany({
     where: {
       sponsorId: activeSponsor.id,

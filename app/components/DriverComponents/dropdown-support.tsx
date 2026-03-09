@@ -17,7 +17,7 @@ export default function DriverSettings({ driverId, defaultSponsorId }: Props) {
       driverId={driverId}
       defaultSponsorId={defaultSponsorId}
       onSponsorChange={(sponsorId) => {
-        router.push('?sponsorId=${sponsorId}');
+        router.push(`?sponsorId=${sponsorId}`);
       }}
     />
   );

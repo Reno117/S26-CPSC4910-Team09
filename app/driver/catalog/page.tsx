@@ -12,7 +12,7 @@ import  DriverSettings from "@/app/components/DriverComponents/dropdown-support"
 export default async function DriverCatalogPage({ searchParams }: { searchParams: {sponsorId?: string}}) {
   const user = await getCurrentUser();
   await checkDriverNotDisabled();
-  
+  const params = await searchParams;
 
   if (!user) {
     throw new Error("Unauthorized");
@@ -37,14 +37,13 @@ export default async function DriverCatalogPage({ searchParams }: { searchParams
       throw new Error("Driver profile not found");
     }
 
-    const catalog = await getDriverCatalog(driverProfile.id, searchParams.sponsorId);
+    const catalog = await getDriverCatalog(driverProfile.id, params.sponsorId);
     products = catalog.products;
     pointValue = catalog.pointValue;
     sponsorName = catalog.sponsorName;
     currentBalance = driverProfile.pointsBalance;
     driverProfileId = driverProfile.id;
     isViewingAsDriver = true;
-  
   }
 
   else if (user.role === "sponsor") {
@@ -100,7 +99,7 @@ export default async function DriverCatalogPage({ searchParams }: { searchParams
 
       <DriverSettings
         driverId={driverProfileId ?? ""}
-        defaultSponsorId={searchParams.sponsorId ?? user.driverProfile?.sponsorId ?? undefined}
+        defaultSponsorId={params.sponsorId ?? user.driverProfile?.sponsorId ?? undefined}
       />
 
         {sponsorName && (

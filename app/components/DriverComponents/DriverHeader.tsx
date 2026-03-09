@@ -148,6 +148,7 @@ export default function DriverHeader() {
                         <ul className="space-y-2">
                             <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>
                             <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Settings</Link></li>
+                            <li><Link href="/driver/apply" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Apply to a Sponsor</Link></li>
                             <li><Link href="/driver/catalog" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Sponsor Catalog</Link></li>
                             <li><Link href="/driver/orders" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Order History</Link></li>
                             <li><Link href="/driver/mysponsor" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>My Sponsor</Link></li>

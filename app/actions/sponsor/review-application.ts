@@ -41,10 +41,24 @@ export async function reviewApplication(
       await tx.driverProfile.update({
         where: { id: application.driverProfileId },
         data: {
-          sponsorId: application.sponsorId,
           status: "active",
         },
       });
+    
+    await tx.sponsoredBy.upsert({
+    where: {
+      driverId_sponsorOrgId: {
+        driverId: application.driverProfileId,
+        sponsorOrgId: application.sponsorId,
+      },
+    },
+    create: {
+      driverId: application.driverProfileId,
+      sponsorOrgId: application.sponsorId,
+      points: 0,
+    },
+    update: {},
+  });
     }
   });
 

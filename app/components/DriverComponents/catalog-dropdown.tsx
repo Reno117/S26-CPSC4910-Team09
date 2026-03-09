@@ -51,6 +51,11 @@ export default function SponsorDropdown({
     document.addEventListener("mousedown", handleOutsideClick);
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
+  useEffect(() => {
+  if (defaultSponsorId) {
+    setSelectedId(defaultSponsorId);
+  }
+}, [defaultSponsorId]);
 
   const selectedSponsor = sponsors.find((s) => s.id === selectedId);
 
@@ -160,6 +165,7 @@ export default function SponsorDropdown({
       )}
     </div>
   );
+}
   // ─── Sub-components ────────────────────────────────────────────────────────────
 
 function SponsorBadge({ name, active }: { name: string; active?: boolean }) {
@@ -215,5 +221,4 @@ function SpinnerIcon() {
       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
     </svg>
   );
-}
 }
