@@ -53,6 +53,7 @@ model DriverProfile {
   sponsorId     String?
   sponsor       Sponsor? @relation(fields: [sponsorId], references: [id], onDelete: SetNull)
   pointsBalance Int      @default(0)
+  totalPointsSpent Int   @default(0)  
   status        String   @default("pending")
   // pending | active | dropped
 
