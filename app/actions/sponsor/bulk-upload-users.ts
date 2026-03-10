@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 interface UserUploadRow {
   name: string;
   email: string;
-  role: "driver" | "sponsor" | "admin";
+  role: "driver" | "sponsor" | "admin" | "org";
   sponsorId?: string;
   sponsorName?: string;
   pointsBalance?: number;
@@ -51,24 +51,44 @@ export async function massUploadUsers(rows: UserUploadRow[]) {
   for (const row of rows) {
     try {
       // Validate required fields
-      if (!row.name || !row.email || !row.role) {
-        throw new Error(`Missing required fields for ${row.email || "unknown"}`);
+      if (!row.name || !row.role) {
+        throw new Error(`Missing required fields for row`);
       }
 
-      // PERMISSION CHECK: Sponsors can only create drivers and sponsors
-      if (isSponsor && row.role === "admin") {
-        throw new Error(`Sponsors cannot create admin users (${row.email})`);
+      // PERMISSION CHECK: Only admins can create org (Sponsor) records
+      if (row.role === "org" && !isAdmin) {
+        throw new Error(`Only admins can create sponsor organizations`);
+      }
+
+      // PERMISSION CHECK: Sponsors cannot create admins or orgs
+      if (isSponsor && (row.role === "admin" || row.role === "org")) {
+        throw new Error(`Sponsors cannot create admin users or organizations (${row.email})`);
       }
 
       // PERMISSION CHECK: Sponsors can only assign to their own organization
       if (isSponsor) {
         if (row.role === "driver") {
-          // Force driver to be assigned to sponsor's org
           row.sponsorId = sponsorOrgId!;
         } else if (row.role === "sponsor") {
-          // Force sponsor user to be part of sponsor's org
           row.sponsorId = sponsorOrgId!;
         }
+      }
+
+      // For org rows, create a Sponsor record — no user account needed
+      if (row.role === "org") {
+        await prisma.sponsor.create({
+          data: {
+            name: row.name,
+            pointValue: 0.01,
+          },
+        });
+        results.success++;
+        continue;
+      }
+
+      // All non-org rows require an email
+      if (!row.email) {
+        throw new Error(`Email is required`);
       }
 
       // Check if email already exists
@@ -104,29 +124,29 @@ export async function massUploadUsers(rows: UserUploadRow[]) {
             id: crypto.randomUUID(),
             name: row.name,
             email: row.email,
-            role: row.role,
+            role: row.role as "driver" | "sponsor" | "admin",
             emailVerified: false,
           },
         });
 
         if (!isSponsor && row.sponsorName && !row.sponsorId) {
-        const input = row.sponsorName.trim();
+          const input = row.sponsorName.trim();
 
-        const sponsor = await prisma.sponsor.findFirst({
+          const sponsor = await prisma.sponsor.findFirst({
             where: {
-            OR: [
+              OR: [
                 { id: input },
                 { name: input },
-            ],
+              ],
             },
             select: { id: true },
-        });
+          });
 
-        if (!sponsor) {
+          if (!sponsor) {
             throw new Error(`Sponsor "${input}" not found for ${row.email}`);
-        }
+          }
 
-        row.sponsorId = sponsor.id;
+          row.sponsorId = sponsor.id;
         }
 
         // Create appropriate profile based on role
@@ -152,18 +172,17 @@ export async function massUploadUsers(rows: UserUploadRow[]) {
             },
           });
         } else if (row.role === "admin") {
-          // Admins don't need profiles, just the user record
-          // But only admins can create other admins
           if (!isAdmin) {
             throw new Error(`Only admins can create admin users`);
           }
+          // Admin user record is sufficient — no profile needed
         }
       });
 
       results.success++;
     } catch (error: any) {
       results.failed++;
-      results.errors.push(`${row.email}: ${error.message}`);
+      results.errors.push(`${row.email || row.name}: ${error.message}`);
     }
   }
 
