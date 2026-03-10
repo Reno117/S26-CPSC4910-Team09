@@ -275,10 +275,10 @@ export default function ActiveUsersList({ users }: ActiveUsersListProps) {
                   <p>
                     <span className="font-semibold text-gray-900">Status:</span>{' '}
                     <span className={`inline-flex px-2 py-1 rounded text-xs font-semibold ${
-                      selectedUser.adminId === 'active' ? 'bg-green-100 text-green-800' :
+                      selectedUser.adminStatus === 'active' ? 'bg-green-100 text-green-800' :
                       'bg-red-100 text-red-800'
                     }`}>
-                      {formatStatus(selectedUser.sponsorUserStatus ?? null)}
+                      {formatStatus(selectedUser.adminStatus ?? null)}
                     </span>
                   </p>
 
