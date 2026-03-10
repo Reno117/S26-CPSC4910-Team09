@@ -32,6 +32,7 @@ model User {
   accounts      Account[]
   driverProfile DriverProfile?
   sponsorUser   SponsorUser?
+  admin         Admin?
   
   // Audit trail relations
   pointChangesGiven PointChange[] @relation("PointChanger")
@@ -323,4 +324,19 @@ model SponsoredBy {
 
   @@unique([driverId, sponsorOrgId])
   @@map("sponsored_by")
+}
+
+model Admin {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status        String   @default("pending")
+  // pending | active | dropped
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  @@map("admin")
 }
