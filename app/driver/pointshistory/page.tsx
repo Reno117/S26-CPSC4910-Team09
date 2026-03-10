@@ -9,11 +9,17 @@ export default async function PointsHistoryPage() {
     headers: await headers(),
   });
 
-  let pointsBalance = 0;
+  let totalPointsBalance = 0;
+  let sponsorBalances: {
+    sponsorId: string;
+    sponsorName: string;
+    points: number;
+  }[] = [];
   let transactions: {
     id: string;
     amount: number;
     reason: string;
+    sponsorId: string;
     sponsorName: string;
     createdAt: string;
   }[] = [];
@@ -22,9 +28,32 @@ export default async function PointsHistoryPage() {
     const driverProfile = await prisma.driverProfile.findUnique({
       where: { userId: session.user.id },
     });
-    pointsBalance = driverProfile?.pointsBalance || 0;
+    totalPointsBalance = driverProfile?.pointsBalance || 0;
 
     if (driverProfile) {
+      const sponsorshipTotals = await prisma.$queryRaw<{
+        sponsorId: string;
+        sponsorName: string;
+        points: number;
+      }[]>`
+        SELECT
+          s.id AS sponsorId,
+          s.name AS sponsorName,
+          sb.points
+        FROM sponsored_by sb
+        INNER JOIN sponsor s ON s.id = sb.sponsorOrgId
+        WHERE sb.driverId = ${driverProfile.id}
+        ORDER BY s.name ASC
+      `;
+
+      sponsorBalances = sponsorshipTotals.map((row) => ({
+        sponsorId: row.sponsorId,
+        sponsorName: row.sponsorName,
+        points: Number(row.points),
+      }));
+
+      totalPointsBalance = sponsorBalances.reduce((sum, sponsor) => sum + sponsor.points, 0);
+
       const pointChanges = await prisma.pointChange.findMany({
         where: { driverProfileId: driverProfile.id },
         include: { sponsor: true },
@@ -35,6 +64,7 @@ export default async function PointsHistoryPage() {
         id: tx.id,
         amount: tx.amount,
         reason: tx.reason,
+        sponsorId: tx.sponsorId,
         sponsorName: tx.sponsor.name,
         createdAt: tx.createdAt.toISOString(),
       }));
@@ -45,7 +75,8 @@ export default async function PointsHistoryPage() {
     <div>
       <DriverHeader />
       <PointsHistoryClient
-        pointsBalance={pointsBalance}
+        pointsBalance={totalPointsBalance}
+        sponsorBalances={sponsorBalances}
         transactions={transactions}
       />
     </div>
