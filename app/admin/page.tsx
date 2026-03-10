@@ -1,6 +1,7 @@
 import AdminHeader from "../components/AdminComponents/AdminHeader";
 import ActiveUsersList from "../components/AdminComponents/ActiveUsersList";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 export default async function AdminDashboard() {
   const users = await prisma.user.findMany({
@@ -77,6 +78,14 @@ export default async function AdminDashboard() {
         <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
           Admin Dashboard
         </h1>
+        <div className="w-full max-w-6xl mb-4 flex justify-end">
+          <Link
+            href="/admin/create-sponsor-org"
+            className="inline-flex rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+          >
+            Create Sponsor Organization
+          </Link>
+        </div>
         <ActiveUsersList users={formattedUsers} />
       </main>
     </div>
