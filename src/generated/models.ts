@@ -8,6 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Rule'
 export type * from './models/User'
 export type * from './models/DriverProfile'
 export type * from './models/Sponsor'
@@ -23,4 +24,5 @@ export type * from './models/CartItem'
 export type * from './models/Order'
 export type * from './models/OrderItem'
 export type * from './models/Verse'
+export type * from './models/SponsoredBy'
 export type * from './commonInputTypes'

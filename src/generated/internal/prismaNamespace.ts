@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  Rule: 'Rule',
   User: 'User',
   DriverProfile: 'DriverProfile',
   Sponsor: 'Sponsor',
@@ -398,7 +399,8 @@ export const ModelName = {
   CartItem: 'CartItem',
   Order: 'Order',
   OrderItem: 'OrderItem',
-  Verse: 'Verse'
+  Verse: 'Verse',
+  SponsoredBy: 'SponsoredBy'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -414,10 +416,76 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse"
+    modelProps: "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    Rule: {
+      payload: Prisma.$RulePayload<ExtArgs>
+      fields: Prisma.RuleFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RuleFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RulePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RuleFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RulePayload>
+        }
+        findFirst: {
+          args: Prisma.RuleFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RulePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RuleFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RulePayload>
+        }
+        findMany: {
+          args: Prisma.RuleFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RulePayload>[]
+        }
+        create: {
+          args: Prisma.RuleCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RulePayload>
+        }
+        createMany: {
+          args: Prisma.RuleCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.RuleDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RulePayload>
+        }
+        update: {
+          args: Prisma.RuleUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RulePayload>
+        }
+        deleteMany: {
+          args: Prisma.RuleDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RuleUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.RuleUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RulePayload>
+        }
+        aggregate: {
+          args: Prisma.RuleAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRule>
+        }
+        groupBy: {
+          args: Prisma.RuleGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RuleGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RuleCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RuleCountAggregateOutputType> | number
+        }
+      }
+    }
     User: {
       payload: Prisma.$UserPayload<ExtArgs>
       fields: Prisma.UserFieldRefs
@@ -1408,6 +1476,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SponsoredBy: {
+      payload: Prisma.$SponsoredByPayload<ExtArgs>
+      fields: Prisma.SponsoredByFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SponsoredByFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsoredByPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SponsoredByFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsoredByPayload>
+        }
+        findFirst: {
+          args: Prisma.SponsoredByFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsoredByPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SponsoredByFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsoredByPayload>
+        }
+        findMany: {
+          args: Prisma.SponsoredByFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsoredByPayload>[]
+        }
+        create: {
+          args: Prisma.SponsoredByCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsoredByPayload>
+        }
+        createMany: {
+          args: Prisma.SponsoredByCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.SponsoredByDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsoredByPayload>
+        }
+        update: {
+          args: Prisma.SponsoredByUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsoredByPayload>
+        }
+        deleteMany: {
+          args: Prisma.SponsoredByDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SponsoredByUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.SponsoredByUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SponsoredByPayload>
+        }
+        aggregate: {
+          args: Prisma.SponsoredByAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSponsoredBy>
+        }
+        groupBy: {
+          args: Prisma.SponsoredByGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SponsoredByGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SponsoredByCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SponsoredByCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1445,6 +1579,15 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const RuleScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content'
+} as const
+
+export type RuleScalarFieldEnum = (typeof RuleScalarFieldEnum)[keyof typeof RuleScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -1588,6 +1731,7 @@ export type CatalogProductScalarFieldEnum = (typeof CatalogProductScalarFieldEnu
 export const CartScalarFieldEnum = {
   id: 'id',
   driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1655,12 +1799,31 @@ export const VerseScalarFieldEnum = {
 export type VerseScalarFieldEnum = (typeof VerseScalarFieldEnum)[keyof typeof VerseScalarFieldEnum]
 
 
+export const SponsoredByScalarFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorOrgId: 'sponsorOrgId',
+  points: 'points',
+  createdAt: 'createdAt'
+} as const
+
+export type SponsoredByScalarFieldEnum = (typeof SponsoredByScalarFieldEnum)[keyof typeof SponsoredByScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const RuleOrderByRelevanceFieldEnum = {
+  title: 'title',
+  content: 'content'
+} as const
+
+export type RuleOrderByRelevanceFieldEnum = (typeof RuleOrderByRelevanceFieldEnum)[keyof typeof RuleOrderByRelevanceFieldEnum]
 
 
 export const NullsOrder = {
@@ -1782,7 +1945,8 @@ export type CatalogProductOrderByRelevanceFieldEnum = (typeof CatalogProductOrde
 
 export const CartOrderByRelevanceFieldEnum = {
   id: 'id',
-  driverProfileId: 'driverProfileId'
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId'
 } as const
 
 export type CartOrderByRelevanceFieldEnum = (typeof CartOrderByRelevanceFieldEnum)[keyof typeof CartOrderByRelevanceFieldEnum]
@@ -1833,10 +1997,26 @@ export const VerseOrderByRelevanceFieldEnum = {
 export type VerseOrderByRelevanceFieldEnum = (typeof VerseOrderByRelevanceFieldEnum)[keyof typeof VerseOrderByRelevanceFieldEnum]
 
 
+export const SponsoredByOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorOrgId: 'sponsorOrgId'
+} as const
+
+export type SponsoredByOrderByRelevanceFieldEnum = (typeof SponsoredByOrderByRelevanceFieldEnum)[keyof typeof SponsoredByOrderByRelevanceFieldEnum]
+
+
 
 /**
  * Field references
  */
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
 
 
 /**
@@ -1857,13 +2037,6 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
- * Reference to a field of type 'Int'
- */
-export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
@@ -1968,6 +2141,7 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  rule?: Prisma.RuleOmit
   user?: Prisma.UserOmit
   driverProfile?: Prisma.DriverProfileOmit
   sponsor?: Prisma.SponsorOmit
@@ -1983,6 +2157,7 @@ export type GlobalOmitConfig = {
   order?: Prisma.OrderOmit
   orderItem?: Prisma.OrderItemOmit
   verse?: Prisma.VerseOmit
+  sponsoredBy?: Prisma.SponsoredByOmit
 }
 
 /* Types for Logging */

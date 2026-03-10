@@ -6,27 +6,46 @@ type PointTransaction = {
   id: string;
   amount: number;
   reason: string;
+  sponsorId: string;
   sponsorName: string;
   createdAt: string;
 };
 
 interface PointsHistoryClientProps {
   pointsBalance: number;
+  sponsorBalances: {
+    sponsorId: string;
+    sponsorName: string;
+    points: number;
+  }[];
   transactions: PointTransaction[];
 }
 
 export default function PointsHistoryClient({
   pointsBalance,
+  sponsorBalances,
   transactions,
 }: PointsHistoryClientProps) {
   const [typeFilter, setTypeFilter] = useState<"all" | "additions" | "deductions">("all");
+  const [sponsorFilter, setSponsorFilter] = useState<string>("all");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+
+  const sponsorOptions = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const tx of transactions) {
+      if (!map.has(tx.sponsorId)) {
+        map.set(tx.sponsorId, tx.sponsorName);
+      }
+    }
+    return Array.from(map.entries()).map(([id, name]) => ({ id, name }));
+  }, [transactions]);
 
   const filteredTransactions = useMemo(() => {
     return transactions.filter((tx) => {
       if (typeFilter === "additions" && tx.amount < 0) return false;
       if (typeFilter === "deductions" && tx.amount > 0) return false;
+      if (sponsorFilter !== "all" && tx.sponsorId !== sponsorFilter) return false;
 
       const txDate = new Date(tx.createdAt);
       if (fromDate) {
@@ -41,23 +60,35 @@ export default function PointsHistoryClient({
 
       return true;
     });
-  }, [transactions, typeFilter, fromDate, toDate]);
+  }, [transactions, typeFilter, sponsorFilter, fromDate, toDate]);
 
   return (
     <div className="pt-16">
       <div className="max-w-4xl mx-auto px-6 py-10 space-y-8">
         <div className="bg-blue-50 border border-blue-200 rounded-2xl p-8 text-center">
           <div className="text-sm uppercase tracking-wide text-blue-600 font-semibold">
-            Points Balance
+            Total Points (All Sponsors)
           </div>
           <div className="mt-2 text-5xl font-extrabold text-blue-900">
             {pointsBalance}
           </div>
         </div>
 
+        {sponsorBalances.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {sponsorBalances.map((sponsor) => (
+              <div key={sponsor.sponsorId} className="bg-white border border-gray-200 rounded-xl p-4">
+                <div className="text-xs uppercase tracking-wide text-gray-500 font-semibold">Sponsor</div>
+                <div className="text-sm font-semibold text-gray-800 mt-1 truncate">{sponsor.sponsorName}</div>
+                <div className="mt-2 text-2xl font-bold text-blue-700">{sponsor.points} points</div>
+              </div>
+            ))}
+          </div>
+        )}
+
         <div className="bg-white border border-gray-200 rounded-2xl p-6 space-y-4">
           <h2 className="text-xl font-semibold text-gray-800">Filters</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="flex flex-col">
               <label className="text-sm text-gray-600 mb-1">Type</label>
               <select
@@ -68,6 +99,22 @@ export default function PointsHistoryClient({
                 <option value="all">All</option>
                 <option value="additions">Additions</option>
                 <option value="deductions">Deductions</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col">
+              <label className="text-sm text-gray-600 mb-1">Sponsor</label>
+              <select
+                className="border rounded px-3 py-2"
+                value={sponsorFilter}
+                onChange={(e) => setSponsorFilter(e.target.value)}
+              >
+                <option value="all">All Sponsors</option>
+                {sponsorOptions.map((sponsor) => (
+                  <option key={sponsor.id} value={sponsor.id}>
+                    {sponsor.name}
+                  </option>
+                ))}
               </select>
             </div>
 

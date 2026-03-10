@@ -27,6 +27,7 @@ export type AggregateCart = {
 export type CartMinAggregateOutputType = {
   id: string | null
   driverProfileId: string | null
+  sponsorId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -34,6 +35,7 @@ export type CartMinAggregateOutputType = {
 export type CartMaxAggregateOutputType = {
   id: string | null
   driverProfileId: string | null
+  sponsorId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -41,6 +43,7 @@ export type CartMaxAggregateOutputType = {
 export type CartCountAggregateOutputType = {
   id: number
   driverProfileId: number
+  sponsorId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -50,6 +53,7 @@ export type CartCountAggregateOutputType = {
 export type CartMinAggregateInputType = {
   id?: true
   driverProfileId?: true
+  sponsorId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -57,6 +61,7 @@ export type CartMinAggregateInputType = {
 export type CartMaxAggregateInputType = {
   id?: true
   driverProfileId?: true
+  sponsorId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -64,6 +69,7 @@ export type CartMaxAggregateInputType = {
 export type CartCountAggregateInputType = {
   id?: true
   driverProfileId?: true
+  sponsorId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -144,6 +150,7 @@ export type CartGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type CartGroupByOutputType = {
   id: string
   driverProfileId: string
+  sponsorId: string | null
   createdAt: Date
   updatedAt: Date
   _count: CartCountAggregateOutputType | null
@@ -172,37 +179,45 @@ export type CartWhereInput = {
   NOT?: Prisma.CartWhereInput | Prisma.CartWhereInput[]
   id?: Prisma.StringFilter<"Cart"> | string
   driverProfileId?: Prisma.StringFilter<"Cart"> | string
+  sponsorId?: Prisma.StringNullableFilter<"Cart"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Cart"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Cart"> | Date | string
   driverProfile?: Prisma.XOR<Prisma.DriverProfileScalarRelationFilter, Prisma.DriverProfileWhereInput>
+  sponsor?: Prisma.XOR<Prisma.SponsorNullableScalarRelationFilter, Prisma.SponsorWhereInput> | null
   items?: Prisma.CartItemListRelationFilter
 }
 
 export type CartOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   driverProfileId?: Prisma.SortOrder
+  sponsorId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   driverProfile?: Prisma.DriverProfileOrderByWithRelationInput
+  sponsor?: Prisma.SponsorOrderByWithRelationInput
   items?: Prisma.CartItemOrderByRelationAggregateInput
   _relevance?: Prisma.CartOrderByRelevanceInput
 }
 
 export type CartWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  driverProfileId?: string
+  driverProfileId_sponsorId?: Prisma.CartDriverProfileIdSponsorIdCompoundUniqueInput
   AND?: Prisma.CartWhereInput | Prisma.CartWhereInput[]
   OR?: Prisma.CartWhereInput[]
   NOT?: Prisma.CartWhereInput | Prisma.CartWhereInput[]
+  driverProfileId?: Prisma.StringFilter<"Cart"> | string
+  sponsorId?: Prisma.StringNullableFilter<"Cart"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Cart"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Cart"> | Date | string
   driverProfile?: Prisma.XOR<Prisma.DriverProfileScalarRelationFilter, Prisma.DriverProfileWhereInput>
+  sponsor?: Prisma.XOR<Prisma.SponsorNullableScalarRelationFilter, Prisma.SponsorWhereInput> | null
   items?: Prisma.CartItemListRelationFilter
-}, "id" | "driverProfileId">
+}, "id" | "driverProfileId_sponsorId">
 
 export type CartOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   driverProfileId?: Prisma.SortOrder
+  sponsorId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CartCountOrderByAggregateInput
@@ -216,6 +231,7 @@ export type CartScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CartScalarWhereWithAggregatesInput | Prisma.CartScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Cart"> | string
   driverProfileId?: Prisma.StringWithAggregatesFilter<"Cart"> | string
+  sponsorId?: Prisma.StringNullableWithAggregatesFilter<"Cart"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Cart"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Cart"> | Date | string
 }
@@ -225,12 +241,14 @@ export type CartCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   driverProfile: Prisma.DriverProfileCreateNestedOneWithoutCartInput
+  sponsor?: Prisma.SponsorCreateNestedOneWithoutCartsInput
   items?: Prisma.CartItemCreateNestedManyWithoutCartInput
 }
 
 export type CartUncheckedCreateInput = {
   id?: string
   driverProfileId: string
+  sponsorId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.CartItemUncheckedCreateNestedManyWithoutCartInput
@@ -241,12 +259,14 @@ export type CartUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   driverProfile?: Prisma.DriverProfileUpdateOneRequiredWithoutCartNestedInput
+  sponsor?: Prisma.SponsorUpdateOneWithoutCartsNestedInput
   items?: Prisma.CartItemUpdateManyWithoutCartNestedInput
 }
 
 export type CartUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   driverProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   items?: Prisma.CartItemUncheckedUpdateManyWithoutCartNestedInput
@@ -255,6 +275,7 @@ export type CartUncheckedUpdateInput = {
 export type CartCreateManyInput = {
   id?: string
   driverProfileId: string
+  sponsorId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -268,13 +289,19 @@ export type CartUpdateManyMutationInput = {
 export type CartUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   driverProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type CartNullableScalarRelationFilter = {
-  is?: Prisma.CartWhereInput | null
-  isNot?: Prisma.CartWhereInput | null
+export type CartListRelationFilter = {
+  every?: Prisma.CartWhereInput
+  some?: Prisma.CartWhereInput
+  none?: Prisma.CartWhereInput
+}
+
+export type CartOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type CartOrderByRelevanceInput = {
@@ -283,9 +310,15 @@ export type CartOrderByRelevanceInput = {
   search: string
 }
 
+export type CartDriverProfileIdSponsorIdCompoundUniqueInput = {
+  driverProfileId: string
+  sponsorId: string
+}
+
 export type CartCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   driverProfileId?: Prisma.SortOrder
+  sponsorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -293,6 +326,7 @@ export type CartCountOrderByAggregateInput = {
 export type CartMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   driverProfileId?: Prisma.SortOrder
+  sponsorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -300,6 +334,7 @@ export type CartMaxOrderByAggregateInput = {
 export type CartMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   driverProfileId?: Prisma.SortOrder
+  sponsorId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -309,36 +344,88 @@ export type CartScalarRelationFilter = {
   isNot?: Prisma.CartWhereInput
 }
 
-export type CartCreateNestedOneWithoutDriverProfileInput = {
-  create?: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput>
-  connectOrCreate?: Prisma.CartCreateOrConnectWithoutDriverProfileInput
-  connect?: Prisma.CartWhereUniqueInput
+export type CartCreateNestedManyWithoutDriverProfileInput = {
+  create?: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput> | Prisma.CartCreateWithoutDriverProfileInput[] | Prisma.CartUncheckedCreateWithoutDriverProfileInput[]
+  connectOrCreate?: Prisma.CartCreateOrConnectWithoutDriverProfileInput | Prisma.CartCreateOrConnectWithoutDriverProfileInput[]
+  createMany?: Prisma.CartCreateManyDriverProfileInputEnvelope
+  connect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
 }
 
-export type CartUncheckedCreateNestedOneWithoutDriverProfileInput = {
-  create?: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput>
-  connectOrCreate?: Prisma.CartCreateOrConnectWithoutDriverProfileInput
-  connect?: Prisma.CartWhereUniqueInput
+export type CartUncheckedCreateNestedManyWithoutDriverProfileInput = {
+  create?: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput> | Prisma.CartCreateWithoutDriverProfileInput[] | Prisma.CartUncheckedCreateWithoutDriverProfileInput[]
+  connectOrCreate?: Prisma.CartCreateOrConnectWithoutDriverProfileInput | Prisma.CartCreateOrConnectWithoutDriverProfileInput[]
+  createMany?: Prisma.CartCreateManyDriverProfileInputEnvelope
+  connect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
 }
 
-export type CartUpdateOneWithoutDriverProfileNestedInput = {
-  create?: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput>
-  connectOrCreate?: Prisma.CartCreateOrConnectWithoutDriverProfileInput
-  upsert?: Prisma.CartUpsertWithoutDriverProfileInput
-  disconnect?: Prisma.CartWhereInput | boolean
-  delete?: Prisma.CartWhereInput | boolean
-  connect?: Prisma.CartWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CartUpdateToOneWithWhereWithoutDriverProfileInput, Prisma.CartUpdateWithoutDriverProfileInput>, Prisma.CartUncheckedUpdateWithoutDriverProfileInput>
+export type CartUpdateManyWithoutDriverProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput> | Prisma.CartCreateWithoutDriverProfileInput[] | Prisma.CartUncheckedCreateWithoutDriverProfileInput[]
+  connectOrCreate?: Prisma.CartCreateOrConnectWithoutDriverProfileInput | Prisma.CartCreateOrConnectWithoutDriverProfileInput[]
+  upsert?: Prisma.CartUpsertWithWhereUniqueWithoutDriverProfileInput | Prisma.CartUpsertWithWhereUniqueWithoutDriverProfileInput[]
+  createMany?: Prisma.CartCreateManyDriverProfileInputEnvelope
+  set?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  disconnect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  delete?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  connect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  update?: Prisma.CartUpdateWithWhereUniqueWithoutDriverProfileInput | Prisma.CartUpdateWithWhereUniqueWithoutDriverProfileInput[]
+  updateMany?: Prisma.CartUpdateManyWithWhereWithoutDriverProfileInput | Prisma.CartUpdateManyWithWhereWithoutDriverProfileInput[]
+  deleteMany?: Prisma.CartScalarWhereInput | Prisma.CartScalarWhereInput[]
 }
 
-export type CartUncheckedUpdateOneWithoutDriverProfileNestedInput = {
-  create?: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput>
-  connectOrCreate?: Prisma.CartCreateOrConnectWithoutDriverProfileInput
-  upsert?: Prisma.CartUpsertWithoutDriverProfileInput
-  disconnect?: Prisma.CartWhereInput | boolean
-  delete?: Prisma.CartWhereInput | boolean
-  connect?: Prisma.CartWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.CartUpdateToOneWithWhereWithoutDriverProfileInput, Prisma.CartUpdateWithoutDriverProfileInput>, Prisma.CartUncheckedUpdateWithoutDriverProfileInput>
+export type CartUncheckedUpdateManyWithoutDriverProfileNestedInput = {
+  create?: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput> | Prisma.CartCreateWithoutDriverProfileInput[] | Prisma.CartUncheckedCreateWithoutDriverProfileInput[]
+  connectOrCreate?: Prisma.CartCreateOrConnectWithoutDriverProfileInput | Prisma.CartCreateOrConnectWithoutDriverProfileInput[]
+  upsert?: Prisma.CartUpsertWithWhereUniqueWithoutDriverProfileInput | Prisma.CartUpsertWithWhereUniqueWithoutDriverProfileInput[]
+  createMany?: Prisma.CartCreateManyDriverProfileInputEnvelope
+  set?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  disconnect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  delete?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  connect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  update?: Prisma.CartUpdateWithWhereUniqueWithoutDriverProfileInput | Prisma.CartUpdateWithWhereUniqueWithoutDriverProfileInput[]
+  updateMany?: Prisma.CartUpdateManyWithWhereWithoutDriverProfileInput | Prisma.CartUpdateManyWithWhereWithoutDriverProfileInput[]
+  deleteMany?: Prisma.CartScalarWhereInput | Prisma.CartScalarWhereInput[]
+}
+
+export type CartCreateNestedManyWithoutSponsorInput = {
+  create?: Prisma.XOR<Prisma.CartCreateWithoutSponsorInput, Prisma.CartUncheckedCreateWithoutSponsorInput> | Prisma.CartCreateWithoutSponsorInput[] | Prisma.CartUncheckedCreateWithoutSponsorInput[]
+  connectOrCreate?: Prisma.CartCreateOrConnectWithoutSponsorInput | Prisma.CartCreateOrConnectWithoutSponsorInput[]
+  createMany?: Prisma.CartCreateManySponsorInputEnvelope
+  connect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+}
+
+export type CartUncheckedCreateNestedManyWithoutSponsorInput = {
+  create?: Prisma.XOR<Prisma.CartCreateWithoutSponsorInput, Prisma.CartUncheckedCreateWithoutSponsorInput> | Prisma.CartCreateWithoutSponsorInput[] | Prisma.CartUncheckedCreateWithoutSponsorInput[]
+  connectOrCreate?: Prisma.CartCreateOrConnectWithoutSponsorInput | Prisma.CartCreateOrConnectWithoutSponsorInput[]
+  createMany?: Prisma.CartCreateManySponsorInputEnvelope
+  connect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+}
+
+export type CartUpdateManyWithoutSponsorNestedInput = {
+  create?: Prisma.XOR<Prisma.CartCreateWithoutSponsorInput, Prisma.CartUncheckedCreateWithoutSponsorInput> | Prisma.CartCreateWithoutSponsorInput[] | Prisma.CartUncheckedCreateWithoutSponsorInput[]
+  connectOrCreate?: Prisma.CartCreateOrConnectWithoutSponsorInput | Prisma.CartCreateOrConnectWithoutSponsorInput[]
+  upsert?: Prisma.CartUpsertWithWhereUniqueWithoutSponsorInput | Prisma.CartUpsertWithWhereUniqueWithoutSponsorInput[]
+  createMany?: Prisma.CartCreateManySponsorInputEnvelope
+  set?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  disconnect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  delete?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  connect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  update?: Prisma.CartUpdateWithWhereUniqueWithoutSponsorInput | Prisma.CartUpdateWithWhereUniqueWithoutSponsorInput[]
+  updateMany?: Prisma.CartUpdateManyWithWhereWithoutSponsorInput | Prisma.CartUpdateManyWithWhereWithoutSponsorInput[]
+  deleteMany?: Prisma.CartScalarWhereInput | Prisma.CartScalarWhereInput[]
+}
+
+export type CartUncheckedUpdateManyWithoutSponsorNestedInput = {
+  create?: Prisma.XOR<Prisma.CartCreateWithoutSponsorInput, Prisma.CartUncheckedCreateWithoutSponsorInput> | Prisma.CartCreateWithoutSponsorInput[] | Prisma.CartUncheckedCreateWithoutSponsorInput[]
+  connectOrCreate?: Prisma.CartCreateOrConnectWithoutSponsorInput | Prisma.CartCreateOrConnectWithoutSponsorInput[]
+  upsert?: Prisma.CartUpsertWithWhereUniqueWithoutSponsorInput | Prisma.CartUpsertWithWhereUniqueWithoutSponsorInput[]
+  createMany?: Prisma.CartCreateManySponsorInputEnvelope
+  set?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  disconnect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  delete?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  connect?: Prisma.CartWhereUniqueInput | Prisma.CartWhereUniqueInput[]
+  update?: Prisma.CartUpdateWithWhereUniqueWithoutSponsorInput | Prisma.CartUpdateWithWhereUniqueWithoutSponsorInput[]
+  updateMany?: Prisma.CartUpdateManyWithWhereWithoutSponsorInput | Prisma.CartUpdateManyWithWhereWithoutSponsorInput[]
+  deleteMany?: Prisma.CartScalarWhereInput | Prisma.CartScalarWhereInput[]
 }
 
 export type CartCreateNestedOneWithoutItemsInput = {
@@ -359,11 +446,13 @@ export type CartCreateWithoutDriverProfileInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  sponsor?: Prisma.SponsorCreateNestedOneWithoutCartsInput
   items?: Prisma.CartItemCreateNestedManyWithoutCartInput
 }
 
 export type CartUncheckedCreateWithoutDriverProfileInput = {
   id?: string
+  sponsorId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   items?: Prisma.CartItemUncheckedCreateNestedManyWithoutCartInput
@@ -374,29 +463,78 @@ export type CartCreateOrConnectWithoutDriverProfileInput = {
   create: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput>
 }
 
-export type CartUpsertWithoutDriverProfileInput = {
-  update: Prisma.XOR<Prisma.CartUpdateWithoutDriverProfileInput, Prisma.CartUncheckedUpdateWithoutDriverProfileInput>
-  create: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput>
-  where?: Prisma.CartWhereInput
+export type CartCreateManyDriverProfileInputEnvelope = {
+  data: Prisma.CartCreateManyDriverProfileInput | Prisma.CartCreateManyDriverProfileInput[]
+  skipDuplicates?: boolean
 }
 
-export type CartUpdateToOneWithWhereWithoutDriverProfileInput = {
-  where?: Prisma.CartWhereInput
+export type CartUpsertWithWhereUniqueWithoutDriverProfileInput = {
+  where: Prisma.CartWhereUniqueInput
+  update: Prisma.XOR<Prisma.CartUpdateWithoutDriverProfileInput, Prisma.CartUncheckedUpdateWithoutDriverProfileInput>
+  create: Prisma.XOR<Prisma.CartCreateWithoutDriverProfileInput, Prisma.CartUncheckedCreateWithoutDriverProfileInput>
+}
+
+export type CartUpdateWithWhereUniqueWithoutDriverProfileInput = {
+  where: Prisma.CartWhereUniqueInput
   data: Prisma.XOR<Prisma.CartUpdateWithoutDriverProfileInput, Prisma.CartUncheckedUpdateWithoutDriverProfileInput>
 }
 
-export type CartUpdateWithoutDriverProfileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  items?: Prisma.CartItemUpdateManyWithoutCartNestedInput
+export type CartUpdateManyWithWhereWithoutDriverProfileInput = {
+  where: Prisma.CartScalarWhereInput
+  data: Prisma.XOR<Prisma.CartUpdateManyMutationInput, Prisma.CartUncheckedUpdateManyWithoutDriverProfileInput>
 }
 
-export type CartUncheckedUpdateWithoutDriverProfileInput = {
-  id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  items?: Prisma.CartItemUncheckedUpdateManyWithoutCartNestedInput
+export type CartScalarWhereInput = {
+  AND?: Prisma.CartScalarWhereInput | Prisma.CartScalarWhereInput[]
+  OR?: Prisma.CartScalarWhereInput[]
+  NOT?: Prisma.CartScalarWhereInput | Prisma.CartScalarWhereInput[]
+  id?: Prisma.StringFilter<"Cart"> | string
+  driverProfileId?: Prisma.StringFilter<"Cart"> | string
+  sponsorId?: Prisma.StringNullableFilter<"Cart"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"Cart"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Cart"> | Date | string
+}
+
+export type CartCreateWithoutSponsorInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  driverProfile: Prisma.DriverProfileCreateNestedOneWithoutCartInput
+  items?: Prisma.CartItemCreateNestedManyWithoutCartInput
+}
+
+export type CartUncheckedCreateWithoutSponsorInput = {
+  id?: string
+  driverProfileId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  items?: Prisma.CartItemUncheckedCreateNestedManyWithoutCartInput
+}
+
+export type CartCreateOrConnectWithoutSponsorInput = {
+  where: Prisma.CartWhereUniqueInput
+  create: Prisma.XOR<Prisma.CartCreateWithoutSponsorInput, Prisma.CartUncheckedCreateWithoutSponsorInput>
+}
+
+export type CartCreateManySponsorInputEnvelope = {
+  data: Prisma.CartCreateManySponsorInput | Prisma.CartCreateManySponsorInput[]
+  skipDuplicates?: boolean
+}
+
+export type CartUpsertWithWhereUniqueWithoutSponsorInput = {
+  where: Prisma.CartWhereUniqueInput
+  update: Prisma.XOR<Prisma.CartUpdateWithoutSponsorInput, Prisma.CartUncheckedUpdateWithoutSponsorInput>
+  create: Prisma.XOR<Prisma.CartCreateWithoutSponsorInput, Prisma.CartUncheckedCreateWithoutSponsorInput>
+}
+
+export type CartUpdateWithWhereUniqueWithoutSponsorInput = {
+  where: Prisma.CartWhereUniqueInput
+  data: Prisma.XOR<Prisma.CartUpdateWithoutSponsorInput, Prisma.CartUncheckedUpdateWithoutSponsorInput>
+}
+
+export type CartUpdateManyWithWhereWithoutSponsorInput = {
+  where: Prisma.CartScalarWhereInput
+  data: Prisma.XOR<Prisma.CartUpdateManyMutationInput, Prisma.CartUncheckedUpdateManyWithoutSponsorInput>
 }
 
 export type CartCreateWithoutItemsInput = {
@@ -404,11 +542,13 @@ export type CartCreateWithoutItemsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   driverProfile: Prisma.DriverProfileCreateNestedOneWithoutCartInput
+  sponsor?: Prisma.SponsorCreateNestedOneWithoutCartsInput
 }
 
 export type CartUncheckedCreateWithoutItemsInput = {
   id?: string
   driverProfileId: string
+  sponsorId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -434,9 +574,71 @@ export type CartUpdateWithoutItemsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   driverProfile?: Prisma.DriverProfileUpdateOneRequiredWithoutCartNestedInput
+  sponsor?: Prisma.SponsorUpdateOneWithoutCartsNestedInput
 }
 
 export type CartUncheckedUpdateWithoutItemsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  driverProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CartCreateManyDriverProfileInput = {
+  id?: string
+  sponsorId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CartUpdateWithoutDriverProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sponsor?: Prisma.SponsorUpdateOneWithoutCartsNestedInput
+  items?: Prisma.CartItemUpdateManyWithoutCartNestedInput
+}
+
+export type CartUncheckedUpdateWithoutDriverProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  items?: Prisma.CartItemUncheckedUpdateManyWithoutCartNestedInput
+}
+
+export type CartUncheckedUpdateManyWithoutDriverProfileInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CartCreateManySponsorInput = {
+  id?: string
+  driverProfileId: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CartUpdateWithoutSponsorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  driverProfile?: Prisma.DriverProfileUpdateOneRequiredWithoutCartNestedInput
+  items?: Prisma.CartItemUpdateManyWithoutCartNestedInput
+}
+
+export type CartUncheckedUpdateWithoutSponsorInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  driverProfileId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  items?: Prisma.CartItemUncheckedUpdateManyWithoutCartNestedInput
+}
+
+export type CartUncheckedUpdateManyWithoutSponsorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   driverProfileId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -477,9 +679,11 @@ export type CartCountOutputTypeCountItemsArgs<ExtArgs extends runtime.Types.Exte
 export type CartSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   driverProfileId?: boolean
+  sponsorId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   driverProfile?: boolean | Prisma.DriverProfileDefaultArgs<ExtArgs>
+  sponsor?: boolean | Prisma.Cart$sponsorArgs<ExtArgs>
   items?: boolean | Prisma.Cart$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.CartCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["cart"]>
@@ -489,13 +693,15 @@ export type CartSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type CartSelectScalar = {
   id?: boolean
   driverProfileId?: boolean
+  sponsorId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CartOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "driverProfileId" | "createdAt" | "updatedAt", ExtArgs["result"]["cart"]>
+export type CartOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "driverProfileId" | "sponsorId" | "createdAt" | "updatedAt", ExtArgs["result"]["cart"]>
 export type CartInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   driverProfile?: boolean | Prisma.DriverProfileDefaultArgs<ExtArgs>
+  sponsor?: boolean | Prisma.Cart$sponsorArgs<ExtArgs>
   items?: boolean | Prisma.Cart$itemsArgs<ExtArgs>
   _count?: boolean | Prisma.CartCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -504,11 +710,13 @@ export type $CartPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "Cart"
   objects: {
     driverProfile: Prisma.$DriverProfilePayload<ExtArgs>
+    sponsor: Prisma.$SponsorPayload<ExtArgs> | null
     items: Prisma.$CartItemPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     driverProfileId: string
+    sponsorId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["cart"]>
@@ -852,6 +1060,7 @@ readonly fields: CartFieldRefs;
 export interface Prisma__CartClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   driverProfile<T extends Prisma.DriverProfileDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DriverProfileDefaultArgs<ExtArgs>>): Prisma.Prisma__DriverProfileClient<runtime.Types.Result.GetResult<Prisma.$DriverProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  sponsor<T extends Prisma.Cart$sponsorArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cart$sponsorArgs<ExtArgs>>): Prisma.Prisma__SponsorClient<runtime.Types.Result.GetResult<Prisma.$SponsorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   items<T extends Prisma.Cart$itemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Cart$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -884,6 +1093,7 @@ export interface Prisma__CartClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface CartFieldRefs {
   readonly id: Prisma.FieldRef<"Cart", 'String'>
   readonly driverProfileId: Prisma.FieldRef<"Cart", 'String'>
+  readonly sponsorId: Prisma.FieldRef<"Cart", 'String'>
   readonly createdAt: Prisma.FieldRef<"Cart", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Cart", 'DateTime'>
 }
@@ -1226,6 +1436,25 @@ export type CartDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Carts to delete.
    */
   limit?: number
+}
+
+/**
+ * Cart.sponsor
+ */
+export type Cart$sponsorArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Sponsor
+   */
+  select?: Prisma.SponsorSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Sponsor
+   */
+  omit?: Prisma.SponsorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SponsorInclude<ExtArgs> | null
+  where?: Prisma.SponsorWhereInput
 }
 
 /**

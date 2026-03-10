@@ -66,12 +66,19 @@ export async function addToCart(catalogProductId: string) {
   const pointPrice = Math.ceil(catalogProduct.price / catalogProduct.sponsor.pointValue);
 
   // Get or create cart
-  let cart = await prisma.cart.findFirst({
-    where: { 
-      driverProfileId: driverProfile.id,
-      sponsorId: catalogProduct.sponsorId,  
-    },
-  });
+  const existingCartRows = await prisma.$queryRaw<{ id: string }[]>`
+    SELECT id
+    FROM cart
+    WHERE driverProfileId = ${driverProfile.id}
+      AND sponsorId = ${catalogProduct.sponsorId}
+    LIMIT 1
+  `;
+
+  let cart = existingCartRows[0]
+    ? await prisma.cart.findUnique({
+        where: { id: existingCartRows[0].id },
+      })
+    : null;
 
   if (!cart) {
     cart = await prisma.cart.create({

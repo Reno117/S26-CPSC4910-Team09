@@ -18,6 +18,13 @@ export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
 /**
+
+ * Model Rule
+ * 
+ */
+export type Rule = Prisma.RuleModel
+
+/**
  * Model User
  * 
  */
@@ -92,3 +99,8 @@ export type OrderItem = Prisma.OrderItemModel
  * 
  */
 export type Verse = Prisma.VerseModel
+/**
+ * Model SponsoredBy
+ * 
+ */
+export type SponsoredBy = Prisma.SponsoredByModel

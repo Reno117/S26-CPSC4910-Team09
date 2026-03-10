@@ -222,6 +222,8 @@ export type SponsorWhereInput = {
   pointChanges?: Prisma.PointChangeListRelationFilter
   catalogProducts?: Prisma.CatalogProductListRelationFilter
   orders?: Prisma.OrderListRelationFilter
+  sponsorships?: Prisma.SponsoredByListRelationFilter
+  carts?: Prisma.CartListRelationFilter
 }
 
 export type SponsorOrderByWithRelationInput = {
@@ -236,6 +238,8 @@ export type SponsorOrderByWithRelationInput = {
   pointChanges?: Prisma.PointChangeOrderByRelationAggregateInput
   catalogProducts?: Prisma.CatalogProductOrderByRelationAggregateInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
+  sponsorships?: Prisma.SponsoredByOrderByRelationAggregateInput
+  carts?: Prisma.CartOrderByRelationAggregateInput
   _relevance?: Prisma.SponsorOrderByRelevanceInput
 }
 
@@ -254,6 +258,8 @@ export type SponsorWhereUniqueInput = Prisma.AtLeast<{
   pointChanges?: Prisma.PointChangeListRelationFilter
   catalogProducts?: Prisma.CatalogProductListRelationFilter
   orders?: Prisma.OrderListRelationFilter
+  sponsorships?: Prisma.SponsoredByListRelationFilter
+  carts?: Prisma.CartListRelationFilter
 }, "id">
 
 export type SponsorOrderByWithAggregationInput = {
@@ -292,6 +298,8 @@ export type SponsorCreateInput = {
   pointChanges?: Prisma.PointChangeCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorUncheckedCreateInput = {
@@ -306,6 +314,8 @@ export type SponsorUncheckedCreateInput = {
   pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductUncheckedCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorUpdateInput = {
@@ -320,6 +330,8 @@ export type SponsorUpdateInput = {
   pointChanges?: Prisma.PointChangeUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorUncheckedUpdateInput = {
@@ -334,6 +346,8 @@ export type SponsorUncheckedUpdateInput = {
   pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUncheckedUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorCreateManyInput = {
@@ -488,6 +502,22 @@ export type SponsorUpdateOneRequiredWithoutCatalogProductsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SponsorUpdateToOneWithWhereWithoutCatalogProductsInput, Prisma.SponsorUpdateWithoutCatalogProductsInput>, Prisma.SponsorUncheckedUpdateWithoutCatalogProductsInput>
 }
 
+export type SponsorCreateNestedOneWithoutCartsInput = {
+  create?: Prisma.XOR<Prisma.SponsorCreateWithoutCartsInput, Prisma.SponsorUncheckedCreateWithoutCartsInput>
+  connectOrCreate?: Prisma.SponsorCreateOrConnectWithoutCartsInput
+  connect?: Prisma.SponsorWhereUniqueInput
+}
+
+export type SponsorUpdateOneWithoutCartsNestedInput = {
+  create?: Prisma.XOR<Prisma.SponsorCreateWithoutCartsInput, Prisma.SponsorUncheckedCreateWithoutCartsInput>
+  connectOrCreate?: Prisma.SponsorCreateOrConnectWithoutCartsInput
+  upsert?: Prisma.SponsorUpsertWithoutCartsInput
+  disconnect?: Prisma.SponsorWhereInput | boolean
+  delete?: Prisma.SponsorWhereInput | boolean
+  connect?: Prisma.SponsorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SponsorUpdateToOneWithWhereWithoutCartsInput, Prisma.SponsorUpdateWithoutCartsInput>, Prisma.SponsorUncheckedUpdateWithoutCartsInput>
+}
+
 export type SponsorCreateNestedOneWithoutOrdersInput = {
   create?: Prisma.XOR<Prisma.SponsorCreateWithoutOrdersInput, Prisma.SponsorUncheckedCreateWithoutOrdersInput>
   connectOrCreate?: Prisma.SponsorCreateOrConnectWithoutOrdersInput
@@ -502,6 +532,20 @@ export type SponsorUpdateOneRequiredWithoutOrdersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.SponsorUpdateToOneWithWhereWithoutOrdersInput, Prisma.SponsorUpdateWithoutOrdersInput>, Prisma.SponsorUncheckedUpdateWithoutOrdersInput>
 }
 
+export type SponsorCreateNestedOneWithoutSponsorshipsInput = {
+  create?: Prisma.XOR<Prisma.SponsorCreateWithoutSponsorshipsInput, Prisma.SponsorUncheckedCreateWithoutSponsorshipsInput>
+  connectOrCreate?: Prisma.SponsorCreateOrConnectWithoutSponsorshipsInput
+  connect?: Prisma.SponsorWhereUniqueInput
+}
+
+export type SponsorUpdateOneRequiredWithoutSponsorshipsNestedInput = {
+  create?: Prisma.XOR<Prisma.SponsorCreateWithoutSponsorshipsInput, Prisma.SponsorUncheckedCreateWithoutSponsorshipsInput>
+  connectOrCreate?: Prisma.SponsorCreateOrConnectWithoutSponsorshipsInput
+  upsert?: Prisma.SponsorUpsertWithoutSponsorshipsInput
+  connect?: Prisma.SponsorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SponsorUpdateToOneWithWhereWithoutSponsorshipsInput, Prisma.SponsorUpdateWithoutSponsorshipsInput>, Prisma.SponsorUncheckedUpdateWithoutSponsorshipsInput>
+}
+
 export type SponsorCreateWithoutDriversInput = {
   id?: string
   name: string
@@ -513,6 +557,8 @@ export type SponsorCreateWithoutDriversInput = {
   pointChanges?: Prisma.PointChangeCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorUncheckedCreateWithoutDriversInput = {
@@ -526,6 +572,8 @@ export type SponsorUncheckedCreateWithoutDriversInput = {
   pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductUncheckedCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorCreateOrConnectWithoutDriversInput = {
@@ -555,6 +603,8 @@ export type SponsorUpdateWithoutDriversInput = {
   pointChanges?: Prisma.PointChangeUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorUncheckedUpdateWithoutDriversInput = {
@@ -568,6 +618,8 @@ export type SponsorUncheckedUpdateWithoutDriversInput = {
   pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUncheckedUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorCreateWithoutSponsorUsersInput = {
@@ -581,6 +633,8 @@ export type SponsorCreateWithoutSponsorUsersInput = {
   pointChanges?: Prisma.PointChangeCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorUncheckedCreateWithoutSponsorUsersInput = {
@@ -594,6 +648,8 @@ export type SponsorUncheckedCreateWithoutSponsorUsersInput = {
   pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductUncheckedCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorCreateOrConnectWithoutSponsorUsersInput = {
@@ -623,6 +679,8 @@ export type SponsorUpdateWithoutSponsorUsersInput = {
   pointChanges?: Prisma.PointChangeUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorUncheckedUpdateWithoutSponsorUsersInput = {
@@ -636,6 +694,8 @@ export type SponsorUncheckedUpdateWithoutSponsorUsersInput = {
   pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUncheckedUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorCreateWithoutApplicationsInput = {
@@ -649,6 +709,8 @@ export type SponsorCreateWithoutApplicationsInput = {
   pointChanges?: Prisma.PointChangeCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorUncheckedCreateWithoutApplicationsInput = {
@@ -662,6 +724,8 @@ export type SponsorUncheckedCreateWithoutApplicationsInput = {
   pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductUncheckedCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorCreateOrConnectWithoutApplicationsInput = {
@@ -691,6 +755,8 @@ export type SponsorUpdateWithoutApplicationsInput = {
   pointChanges?: Prisma.PointChangeUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorUncheckedUpdateWithoutApplicationsInput = {
@@ -704,6 +770,8 @@ export type SponsorUncheckedUpdateWithoutApplicationsInput = {
   pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUncheckedUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorCreateWithoutPointChangesInput = {
@@ -717,6 +785,8 @@ export type SponsorCreateWithoutPointChangesInput = {
   applications?: Prisma.DriverApplicationCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorUncheckedCreateWithoutPointChangesInput = {
@@ -730,6 +800,8 @@ export type SponsorUncheckedCreateWithoutPointChangesInput = {
   applications?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductUncheckedCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorCreateOrConnectWithoutPointChangesInput = {
@@ -759,6 +831,8 @@ export type SponsorUpdateWithoutPointChangesInput = {
   applications?: Prisma.DriverApplicationUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorUncheckedUpdateWithoutPointChangesInput = {
@@ -772,6 +846,8 @@ export type SponsorUncheckedUpdateWithoutPointChangesInput = {
   applications?: Prisma.DriverApplicationUncheckedUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUncheckedUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorCreateWithoutCatalogProductsInput = {
@@ -785,6 +861,8 @@ export type SponsorCreateWithoutCatalogProductsInput = {
   applications?: Prisma.DriverApplicationCreateNestedManyWithoutSponsorInput
   pointChanges?: Prisma.PointChangeCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorUncheckedCreateWithoutCatalogProductsInput = {
@@ -798,6 +876,8 @@ export type SponsorUncheckedCreateWithoutCatalogProductsInput = {
   applications?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutSponsorInput
   pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutSponsorInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorCreateOrConnectWithoutCatalogProductsInput = {
@@ -827,6 +907,8 @@ export type SponsorUpdateWithoutCatalogProductsInput = {
   applications?: Prisma.DriverApplicationUpdateManyWithoutSponsorNestedInput
   pointChanges?: Prisma.PointChangeUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorUncheckedUpdateWithoutCatalogProductsInput = {
@@ -840,6 +922,84 @@ export type SponsorUncheckedUpdateWithoutCatalogProductsInput = {
   applications?: Prisma.DriverApplicationUncheckedUpdateManyWithoutSponsorNestedInput
   pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutSponsorNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutSponsorNestedInput
+}
+
+export type SponsorCreateWithoutCartsInput = {
+  id?: string
+  name: string
+  pointValue?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  drivers?: Prisma.DriverProfileCreateNestedManyWithoutSponsorInput
+  sponsorUsers?: Prisma.SponsorUserCreateNestedManyWithoutSponsorInput
+  applications?: Prisma.DriverApplicationCreateNestedManyWithoutSponsorInput
+  pointChanges?: Prisma.PointChangeCreateNestedManyWithoutSponsorInput
+  catalogProducts?: Prisma.CatalogProductCreateNestedManyWithoutSponsorInput
+  orders?: Prisma.OrderCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutSponsorOrgInput
+}
+
+export type SponsorUncheckedCreateWithoutCartsInput = {
+  id?: string
+  name: string
+  pointValue?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  drivers?: Prisma.DriverProfileUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorUsers?: Prisma.SponsorUserUncheckedCreateNestedManyWithoutSponsorInput
+  applications?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutSponsorInput
+  pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutSponsorInput
+  catalogProducts?: Prisma.CatalogProductUncheckedCreateNestedManyWithoutSponsorInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutSponsorOrgInput
+}
+
+export type SponsorCreateOrConnectWithoutCartsInput = {
+  where: Prisma.SponsorWhereUniqueInput
+  create: Prisma.XOR<Prisma.SponsorCreateWithoutCartsInput, Prisma.SponsorUncheckedCreateWithoutCartsInput>
+}
+
+export type SponsorUpsertWithoutCartsInput = {
+  update: Prisma.XOR<Prisma.SponsorUpdateWithoutCartsInput, Prisma.SponsorUncheckedUpdateWithoutCartsInput>
+  create: Prisma.XOR<Prisma.SponsorCreateWithoutCartsInput, Prisma.SponsorUncheckedCreateWithoutCartsInput>
+  where?: Prisma.SponsorWhereInput
+}
+
+export type SponsorUpdateToOneWithWhereWithoutCartsInput = {
+  where?: Prisma.SponsorWhereInput
+  data: Prisma.XOR<Prisma.SponsorUpdateWithoutCartsInput, Prisma.SponsorUncheckedUpdateWithoutCartsInput>
+}
+
+export type SponsorUpdateWithoutCartsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  pointValue?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  drivers?: Prisma.DriverProfileUpdateManyWithoutSponsorNestedInput
+  sponsorUsers?: Prisma.SponsorUserUpdateManyWithoutSponsorNestedInput
+  applications?: Prisma.DriverApplicationUpdateManyWithoutSponsorNestedInput
+  pointChanges?: Prisma.PointChangeUpdateManyWithoutSponsorNestedInput
+  catalogProducts?: Prisma.CatalogProductUpdateManyWithoutSponsorNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutSponsorOrgNestedInput
+}
+
+export type SponsorUncheckedUpdateWithoutCartsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  pointValue?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  drivers?: Prisma.DriverProfileUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorUsers?: Prisma.SponsorUserUncheckedUpdateManyWithoutSponsorNestedInput
+  applications?: Prisma.DriverApplicationUncheckedUpdateManyWithoutSponsorNestedInput
+  pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutSponsorNestedInput
+  catalogProducts?: Prisma.CatalogProductUncheckedUpdateManyWithoutSponsorNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutSponsorOrgNestedInput
 }
 
 export type SponsorCreateWithoutOrdersInput = {
@@ -853,6 +1013,8 @@ export type SponsorCreateWithoutOrdersInput = {
   applications?: Prisma.DriverApplicationCreateNestedManyWithoutSponsorInput
   pointChanges?: Prisma.PointChangeCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorUncheckedCreateWithoutOrdersInput = {
@@ -866,6 +1028,8 @@ export type SponsorUncheckedCreateWithoutOrdersInput = {
   applications?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutSponsorInput
   pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutSponsorInput
   catalogProducts?: Prisma.CatalogProductUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutSponsorOrgInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutSponsorInput
 }
 
 export type SponsorCreateOrConnectWithoutOrdersInput = {
@@ -895,6 +1059,8 @@ export type SponsorUpdateWithoutOrdersInput = {
   applications?: Prisma.DriverApplicationUpdateManyWithoutSponsorNestedInput
   pointChanges?: Prisma.PointChangeUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUpdateManyWithoutSponsorNestedInput
 }
 
 export type SponsorUncheckedUpdateWithoutOrdersInput = {
@@ -908,6 +1074,84 @@ export type SponsorUncheckedUpdateWithoutOrdersInput = {
   applications?: Prisma.DriverApplicationUncheckedUpdateManyWithoutSponsorNestedInput
   pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutSponsorNestedInput
   catalogProducts?: Prisma.CatalogProductUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutSponsorOrgNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutSponsorNestedInput
+}
+
+export type SponsorCreateWithoutSponsorshipsInput = {
+  id?: string
+  name: string
+  pointValue?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  drivers?: Prisma.DriverProfileCreateNestedManyWithoutSponsorInput
+  sponsorUsers?: Prisma.SponsorUserCreateNestedManyWithoutSponsorInput
+  applications?: Prisma.DriverApplicationCreateNestedManyWithoutSponsorInput
+  pointChanges?: Prisma.PointChangeCreateNestedManyWithoutSponsorInput
+  catalogProducts?: Prisma.CatalogProductCreateNestedManyWithoutSponsorInput
+  orders?: Prisma.OrderCreateNestedManyWithoutSponsorInput
+  carts?: Prisma.CartCreateNestedManyWithoutSponsorInput
+}
+
+export type SponsorUncheckedCreateWithoutSponsorshipsInput = {
+  id?: string
+  name: string
+  pointValue?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  drivers?: Prisma.DriverProfileUncheckedCreateNestedManyWithoutSponsorInput
+  sponsorUsers?: Prisma.SponsorUserUncheckedCreateNestedManyWithoutSponsorInput
+  applications?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutSponsorInput
+  pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutSponsorInput
+  catalogProducts?: Prisma.CatalogProductUncheckedCreateNestedManyWithoutSponsorInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutSponsorInput
+  carts?: Prisma.CartUncheckedCreateNestedManyWithoutSponsorInput
+}
+
+export type SponsorCreateOrConnectWithoutSponsorshipsInput = {
+  where: Prisma.SponsorWhereUniqueInput
+  create: Prisma.XOR<Prisma.SponsorCreateWithoutSponsorshipsInput, Prisma.SponsorUncheckedCreateWithoutSponsorshipsInput>
+}
+
+export type SponsorUpsertWithoutSponsorshipsInput = {
+  update: Prisma.XOR<Prisma.SponsorUpdateWithoutSponsorshipsInput, Prisma.SponsorUncheckedUpdateWithoutSponsorshipsInput>
+  create: Prisma.XOR<Prisma.SponsorCreateWithoutSponsorshipsInput, Prisma.SponsorUncheckedCreateWithoutSponsorshipsInput>
+  where?: Prisma.SponsorWhereInput
+}
+
+export type SponsorUpdateToOneWithWhereWithoutSponsorshipsInput = {
+  where?: Prisma.SponsorWhereInput
+  data: Prisma.XOR<Prisma.SponsorUpdateWithoutSponsorshipsInput, Prisma.SponsorUncheckedUpdateWithoutSponsorshipsInput>
+}
+
+export type SponsorUpdateWithoutSponsorshipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  pointValue?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  drivers?: Prisma.DriverProfileUpdateManyWithoutSponsorNestedInput
+  sponsorUsers?: Prisma.SponsorUserUpdateManyWithoutSponsorNestedInput
+  applications?: Prisma.DriverApplicationUpdateManyWithoutSponsorNestedInput
+  pointChanges?: Prisma.PointChangeUpdateManyWithoutSponsorNestedInput
+  catalogProducts?: Prisma.CatalogProductUpdateManyWithoutSponsorNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutSponsorNestedInput
+  carts?: Prisma.CartUpdateManyWithoutSponsorNestedInput
+}
+
+export type SponsorUncheckedUpdateWithoutSponsorshipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  pointValue?: Prisma.FloatFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  drivers?: Prisma.DriverProfileUncheckedUpdateManyWithoutSponsorNestedInput
+  sponsorUsers?: Prisma.SponsorUserUncheckedUpdateManyWithoutSponsorNestedInput
+  applications?: Prisma.DriverApplicationUncheckedUpdateManyWithoutSponsorNestedInput
+  pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutSponsorNestedInput
+  catalogProducts?: Prisma.CatalogProductUncheckedUpdateManyWithoutSponsorNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutSponsorNestedInput
+  carts?: Prisma.CartUncheckedUpdateManyWithoutSponsorNestedInput
 }
 
 
@@ -922,6 +1166,8 @@ export type SponsorCountOutputType = {
   pointChanges: number
   catalogProducts: number
   orders: number
+  sponsorships: number
+  carts: number
 }
 
 export type SponsorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -931,6 +1177,8 @@ export type SponsorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   pointChanges?: boolean | SponsorCountOutputTypeCountPointChangesArgs
   catalogProducts?: boolean | SponsorCountOutputTypeCountCatalogProductsArgs
   orders?: boolean | SponsorCountOutputTypeCountOrdersArgs
+  sponsorships?: boolean | SponsorCountOutputTypeCountSponsorshipsArgs
+  carts?: boolean | SponsorCountOutputTypeCountCartsArgs
 }
 
 /**
@@ -985,6 +1233,20 @@ export type SponsorCountOutputTypeCountOrdersArgs<ExtArgs extends runtime.Types.
   where?: Prisma.OrderWhereInput
 }
 
+/**
+ * SponsorCountOutputType without action
+ */
+export type SponsorCountOutputTypeCountSponsorshipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SponsoredByWhereInput
+}
+
+/**
+ * SponsorCountOutputType without action
+ */
+export type SponsorCountOutputTypeCountCartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CartWhereInput
+}
+
 
 export type SponsorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -998,6 +1260,8 @@ export type SponsorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   pointChanges?: boolean | Prisma.Sponsor$pointChangesArgs<ExtArgs>
   catalogProducts?: boolean | Prisma.Sponsor$catalogProductsArgs<ExtArgs>
   orders?: boolean | Prisma.Sponsor$ordersArgs<ExtArgs>
+  sponsorships?: boolean | Prisma.Sponsor$sponsorshipsArgs<ExtArgs>
+  carts?: boolean | Prisma.Sponsor$cartsArgs<ExtArgs>
   _count?: boolean | Prisma.SponsorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sponsor"]>
 
@@ -1019,6 +1283,8 @@ export type SponsorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   pointChanges?: boolean | Prisma.Sponsor$pointChangesArgs<ExtArgs>
   catalogProducts?: boolean | Prisma.Sponsor$catalogProductsArgs<ExtArgs>
   orders?: boolean | Prisma.Sponsor$ordersArgs<ExtArgs>
+  sponsorships?: boolean | Prisma.Sponsor$sponsorshipsArgs<ExtArgs>
+  carts?: boolean | Prisma.Sponsor$cartsArgs<ExtArgs>
   _count?: boolean | Prisma.SponsorCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1031,6 +1297,8 @@ export type $SponsorPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     pointChanges: Prisma.$PointChangePayload<ExtArgs>[]
     catalogProducts: Prisma.$CatalogProductPayload<ExtArgs>[]
     orders: Prisma.$OrderPayload<ExtArgs>[]
+    sponsorships: Prisma.$SponsoredByPayload<ExtArgs>[]
+    carts: Prisma.$CartPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1384,6 +1652,8 @@ export interface Prisma__SponsorClient<T, Null = never, ExtArgs extends runtime.
   pointChanges<T extends Prisma.Sponsor$pointChangesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sponsor$pointChangesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PointChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   catalogProducts<T extends Prisma.Sponsor$catalogProductsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sponsor$catalogProductsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CatalogProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orders<T extends Prisma.Sponsor$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sponsor$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sponsorships<T extends Prisma.Sponsor$sponsorshipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sponsor$sponsorshipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SponsoredByPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  carts<T extends Prisma.Sponsor$cartsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Sponsor$cartsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1902,6 +2172,54 @@ export type Sponsor$ordersArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
+}
+
+/**
+ * Sponsor.sponsorships
+ */
+export type Sponsor$sponsorshipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SponsoredBy
+   */
+  select?: Prisma.SponsoredBySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the SponsoredBy
+   */
+  omit?: Prisma.SponsoredByOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SponsoredByInclude<ExtArgs> | null
+  where?: Prisma.SponsoredByWhereInput
+  orderBy?: Prisma.SponsoredByOrderByWithRelationInput | Prisma.SponsoredByOrderByWithRelationInput[]
+  cursor?: Prisma.SponsoredByWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.SponsoredByScalarFieldEnum | Prisma.SponsoredByScalarFieldEnum[]
+}
+
+/**
+ * Sponsor.carts
+ */
+export type Sponsor$cartsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Cart
+   */
+  select?: Prisma.CartSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Cart
+   */
+  omit?: Prisma.CartOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CartInclude<ExtArgs> | null
+  where?: Prisma.CartWhereInput
+  orderBy?: Prisma.CartOrderByWithRelationInput | Prisma.CartOrderByWithRelationInput[]
+  cursor?: Prisma.CartWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CartScalarFieldEnum | Prisma.CartScalarFieldEnum[]
 }
 
 /**

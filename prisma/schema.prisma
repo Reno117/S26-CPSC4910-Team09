@@ -7,10 +7,13 @@ datasource db {
   provider = "mysql"
 }
 
-model rule {
+
+model Rule {
   id          Int       @id @default(autoincrement())
   title       String
   content     String    @db.Text
+
+  @@map("rule")
 }
 
 model User {

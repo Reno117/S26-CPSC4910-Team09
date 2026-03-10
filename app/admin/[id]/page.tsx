@@ -14,7 +14,7 @@ export default async function AdminDriverEditPage({ params, searchParams }: Admi
   const { id } = await params;
   const { saved, error } = await searchParams;
 
-  const [driver, sponsors] = await Promise.all([
+  const [driver, sponsors, sponsorLinks] = await Promise.all([
     prisma.driverProfile.findUnique({
       where: { id },
       include: {
@@ -31,11 +31,26 @@ export default async function AdminDriverEditPage({ params, searchParams }: Admi
         name: "asc",
       },
     }),
+    prisma.$queryRaw<{ sponsorOrgId: string; sponsorName: string }[]>`
+      SELECT
+        sb.sponsorOrgId,
+        s.name AS sponsorName
+      FROM sponsored_by sb
+      INNER JOIN sponsor s ON s.id = sb.sponsorOrgId
+      WHERE sb.driverId = ${id}
+      ORDER BY s.name ASC
+    `,
   ]);
 
   if (!driver) {
     notFound();
   }
+
+  const selectedSponsorIds = sponsorLinks.length > 0
+    ? sponsorLinks.map((link) => link.sponsorOrgId)
+    : driver.sponsorId
+      ? [driver.sponsorId]
+      : [];
 
   return (
     <div>
@@ -73,8 +88,27 @@ export default async function AdminDriverEditPage({ params, searchParams }: Admi
             </div>
           )}
 
+          <div className="mb-6 rounded-md border border-gray-200 bg-gray-50 p-4">
+            <h2 className="text-sm font-semibold text-gray-800 mb-2">Current Sponsor Associations</h2>
+            {sponsorLinks.length === 0 ? (
+              <p className="text-sm text-gray-600">No sponsors associated.</p>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {sponsorLinks.map((link) => (
+                  <span
+                    key={link.sponsorOrgId}
+                    className="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-800"
+                  >
+                    {link.sponsorName}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
           <DriverEditForm 
             driver={driver}
+            selectedSponsorIds={selectedSponsorIds}
             sponsors={sponsors}
             updateAction={updateDriverProfile}
           />

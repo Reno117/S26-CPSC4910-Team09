@@ -24,6 +24,19 @@ export default async function AdminDriverTransactionsPage({ params, searchParams
     notFound();
   }
 
+  const sponsorOptions = await prisma.$queryRaw<{
+    sponsorId: string;
+    sponsorName: string;
+  }[]>`
+    SELECT
+      sb.sponsorOrgId AS sponsorId,
+      s.name AS sponsorName
+    FROM sponsored_by sb
+    INNER JOIN sponsor s ON s.id = sb.sponsorOrgId
+    WHERE sb.driverId = ${id}
+    ORDER BY s.name ASC
+  `;
+
   const transactions = await prisma.pointChange.findMany({
     where: { driverProfileId: id },
     include: {
@@ -62,14 +75,34 @@ export default async function AdminDriverTransactionsPage({ params, searchParams
 
           {error && (
             <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              Unable to create point transaction. Make sure amount is not 0 and reason is provided.
+              Unable to create point transaction. Make sure sponsor is selected, amount is not 0, and reason is provided.
             </div>
           )}
 
           <div className="mb-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
             <h2 className="text-lg font-semibold text-gray-900 mb-3">Create Point Transaction</h2>
-            <form action={createAdminPointTransaction} className="grid grid-cols-1 md:grid-cols-3 gap-3 items-end">
+            <form action={createAdminPointTransaction} className="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
               <input type="hidden" name="driverId" value={id} />
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-800 mb-1">Sponsor Organization</label>
+                <select
+                  name="sponsorId"
+                  required
+                  defaultValue=""
+                  className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-900 outline-none focus:border-blue-400"
+                >
+                  <option value="" disabled>Select sponsor</option>
+                  {sponsorOptions.map((sponsor) => (
+                    <option key={sponsor.sponsorId} value={sponsor.sponsorId}>
+                      {sponsor.sponsorName}
+                    </option>
+                  ))}
+                </select>
+                {sponsorOptions.length === 0 && (
+                  <p className="mt-1 text-xs text-red-600">This driver has no sponsor associations.</p>
+                )}
+              </div>
 
               <div>
                 <label className="block text-sm font-semibold text-gray-800 mb-1">Amount (+/-)</label>
@@ -94,6 +127,7 @@ export default async function AdminDriverTransactionsPage({ params, searchParams
 
               <button
                 type="submit"
+                disabled={sponsorOptions.length === 0}
                 className="inline-flex rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
               >
                 Create Point Transaction

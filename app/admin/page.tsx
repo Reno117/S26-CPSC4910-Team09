@@ -52,6 +52,25 @@ export default async function AdminDashboard() {
     },
   });
 
+  const driverSponsorRows = await prisma.$queryRaw<{
+    driverId: string;
+    sponsorName: string;
+  }[]>`
+    SELECT
+      sb.driverId,
+      s.name AS sponsorName
+    FROM sponsored_by sb
+    INNER JOIN sponsor s ON s.id = sb.sponsorOrgId
+    ORDER BY s.name ASC
+  `;
+
+  const sponsorsByDriverId = new Map<string, string[]>();
+  for (const row of driverSponsorRows) {
+    const existing = sponsorsByDriverId.get(row.driverId) ?? [];
+    existing.push(row.sponsorName);
+    sponsorsByDriverId.set(row.driverId, existing);
+  }
+
   const formattedUsers = users.map((user) => ({
     id: user.id,
     name: user.name,
@@ -67,6 +86,9 @@ export default async function AdminDashboard() {
     driverPointsBalance: user.driverProfile?.pointsBalance ?? null,
     driverStatus: user.driverProfile?.status ?? null,
     driverSponsorOrganization: user.driverProfile?.sponsor?.name ?? null,
+    driverSponsorOrganizations: user.driverProfile?.id
+      ? sponsorsByDriverId.get(user.driverProfile.id) ?? []
+      : [],
   }));
 
   return (

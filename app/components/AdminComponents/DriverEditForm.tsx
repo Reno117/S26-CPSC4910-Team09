@@ -21,12 +21,14 @@ interface Driver {
 
 interface DriverEditFormProps {
   driver: Driver;
+  selectedSponsorIds: string[];
   sponsors: Sponsor[];
   updateAction: (formData: FormData) => Promise<void>;
 }
 
 export default function DriverEditForm({
   driver,
+  selectedSponsorIds,
   sponsors,
   updateAction,
 }: DriverEditFormProps) {
@@ -117,7 +119,7 @@ export default function DriverEditForm({
 
       <div>
         <label className="block text-sm font-semibold text-gray-800 mb-1">
-          Sponsor Organization
+          Sponsor Organizations
           {status === "pending" && (
             <span className="ml-2 text-xs text-gray-400 font-normal">
               (available after driver is activated)
@@ -125,22 +127,23 @@ export default function DriverEditForm({
           )}
         </label>
         <select
-          name="sponsorId"
-          defaultValue={driver.sponsorId ?? ""}
+          name="sponsorIds"
+          defaultValue={selectedSponsorIds}
+          multiple
           disabled={status === "pending"}
-          className={`w-full rounded-md border px-3 py-2 text-sm outline-none ${
+          className={`w-full rounded-md border px-3 py-2 text-sm outline-none min-h-36 ${
             status === "pending"
               ? "border-gray-200 bg-gray-50 text-gray-500 cursor-not-allowed"
               : "border-gray-300 text-gray-900 focus:border-blue-400"
           }`}
         >
-          <option value="">Unassigned</option>
           {sponsors.map((sponsor) => (
             <option key={sponsor.id} value={sponsor.id}>
               {sponsor.name}
             </option>
           ))}
         </select>
+        <p className="mt-1 text-xs text-gray-500">Hold Ctrl (Windows) or Cmd (Mac) to select multiple sponsors.</p>
       </div>
 
       <button

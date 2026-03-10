@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Rule: 'Rule',
   User: 'User',
   DriverProfile: 'DriverProfile',
   Sponsor: 'Sponsor',
@@ -65,7 +66,8 @@ export const ModelName = {
   CartItem: 'CartItem',
   Order: 'Order',
   OrderItem: 'OrderItem',
-  Verse: 'Verse'
+  Verse: 'Verse',
+  SponsoredBy: 'SponsoredBy'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -82,6 +84,15 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const RuleScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content'
+} as const
+
+export type RuleScalarFieldEnum = (typeof RuleScalarFieldEnum)[keyof typeof RuleScalarFieldEnum]
 
 
 export const UserScalarFieldEnum = {
@@ -225,6 +236,7 @@ export type CatalogProductScalarFieldEnum = (typeof CatalogProductScalarFieldEnu
 export const CartScalarFieldEnum = {
   id: 'id',
   driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -292,12 +304,31 @@ export const VerseScalarFieldEnum = {
 export type VerseScalarFieldEnum = (typeof VerseScalarFieldEnum)[keyof typeof VerseScalarFieldEnum]
 
 
+export const SponsoredByScalarFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorOrgId: 'sponsorOrgId',
+  points: 'points',
+  createdAt: 'createdAt'
+} as const
+
+export type SponsoredByScalarFieldEnum = (typeof SponsoredByScalarFieldEnum)[keyof typeof SponsoredByScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const RuleOrderByRelevanceFieldEnum = {
+  title: 'title',
+  content: 'content'
+} as const
+
+export type RuleOrderByRelevanceFieldEnum = (typeof RuleOrderByRelevanceFieldEnum)[keyof typeof RuleOrderByRelevanceFieldEnum]
 
 
 export const NullsOrder = {
@@ -419,7 +450,8 @@ export type CatalogProductOrderByRelevanceFieldEnum = (typeof CatalogProductOrde
 
 export const CartOrderByRelevanceFieldEnum = {
   id: 'id',
-  driverProfileId: 'driverProfileId'
+  driverProfileId: 'driverProfileId',
+  sponsorId: 'sponsorId'
 } as const
 
 export type CartOrderByRelevanceFieldEnum = (typeof CartOrderByRelevanceFieldEnum)[keyof typeof CartOrderByRelevanceFieldEnum]
@@ -468,4 +500,13 @@ export const VerseOrderByRelevanceFieldEnum = {
 } as const
 
 export type VerseOrderByRelevanceFieldEnum = (typeof VerseOrderByRelevanceFieldEnum)[keyof typeof VerseOrderByRelevanceFieldEnum]
+
+
+export const SponsoredByOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorOrgId: 'sponsorOrgId'
+} as const
+
+export type SponsoredByOrderByRelevanceFieldEnum = (typeof SponsoredByOrderByRelevanceFieldEnum)[keyof typeof SponsoredByOrderByRelevanceFieldEnum]
 

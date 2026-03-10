@@ -17,6 +17,7 @@ type ActiveUser = {
   driverPointsBalance: number | null;
   driverStatus: string | null;
   driverSponsorOrganization: string | null;
+  driverSponsorOrganizations: string[];
   sponsorUserId?: string | null; // Add this if not present
   sponsorUserStatus?: string | null; // Add this if not present
   adminId?: string | null;
@@ -187,8 +188,10 @@ export default function ActiveUsersList({ users }: ActiveUsersListProps) {
                     {selectedUser.driverId ?? 'N/A'}
                   </p>
                   <p>
-                    <span className="font-semibold text-gray-900">Sponsor Organization:</span>{' '}
-                    {selectedUser.driverSponsorOrganization ?? 'Unassigned'}
+                    <span className="font-semibold text-gray-900">Sponsor Organizations:</span>{' '}
+                    {selectedUser.driverSponsorOrganizations.length > 0
+                      ? selectedUser.driverSponsorOrganizations.join(', ')
+                      : (selectedUser.driverSponsorOrganization ?? 'Unassigned')}
                   </p>
                   <p>
                     <span className="font-semibold text-gray-900">Points Balance:</span>{' '}
