@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { toggleDriverStatus, toggleSponsorStatus } from "@/app/actions/admin/account-actions";
+import { toggleDriverStatus, toggleSponsorStatus, toggleAdminStatus } from "@/app/actions/admin/account-actions";
 import { useRouter } from "next/navigation";
 
 interface ToggleStatusButtonProps {
   profileId: string;
   currentStatus: string;
-  userType: "driver" | "sponsor";
+  userType: "driver" | "sponsor" | "admin";
 }
 
 export default function ToggleStatusButton({ profileId, currentStatus, userType }: ToggleStatusButtonProps) {
@@ -21,8 +21,10 @@ export default function ToggleStatusButton({ profileId, currentStatus, userType 
     try {
       if (userType === "driver") {
         await toggleDriverStatus(profileId);
-      } else {
+      } else if (userType == "sponsor") {
         await toggleSponsorStatus(profileId);
+      } else {
+        await toggleAdminStatus(profileId)
       }
       router.refresh();
     } catch (error: any) {

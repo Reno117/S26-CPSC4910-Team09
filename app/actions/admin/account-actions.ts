@@ -50,3 +50,26 @@ export async function toggleSponsorStatus(sponsorUserId: string) {
 
   return { success: true, newStatus };
 }
+
+export async function toggleAdminStatus(adminId: string)
+{
+  await requireAdmin();
+
+  const adminUser = await prisma.admin.findUnique({
+    where: {userId: adminId},
+  });
+
+  if(!adminUser) {
+    throw new Error("Sponsor user not found");
+  }
+
+  const newStatus = adminUser.status === "disabled" ? "active" : "disabled";
+
+  await prisma.admin.update({
+    where: { id: adminUser.userId },
+    data: { status: newStatus },
+  });
+  revalidatePath("/admin/path");
+
+  return {success: true, newStatus};
+}
