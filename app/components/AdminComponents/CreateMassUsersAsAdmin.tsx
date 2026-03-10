@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { massUploadUsers } from "@/app/actions/sponsor/bulk-upload-users"; 
+import { massUploadUsers } from "@/app/actions/sponsor/bulk-upload-users";
 
 type ParsedUser = {
   line: number;
@@ -35,7 +35,31 @@ function parseFile(content: string): ParseResult {
   lines.forEach((raw, idx) => {
     const lineNum = idx + 1;
     const parts = raw.split("|").map((p) => p.trim());
+    const normalizedType = parts[0]?.toUpperCase();
 
+    if (!["O", "D", "S"].includes(normalizedType)) {
+      errors.push({ line: lineNum, message: `Invalid type "${parts[0]}" — must be O, D, or S`, raw });
+      return;
+    }
+
+    // O rows: format is just: O | orgName
+    if (normalizedType === "O") {
+      if (parts.length < 2 || !parts[1]) {
+        errors.push({ line: lineNum, message: `Org rows require: O | orgName`, raw });
+        return;
+      }
+      valid.push({
+        line: lineNum,
+        type: "O",
+        orgName: parts[1],
+        firstName: "",
+        lastName: "",
+        email: "",
+      });
+      return;
+    }
+
+    // D and S rows: 5–7 fields
     if (parts.length < 5) {
       errors.push({ line: lineNum, message: "Too few fields (minimum 5 required)", raw });
       return;
@@ -45,12 +69,8 @@ function parseFile(content: string): ParseResult {
       return;
     }
 
-    const [type, orgName, firstName, lastName, email, pointsRaw, reason] = parts;
+    const [, orgName, firstName, lastName, email, pointsRaw, reason] = parts;
 
-    if (!["O", "D", "S"].includes(type.toUpperCase())) {
-      errors.push({ line: lineNum, message: `Invalid type "${type}" — must be O, D, or S`, raw });
-      return;
-    }
     if (!email.includes("@")) {
       errors.push({ line: lineNum, message: `Invalid email "${email}"`, raw });
       return;
@@ -66,7 +86,7 @@ function parseFile(content: string): ParseResult {
 
     valid.push({
       line: lineNum,
-      type: type.toUpperCase(),
+      type: normalizedType,
       orgName,
       firstName,
       lastName,
@@ -126,12 +146,14 @@ export default function CreateMassUsersAsSponsor() {
     if (!parsed || parsed.valid.length === 0) return;
     setStatus("uploading");
     try {
-      const rows = parsed.valid.map((u) => ({
-        name: `${u.firstName} ${u.lastName}`,
+      const rows: Parameters<typeof massUploadUsers>[0] = parsed.valid.map((u) => ({
+        name: u.type === "O" ? u.orgName : `${u.firstName} ${u.lastName}`,
         email: u.email,
-        role: (u.type === "O" ? "admin" : u.type === "D" ? "driver" : "sponsor") as "admin" | "driver" | "sponsor",
+        role: (
+          u.type === "O" ? "org" : u.type === "D" ? "driver" : "sponsor"
+        ) as "org" | "admin" | "driver" | "sponsor",
         pointsBalance: u.points,
-        sponsorName: u.orgName || undefined,
+        sponsorName: u.type !== "O" ? u.orgName || undefined : undefined,
       }));
 
       const result = await massUploadUsers(rows);
@@ -229,10 +251,18 @@ export default function CreateMassUsersAsSponsor() {
                             </span>
                           </td>
                           <td className="px-3 py-2.5 text-slate-700 font-medium">
-                            {u.firstName} {u.lastName}
-                            {u.orgName && <span className="ml-1.5 text-xs text-slate-400">· {u.orgName}</span>}
+                            {u.type === "O" ? (
+                              <span className="italic text-purple-700">{u.orgName}</span>
+                            ) : (
+                              <>
+                                {u.firstName} {u.lastName}
+                                {u.orgName && <span className="ml-1.5 text-xs text-slate-400">· {u.orgName}</span>}
+                              </>
+                            )}
                           </td>
-                          <td className="px-3 py-2.5 text-slate-500 font-mono text-xs">{u.email}</td>
+                          <td className="px-3 py-2.5 text-slate-500 font-mono text-xs">
+                            {u.type === "O" ? <span className="text-slate-300">—</span> : u.email}
+                          </td>
                           <td className="px-3 py-2.5 text-slate-500 text-xs">
                             {u.points !== undefined ? (
                               <span className="text-emerald-600 font-semibold">+{u.points}</span>

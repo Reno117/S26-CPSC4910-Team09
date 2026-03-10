@@ -7,6 +7,12 @@ datasource db {
   provider = "mysql"
 }
 
+model Rule {
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String    @db.Text
+}
+
 model User {
   id            String    @id
   name          String    @db.Text
