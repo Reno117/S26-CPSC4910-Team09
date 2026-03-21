@@ -29,8 +29,8 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Rules
- * const rules = await prisma.rule.findMany()
+ * // Fetch zero or more SignInAttempts
+ * const signInAttempts = await prisma.signInAttempt.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -40,12 +40,15 @@ export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts exten
 export { Prisma }
 
 /**
-
+ * Model SignInAttempt
+ * 
+ */
+export type SignInAttempt = Prisma.SignInAttemptModel
+/**
  * Model Rule
  * 
  */
 export type Rule = Prisma.RuleModel
-
 /**
  * Model User
  * 
@@ -126,3 +129,8 @@ export type Verse = Prisma.VerseModel
  * 
  */
 export type SponsoredBy = Prisma.SponsoredByModel
+/**
+ * Model Admin
+ * 
+ */
+export type Admin = Prisma.AdminModel

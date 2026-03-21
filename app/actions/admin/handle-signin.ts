@@ -8,6 +8,7 @@ export async function handleAdminSignIn(): Promise<string | null> {
   if (user?.role === "admin") {
     return "/admin";
   }
+  
 
   return null;
 }

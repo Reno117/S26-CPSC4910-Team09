@@ -7,6 +7,17 @@ datasource db {
   provider = "mysql"
 }
 
+model SignInAttempt {
+  id        Int      @id @default(autoincrement())
+  success   Boolean
+  createdAt DateTime @default(now())
+
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt])
+  @@map("signin_history")
+}
 
 model Rule {
   id          Int       @id @default(autoincrement())
@@ -33,6 +44,7 @@ model User {
 
   sessions      Session[]
   accounts      Account[]
+  signInAttempts SignInAttempt[]
   driverProfile DriverProfile?
   sponsorUser   SponsorUser?
   admin         Admin?
@@ -50,7 +62,7 @@ model DriverProfile {
   id            String   @id @default(cuid())
   userId        String   @unique
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  totalPointsSpent Int
   sponsorId     String?
   sponsor       Sponsor? @relation(fields: [sponsorId], references: [id], onDelete: SetNull)
   pointsBalance Int      @default(0)

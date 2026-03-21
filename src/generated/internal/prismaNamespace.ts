@@ -384,6 +384,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
+  SignInAttempt: 'SignInAttempt',
   Rule: 'Rule',
   User: 'User',
   DriverProfile: 'DriverProfile',
@@ -400,7 +401,8 @@ export const ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Verse: 'Verse',
-  SponsoredBy: 'SponsoredBy'
+  SponsoredBy: 'SponsoredBy',
+  Admin: 'Admin'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -416,10 +418,76 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy"
+    modelProps: "signInAttempt" | "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy" | "admin"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
+    SignInAttempt: {
+      payload: Prisma.$SignInAttemptPayload<ExtArgs>
+      fields: Prisma.SignInAttemptFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SignInAttemptFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignInAttemptPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SignInAttemptFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignInAttemptPayload>
+        }
+        findFirst: {
+          args: Prisma.SignInAttemptFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignInAttemptPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SignInAttemptFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignInAttemptPayload>
+        }
+        findMany: {
+          args: Prisma.SignInAttemptFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignInAttemptPayload>[]
+        }
+        create: {
+          args: Prisma.SignInAttemptCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignInAttemptPayload>
+        }
+        createMany: {
+          args: Prisma.SignInAttemptCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.SignInAttemptDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignInAttemptPayload>
+        }
+        update: {
+          args: Prisma.SignInAttemptUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignInAttemptPayload>
+        }
+        deleteMany: {
+          args: Prisma.SignInAttemptDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SignInAttemptUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.SignInAttemptUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SignInAttemptPayload>
+        }
+        aggregate: {
+          args: Prisma.SignInAttemptAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSignInAttempt>
+        }
+        groupBy: {
+          args: Prisma.SignInAttemptGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SignInAttemptGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SignInAttemptCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SignInAttemptCountAggregateOutputType> | number
+        }
+      }
+    }
     Rule: {
       payload: Prisma.$RulePayload<ExtArgs>
       fields: Prisma.RuleFieldRefs
@@ -1542,6 +1610,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Admin: {
+      payload: Prisma.$AdminPayload<ExtArgs>
+      fields: Prisma.AdminFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AdminFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AdminFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        findFirst: {
+          args: Prisma.AdminFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AdminFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        findMany: {
+          args: Prisma.AdminFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>[]
+        }
+        create: {
+          args: Prisma.AdminCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        createMany: {
+          args: Prisma.AdminCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.AdminDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        update: {
+          args: Prisma.AdminUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        deleteMany: {
+          args: Prisma.AdminDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AdminUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.AdminUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        aggregate: {
+          args: Prisma.AdminAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAdmin>
+        }
+        groupBy: {
+          args: Prisma.AdminGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdminGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AdminCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdminCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1581,6 +1715,16 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const SignInAttemptScalarFieldEnum = {
+  id: 'id',
+  success: 'success',
+  createdAt: 'createdAt',
+  userId: 'userId'
+} as const
+
+export type SignInAttemptScalarFieldEnum = (typeof SignInAttemptScalarFieldEnum)[keyof typeof SignInAttemptScalarFieldEnum]
+
+
 export const RuleScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -1607,6 +1751,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const DriverProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  totalPointsSpent: 'totalPointsSpent',
   sponsorId: 'sponsorId',
   pointsBalance: 'pointsBalance',
   status: 'status',
@@ -1810,6 +1955,17 @@ export const SponsoredByScalarFieldEnum = {
 export type SponsoredByScalarFieldEnum = (typeof SponsoredByScalarFieldEnum)[keyof typeof SponsoredByScalarFieldEnum]
 
 
+export const AdminScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1818,20 +1974,27 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const RuleOrderByRelevanceFieldEnum = {
-  title: 'title',
-  content: 'content'
-} as const
-
-export type RuleOrderByRelevanceFieldEnum = (typeof RuleOrderByRelevanceFieldEnum)[keyof typeof RuleOrderByRelevanceFieldEnum]
-
-
 export const NullsOrder = {
   first: 'first',
   last: 'last'
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const SignInAttemptOrderByRelevanceFieldEnum = {
+  userId: 'userId'
+} as const
+
+export type SignInAttemptOrderByRelevanceFieldEnum = (typeof SignInAttemptOrderByRelevanceFieldEnum)[keyof typeof SignInAttemptOrderByRelevanceFieldEnum]
+
+
+export const RuleOrderByRelevanceFieldEnum = {
+  title: 'title',
+  content: 'content'
+} as const
+
+export type RuleOrderByRelevanceFieldEnum = (typeof RuleOrderByRelevanceFieldEnum)[keyof typeof RuleOrderByRelevanceFieldEnum]
 
 
 export const UserOrderByRelevanceFieldEnum = {
@@ -2006,6 +2169,15 @@ export const SponsoredByOrderByRelevanceFieldEnum = {
 export type SponsoredByOrderByRelevanceFieldEnum = (typeof SponsoredByOrderByRelevanceFieldEnum)[keyof typeof SponsoredByOrderByRelevanceFieldEnum]
 
 
+export const AdminOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status'
+} as const
+
+export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
+
+
 
 /**
  * Field references
@@ -2020,13 +2192,6 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'In
 
 
 /**
- * Reference to a field of type 'String'
- */
-export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
-    
-
-
-/**
  * Reference to a field of type 'Boolean'
  */
 export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
@@ -2037,6 +2202,13 @@ export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel,
  * Reference to a field of type 'DateTime'
  */
 export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'String'
+ */
+export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
     
 
 
@@ -2141,6 +2313,7 @@ export type PrismaClientOptions = ({
   comments?: runtime.SqlCommenterPlugin[]
 }
 export type GlobalOmitConfig = {
+  signInAttempt?: Prisma.SignInAttemptOmit
   rule?: Prisma.RuleOmit
   user?: Prisma.UserOmit
   driverProfile?: Prisma.DriverProfileOmit
@@ -2158,6 +2331,7 @@ export type GlobalOmitConfig = {
   orderItem?: Prisma.OrderItemOmit
   verse?: Prisma.VerseOmit
   sponsoredBy?: Prisma.SponsoredByOmit
+  admin?: Prisma.AdminOmit
 }
 
 /* Types for Logging */

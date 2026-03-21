@@ -27,16 +27,19 @@ export type AggregateDriverProfile = {
 }
 
 export type DriverProfileAvgAggregateOutputType = {
+  totalPointsSpent: number | null
   pointsBalance: number | null
 }
 
 export type DriverProfileSumAggregateOutputType = {
+  totalPointsSpent: number | null
   pointsBalance: number | null
 }
 
 export type DriverProfileMinAggregateOutputType = {
   id: string | null
   userId: string | null
+  totalPointsSpent: number | null
   sponsorId: string | null
   pointsBalance: number | null
   status: string | null
@@ -48,6 +51,7 @@ export type DriverProfileMinAggregateOutputType = {
 export type DriverProfileMaxAggregateOutputType = {
   id: string | null
   userId: string | null
+  totalPointsSpent: number | null
   sponsorId: string | null
   pointsBalance: number | null
   status: string | null
@@ -59,6 +63,7 @@ export type DriverProfileMaxAggregateOutputType = {
 export type DriverProfileCountAggregateOutputType = {
   id: number
   userId: number
+  totalPointsSpent: number
   sponsorId: number
   pointsBalance: number
   status: number
@@ -70,16 +75,19 @@ export type DriverProfileCountAggregateOutputType = {
 
 
 export type DriverProfileAvgAggregateInputType = {
+  totalPointsSpent?: true
   pointsBalance?: true
 }
 
 export type DriverProfileSumAggregateInputType = {
+  totalPointsSpent?: true
   pointsBalance?: true
 }
 
 export type DriverProfileMinAggregateInputType = {
   id?: true
   userId?: true
+  totalPointsSpent?: true
   sponsorId?: true
   pointsBalance?: true
   status?: true
@@ -91,6 +99,7 @@ export type DriverProfileMinAggregateInputType = {
 export type DriverProfileMaxAggregateInputType = {
   id?: true
   userId?: true
+  totalPointsSpent?: true
   sponsorId?: true
   pointsBalance?: true
   status?: true
@@ -102,6 +111,7 @@ export type DriverProfileMaxAggregateInputType = {
 export type DriverProfileCountAggregateInputType = {
   id?: true
   userId?: true
+  totalPointsSpent?: true
   sponsorId?: true
   pointsBalance?: true
   status?: true
@@ -200,6 +210,7 @@ export type DriverProfileGroupByArgs<ExtArgs extends runtime.Types.Extensions.In
 export type DriverProfileGroupByOutputType = {
   id: string
   userId: string
+  totalPointsSpent: number
   sponsorId: string | null
   pointsBalance: number
   status: string
@@ -234,6 +245,7 @@ export type DriverProfileWhereInput = {
   NOT?: Prisma.DriverProfileWhereInput | Prisma.DriverProfileWhereInput[]
   id?: Prisma.StringFilter<"DriverProfile"> | string
   userId?: Prisma.StringFilter<"DriverProfile"> | string
+  totalPointsSpent?: Prisma.IntFilter<"DriverProfile"> | number
   sponsorId?: Prisma.StringNullableFilter<"DriverProfile"> | string | null
   pointsBalance?: Prisma.IntFilter<"DriverProfile"> | number
   status?: Prisma.StringFilter<"DriverProfile"> | string
@@ -252,6 +264,7 @@ export type DriverProfileWhereInput = {
 export type DriverProfileOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  totalPointsSpent?: Prisma.SortOrder
   sponsorId?: Prisma.SortOrderInput | Prisma.SortOrder
   pointsBalance?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -274,6 +287,7 @@ export type DriverProfileWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.DriverProfileWhereInput | Prisma.DriverProfileWhereInput[]
   OR?: Prisma.DriverProfileWhereInput[]
   NOT?: Prisma.DriverProfileWhereInput | Prisma.DriverProfileWhereInput[]
+  totalPointsSpent?: Prisma.IntFilter<"DriverProfile"> | number
   sponsorId?: Prisma.StringNullableFilter<"DriverProfile"> | string | null
   pointsBalance?: Prisma.IntFilter<"DriverProfile"> | number
   status?: Prisma.StringFilter<"DriverProfile"> | string
@@ -292,6 +306,7 @@ export type DriverProfileWhereUniqueInput = Prisma.AtLeast<{
 export type DriverProfileOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  totalPointsSpent?: Prisma.SortOrder
   sponsorId?: Prisma.SortOrderInput | Prisma.SortOrder
   pointsBalance?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -311,6 +326,7 @@ export type DriverProfileScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DriverProfileScalarWhereWithAggregatesInput | Prisma.DriverProfileScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"DriverProfile"> | string
   userId?: Prisma.StringWithAggregatesFilter<"DriverProfile"> | string
+  totalPointsSpent?: Prisma.IntWithAggregatesFilter<"DriverProfile"> | number
   sponsorId?: Prisma.StringNullableWithAggregatesFilter<"DriverProfile"> | string | null
   pointsBalance?: Prisma.IntWithAggregatesFilter<"DriverProfile"> | number
   status?: Prisma.StringWithAggregatesFilter<"DriverProfile"> | string
@@ -321,6 +337,7 @@ export type DriverProfileScalarWhereWithAggregatesInput = {
 
 export type DriverProfileCreateInput = {
   id?: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -338,6 +355,7 @@ export type DriverProfileCreateInput = {
 export type DriverProfileUncheckedCreateInput = {
   id?: string
   userId: string
+  totalPointsSpent: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -353,6 +371,7 @@ export type DriverProfileUncheckedCreateInput = {
 
 export type DriverProfileUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -370,6 +389,7 @@ export type DriverProfileUpdateInput = {
 export type DriverProfileUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -386,6 +406,7 @@ export type DriverProfileUncheckedUpdateInput = {
 export type DriverProfileCreateManyInput = {
   id?: string
   userId: string
+  totalPointsSpent: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -396,6 +417,7 @@ export type DriverProfileCreateManyInput = {
 
 export type DriverProfileUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -406,6 +428,7 @@ export type DriverProfileUpdateManyMutationInput = {
 export type DriverProfileUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -428,6 +451,7 @@ export type DriverProfileOrderByRelevanceInput = {
 export type DriverProfileCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  totalPointsSpent?: Prisma.SortOrder
   sponsorId?: Prisma.SortOrder
   pointsBalance?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -437,12 +461,14 @@ export type DriverProfileCountOrderByAggregateInput = {
 }
 
 export type DriverProfileAvgOrderByAggregateInput = {
+  totalPointsSpent?: Prisma.SortOrder
   pointsBalance?: Prisma.SortOrder
 }
 
 export type DriverProfileMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  totalPointsSpent?: Prisma.SortOrder
   sponsorId?: Prisma.SortOrder
   pointsBalance?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -454,6 +480,7 @@ export type DriverProfileMaxOrderByAggregateInput = {
 export type DriverProfileMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  totalPointsSpent?: Prisma.SortOrder
   sponsorId?: Prisma.SortOrder
   pointsBalance?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -463,6 +490,7 @@ export type DriverProfileMinOrderByAggregateInput = {
 }
 
 export type DriverProfileSumOrderByAggregateInput = {
+  totalPointsSpent?: Prisma.SortOrder
   pointsBalance?: Prisma.SortOrder
 }
 
@@ -627,6 +655,7 @@ export type DriverProfileUpdateOneRequiredWithoutSponsorshipsNestedInput = {
 
 export type DriverProfileCreateWithoutUserInput = {
   id?: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -642,6 +671,7 @@ export type DriverProfileCreateWithoutUserInput = {
 
 export type DriverProfileUncheckedCreateWithoutUserInput = {
   id?: string
+  totalPointsSpent: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -673,6 +703,7 @@ export type DriverProfileUpdateToOneWithWhereWithoutUserInput = {
 
 export type DriverProfileUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -688,6 +719,7 @@ export type DriverProfileUpdateWithoutUserInput = {
 
 export type DriverProfileUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -703,6 +735,7 @@ export type DriverProfileUncheckedUpdateWithoutUserInput = {
 
 export type DriverProfileCreateWithoutSponsorInput = {
   id?: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -719,6 +752,7 @@ export type DriverProfileCreateWithoutSponsorInput = {
 export type DriverProfileUncheckedCreateWithoutSponsorInput = {
   id?: string
   userId: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -763,6 +797,7 @@ export type DriverProfileScalarWhereInput = {
   NOT?: Prisma.DriverProfileScalarWhereInput | Prisma.DriverProfileScalarWhereInput[]
   id?: Prisma.StringFilter<"DriverProfile"> | string
   userId?: Prisma.StringFilter<"DriverProfile"> | string
+  totalPointsSpent?: Prisma.IntFilter<"DriverProfile"> | number
   sponsorId?: Prisma.StringNullableFilter<"DriverProfile"> | string | null
   pointsBalance?: Prisma.IntFilter<"DriverProfile"> | number
   status?: Prisma.StringFilter<"DriverProfile"> | string
@@ -773,6 +808,7 @@ export type DriverProfileScalarWhereInput = {
 
 export type DriverProfileCreateWithoutApplicationsInput = {
   id?: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -789,6 +825,7 @@ export type DriverProfileCreateWithoutApplicationsInput = {
 export type DriverProfileUncheckedCreateWithoutApplicationsInput = {
   id?: string
   userId: string
+  totalPointsSpent: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -819,6 +856,7 @@ export type DriverProfileUpdateToOneWithWhereWithoutApplicationsInput = {
 
 export type DriverProfileUpdateWithoutApplicationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -835,6 +873,7 @@ export type DriverProfileUpdateWithoutApplicationsInput = {
 export type DriverProfileUncheckedUpdateWithoutApplicationsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -849,6 +888,7 @@ export type DriverProfileUncheckedUpdateWithoutApplicationsInput = {
 
 export type DriverProfileCreateWithoutPointChangesInput = {
   id?: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -865,6 +905,7 @@ export type DriverProfileCreateWithoutPointChangesInput = {
 export type DriverProfileUncheckedCreateWithoutPointChangesInput = {
   id?: string
   userId: string
+  totalPointsSpent: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -895,6 +936,7 @@ export type DriverProfileUpdateToOneWithWhereWithoutPointChangesInput = {
 
 export type DriverProfileUpdateWithoutPointChangesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -911,6 +953,7 @@ export type DriverProfileUpdateWithoutPointChangesInput = {
 export type DriverProfileUncheckedUpdateWithoutPointChangesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -925,6 +968,7 @@ export type DriverProfileUncheckedUpdateWithoutPointChangesInput = {
 
 export type DriverProfileCreateWithoutCartInput = {
   id?: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -941,6 +985,7 @@ export type DriverProfileCreateWithoutCartInput = {
 export type DriverProfileUncheckedCreateWithoutCartInput = {
   id?: string
   userId: string
+  totalPointsSpent: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -971,6 +1016,7 @@ export type DriverProfileUpdateToOneWithWhereWithoutCartInput = {
 
 export type DriverProfileUpdateWithoutCartInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -987,6 +1033,7 @@ export type DriverProfileUpdateWithoutCartInput = {
 export type DriverProfileUncheckedUpdateWithoutCartInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1001,6 +1048,7 @@ export type DriverProfileUncheckedUpdateWithoutCartInput = {
 
 export type DriverProfileCreateWithoutOrdersInput = {
   id?: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -1017,6 +1065,7 @@ export type DriverProfileCreateWithoutOrdersInput = {
 export type DriverProfileUncheckedCreateWithoutOrdersInput = {
   id?: string
   userId: string
+  totalPointsSpent: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -1047,6 +1096,7 @@ export type DriverProfileUpdateToOneWithWhereWithoutOrdersInput = {
 
 export type DriverProfileUpdateWithoutOrdersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1063,6 +1113,7 @@ export type DriverProfileUpdateWithoutOrdersInput = {
 export type DriverProfileUncheckedUpdateWithoutOrdersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1077,6 +1128,7 @@ export type DriverProfileUncheckedUpdateWithoutOrdersInput = {
 
 export type DriverProfileCreateWithoutSponsorshipsInput = {
   id?: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -1093,6 +1145,7 @@ export type DriverProfileCreateWithoutSponsorshipsInput = {
 export type DriverProfileUncheckedCreateWithoutSponsorshipsInput = {
   id?: string
   userId: string
+  totalPointsSpent: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -1123,6 +1176,7 @@ export type DriverProfileUpdateToOneWithWhereWithoutSponsorshipsInput = {
 
 export type DriverProfileUpdateWithoutSponsorshipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1139,6 +1193,7 @@ export type DriverProfileUpdateWithoutSponsorshipsInput = {
 export type DriverProfileUncheckedUpdateWithoutSponsorshipsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1154,6 +1209,7 @@ export type DriverProfileUncheckedUpdateWithoutSponsorshipsInput = {
 export type DriverProfileCreateManySponsorInput = {
   id?: string
   userId: string
+  totalPointsSpent: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -1163,6 +1219,7 @@ export type DriverProfileCreateManySponsorInput = {
 
 export type DriverProfileUpdateWithoutSponsorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1179,6 +1236,7 @@ export type DriverProfileUpdateWithoutSponsorInput = {
 export type DriverProfileUncheckedUpdateWithoutSponsorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1194,6 +1252,7 @@ export type DriverProfileUncheckedUpdateWithoutSponsorInput = {
 export type DriverProfileUncheckedUpdateManyWithoutSponsorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
   pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1271,6 +1330,7 @@ export type DriverProfileCountOutputTypeCountSponsorshipsArgs<ExtArgs extends ru
 export type DriverProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  totalPointsSpent?: boolean
   sponsorId?: boolean
   pointsBalance?: boolean
   status?: boolean
@@ -1292,6 +1352,7 @@ export type DriverProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
 export type DriverProfileSelectScalar = {
   id?: boolean
   userId?: boolean
+  totalPointsSpent?: boolean
   sponsorId?: boolean
   pointsBalance?: boolean
   status?: boolean
@@ -1300,7 +1361,7 @@ export type DriverProfileSelectScalar = {
   updatedAt?: boolean
 }
 
-export type DriverProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "sponsorId" | "pointsBalance" | "status" | "address" | "createdAt" | "updatedAt", ExtArgs["result"]["driverProfile"]>
+export type DriverProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "totalPointsSpent" | "sponsorId" | "pointsBalance" | "status" | "address" | "createdAt" | "updatedAt", ExtArgs["result"]["driverProfile"]>
 export type DriverProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sponsor?: boolean | Prisma.DriverProfile$sponsorArgs<ExtArgs>
@@ -1326,6 +1387,7 @@ export type $DriverProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
+    totalPointsSpent: number
     sponsorId: string | null
     pointsBalance: number
     status: string
@@ -1710,6 +1772,7 @@ export interface Prisma__DriverProfileClient<T, Null = never, ExtArgs extends ru
 export interface DriverProfileFieldRefs {
   readonly id: Prisma.FieldRef<"DriverProfile", 'String'>
   readonly userId: Prisma.FieldRef<"DriverProfile", 'String'>
+  readonly totalPointsSpent: Prisma.FieldRef<"DriverProfile", 'Int'>
   readonly sponsorId: Prisma.FieldRef<"DriverProfile", 'String'>
   readonly pointsBalance: Prisma.FieldRef<"DriverProfile", 'Int'>
   readonly status: Prisma.FieldRef<"DriverProfile", 'String'>

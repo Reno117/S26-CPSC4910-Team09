@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  SignInAttempt: 'SignInAttempt',
   Rule: 'Rule',
   User: 'User',
   DriverProfile: 'DriverProfile',
@@ -67,7 +68,8 @@ export const ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Verse: 'Verse',
-  SponsoredBy: 'SponsoredBy'
+  SponsoredBy: 'SponsoredBy',
+  Admin: 'Admin'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -84,6 +86,16 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+export const SignInAttemptScalarFieldEnum = {
+  id: 'id',
+  success: 'success',
+  createdAt: 'createdAt',
+  userId: 'userId'
+} as const
+
+export type SignInAttemptScalarFieldEnum = (typeof SignInAttemptScalarFieldEnum)[keyof typeof SignInAttemptScalarFieldEnum]
 
 
 export const RuleScalarFieldEnum = {
@@ -112,6 +124,7 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 export const DriverProfileScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  totalPointsSpent: 'totalPointsSpent',
   sponsorId: 'sponsorId',
   pointsBalance: 'pointsBalance',
   status: 'status',
@@ -315,6 +328,17 @@ export const SponsoredByScalarFieldEnum = {
 export type SponsoredByScalarFieldEnum = (typeof SponsoredByScalarFieldEnum)[keyof typeof SponsoredByScalarFieldEnum]
 
 
+export const AdminScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -323,20 +347,27 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-export const RuleOrderByRelevanceFieldEnum = {
-  title: 'title',
-  content: 'content'
-} as const
-
-export type RuleOrderByRelevanceFieldEnum = (typeof RuleOrderByRelevanceFieldEnum)[keyof typeof RuleOrderByRelevanceFieldEnum]
-
-
 export const NullsOrder = {
   first: 'first',
   last: 'last'
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const SignInAttemptOrderByRelevanceFieldEnum = {
+  userId: 'userId'
+} as const
+
+export type SignInAttemptOrderByRelevanceFieldEnum = (typeof SignInAttemptOrderByRelevanceFieldEnum)[keyof typeof SignInAttemptOrderByRelevanceFieldEnum]
+
+
+export const RuleOrderByRelevanceFieldEnum = {
+  title: 'title',
+  content: 'content'
+} as const
+
+export type RuleOrderByRelevanceFieldEnum = (typeof RuleOrderByRelevanceFieldEnum)[keyof typeof RuleOrderByRelevanceFieldEnum]
 
 
 export const UserOrderByRelevanceFieldEnum = {
@@ -509,4 +540,13 @@ export const SponsoredByOrderByRelevanceFieldEnum = {
 } as const
 
 export type SponsoredByOrderByRelevanceFieldEnum = (typeof SponsoredByOrderByRelevanceFieldEnum)[keyof typeof SponsoredByOrderByRelevanceFieldEnum]
+
+
+export const AdminOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status'
+} as const
+
+export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
 
