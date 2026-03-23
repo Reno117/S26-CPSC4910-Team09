@@ -60,13 +60,13 @@ export async function toggleAdminStatus(adminId: string)
   });
 
   if(!adminUser) {
-    throw new Error("Sponsor user not found");
+    throw new Error("Admin user not found");
   }
 
-  const newStatus = adminUser.status === "disabled" ? "active" : "disabled";
+  const newStatus = adminUser.status?.toLowerCase() === "disabled" ? "active" : "disabled";
 
   await prisma.admin.update({
-    where: { id: adminUser.userId },
+    where: { id: adminUser.id },
     data: { status: newStatus },
   });
   revalidatePath("/admin/path");

@@ -46,6 +46,12 @@ export default async function AdminDashboard() {
           },
         },
       },
+      admin: {
+        select: {
+          userId: true,
+          status: true,
+        }
+      }
     },
     orderBy: {
       name: "asc",
@@ -89,6 +95,8 @@ export default async function AdminDashboard() {
     driverSponsorOrganizations: user.driverProfile?.id
       ? sponsorsByDriverId.get(user.driverProfile.id) ?? []
       : [],
+    adminId: user.admin?.userId ?? null,
+    adminStatus: user.admin?.status ?? null,
   }));
 
   return (
