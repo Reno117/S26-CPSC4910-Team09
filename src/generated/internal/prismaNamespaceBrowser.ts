@@ -67,7 +67,8 @@ export const ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Verse: 'Verse',
-  SponsoredBy: 'SponsoredBy'
+  SponsoredBy: 'SponsoredBy',
+  Admin: 'Admin'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -114,6 +115,7 @@ export const DriverProfileScalarFieldEnum = {
   userId: 'userId',
   sponsorId: 'sponsorId',
   pointsBalance: 'pointsBalance',
+  totalPointsSpent: 'totalPointsSpent',
   status: 'status',
   address: 'address',
   createdAt: 'createdAt',
@@ -315,6 +317,17 @@ export const SponsoredByScalarFieldEnum = {
 export type SponsoredByScalarFieldEnum = (typeof SponsoredByScalarFieldEnum)[keyof typeof SponsoredByScalarFieldEnum]
 
 
+export const AdminScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -509,4 +522,13 @@ export const SponsoredByOrderByRelevanceFieldEnum = {
 } as const
 
 export type SponsoredByOrderByRelevanceFieldEnum = (typeof SponsoredByOrderByRelevanceFieldEnum)[keyof typeof SponsoredByOrderByRelevanceFieldEnum]
+
+
+export const AdminOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status'
+} as const
+
+export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
 

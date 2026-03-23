@@ -210,6 +210,7 @@ export type UserWhereInput = {
   accounts?: Prisma.AccountListRelationFilter
   driverProfile?: Prisma.XOR<Prisma.DriverProfileNullableScalarRelationFilter, Prisma.DriverProfileWhereInput> | null
   sponsorUser?: Prisma.XOR<Prisma.SponsorUserNullableScalarRelationFilter, Prisma.SponsorUserWhereInput> | null
+  admin?: Prisma.XOR<Prisma.AdminNullableScalarRelationFilter, Prisma.AdminWhereInput> | null
   pointChangesGiven?: Prisma.PointChangeListRelationFilter
   applicationReviews?: Prisma.DriverApplicationListRelationFilter
   verses?: Prisma.VerseListRelationFilter
@@ -228,6 +229,7 @@ export type UserOrderByWithRelationInput = {
   accounts?: Prisma.AccountOrderByRelationAggregateInput
   driverProfile?: Prisma.DriverProfileOrderByWithRelationInput
   sponsorUser?: Prisma.SponsorUserOrderByWithRelationInput
+  admin?: Prisma.AdminOrderByWithRelationInput
   pointChangesGiven?: Prisma.PointChangeOrderByRelationAggregateInput
   applicationReviews?: Prisma.DriverApplicationOrderByRelationAggregateInput
   verses?: Prisma.VerseOrderByRelationAggregateInput
@@ -250,6 +252,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   accounts?: Prisma.AccountListRelationFilter
   driverProfile?: Prisma.XOR<Prisma.DriverProfileNullableScalarRelationFilter, Prisma.DriverProfileWhereInput> | null
   sponsorUser?: Prisma.XOR<Prisma.SponsorUserNullableScalarRelationFilter, Prisma.SponsorUserWhereInput> | null
+  admin?: Prisma.XOR<Prisma.AdminNullableScalarRelationFilter, Prisma.AdminWhereInput> | null
   pointChangesGiven?: Prisma.PointChangeListRelationFilter
   applicationReviews?: Prisma.DriverApplicationListRelationFilter
   verses?: Prisma.VerseListRelationFilter
@@ -296,6 +299,7 @@ export type UserCreateInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseCreateNestedManyWithoutUserInput
@@ -314,6 +318,7 @@ export type UserUncheckedCreateInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileUncheckedCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserUncheckedCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeUncheckedCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseUncheckedCreateNestedManyWithoutUserInput
@@ -332,6 +337,7 @@ export type UserUpdateInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUpdateManyWithoutUserNestedInput
@@ -350,6 +356,7 @@ export type UserUncheckedUpdateInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUncheckedUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUncheckedUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUncheckedUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUncheckedUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUncheckedUpdateManyWithoutUserNestedInput
@@ -551,6 +558,20 @@ export type UserUpdateOneWithoutVersesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVersesInput, Prisma.UserUpdateWithoutVersesInput>, Prisma.UserUncheckedUpdateWithoutVersesInput>
 }
 
+export type UserCreateNestedOneWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput
+  upsert?: Prisma.UserUpsertWithoutAdminInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAdminInput, Prisma.UserUpdateWithoutAdminInput>, Prisma.UserUncheckedUpdateWithoutAdminInput>
+}
+
 export type UserCreateWithoutDriverProfileInput = {
   id: string
   name: string
@@ -563,6 +584,7 @@ export type UserCreateWithoutDriverProfileInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   sponsorUser?: Prisma.SponsorUserCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseCreateNestedManyWithoutUserInput
@@ -580,6 +602,7 @@ export type UserUncheckedCreateWithoutDriverProfileInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   sponsorUser?: Prisma.SponsorUserUncheckedCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeUncheckedCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseUncheckedCreateNestedManyWithoutUserInput
@@ -613,6 +636,7 @@ export type UserUpdateWithoutDriverProfileInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUpdateManyWithoutUserNestedInput
@@ -630,6 +654,7 @@ export type UserUncheckedUpdateWithoutDriverProfileInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUncheckedUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUncheckedUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUncheckedUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUncheckedUpdateManyWithoutUserNestedInput
@@ -647,6 +672,7 @@ export type UserCreateWithoutSponsorUserInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseCreateNestedManyWithoutUserInput
@@ -664,6 +690,7 @@ export type UserUncheckedCreateWithoutSponsorUserInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileUncheckedCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeUncheckedCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseUncheckedCreateNestedManyWithoutUserInput
@@ -697,6 +724,7 @@ export type UserUpdateWithoutSponsorUserInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUpdateManyWithoutUserNestedInput
@@ -714,6 +742,7 @@ export type UserUncheckedUpdateWithoutSponsorUserInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUncheckedUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUncheckedUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUncheckedUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUncheckedUpdateManyWithoutUserNestedInput
@@ -732,6 +761,7 @@ export type UserCreateWithoutApplicationReviewsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeCreateNestedManyWithoutChangedByUserInput
   verses?: Prisma.VerseCreateNestedManyWithoutUserInput
 }
@@ -749,6 +779,7 @@ export type UserUncheckedCreateWithoutApplicationReviewsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileUncheckedCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserUncheckedCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeUncheckedCreateNestedManyWithoutChangedByUserInput
   verses?: Prisma.VerseUncheckedCreateNestedManyWithoutUserInput
 }
@@ -782,6 +813,7 @@ export type UserUpdateWithoutApplicationReviewsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUpdateManyWithoutChangedByUserNestedInput
   verses?: Prisma.VerseUpdateManyWithoutUserNestedInput
 }
@@ -799,6 +831,7 @@ export type UserUncheckedUpdateWithoutApplicationReviewsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUncheckedUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUncheckedUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUncheckedUpdateManyWithoutChangedByUserNestedInput
   verses?: Prisma.VerseUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -816,6 +849,7 @@ export type UserCreateWithoutPointChangesGivenInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
   applicationReviews?: Prisma.DriverApplicationCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseCreateNestedManyWithoutUserInput
 }
@@ -833,6 +867,7 @@ export type UserUncheckedCreateWithoutPointChangesGivenInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileUncheckedCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserUncheckedCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   applicationReviews?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseUncheckedCreateNestedManyWithoutUserInput
 }
@@ -866,6 +901,7 @@ export type UserUpdateWithoutPointChangesGivenInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUpdateManyWithoutUserNestedInput
 }
@@ -883,6 +919,7 @@ export type UserUncheckedUpdateWithoutPointChangesGivenInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUncheckedUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUncheckedUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUncheckedUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -899,6 +936,7 @@ export type UserCreateWithoutSessionsInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseCreateNestedManyWithoutUserInput
@@ -916,6 +954,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileUncheckedCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserUncheckedCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeUncheckedCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseUncheckedCreateNestedManyWithoutUserInput
@@ -949,6 +988,7 @@ export type UserUpdateWithoutSessionsInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUpdateManyWithoutUserNestedInput
@@ -966,6 +1006,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUncheckedUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUncheckedUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUncheckedUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUncheckedUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUncheckedUpdateManyWithoutUserNestedInput
@@ -983,6 +1024,7 @@ export type UserCreateWithoutAccountsInput = {
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseCreateNestedManyWithoutUserInput
@@ -1000,6 +1042,7 @@ export type UserUncheckedCreateWithoutAccountsInput = {
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileUncheckedCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserUncheckedCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeUncheckedCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutReviewerInput
   verses?: Prisma.VerseUncheckedCreateNestedManyWithoutUserInput
@@ -1033,6 +1076,7 @@ export type UserUpdateWithoutAccountsInput = {
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUpdateManyWithoutUserNestedInput
@@ -1050,6 +1094,7 @@ export type UserUncheckedUpdateWithoutAccountsInput = {
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUncheckedUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUncheckedUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUncheckedUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUncheckedUpdateManyWithoutReviewerNestedInput
   verses?: Prisma.VerseUncheckedUpdateManyWithoutUserNestedInput
@@ -1068,6 +1113,7 @@ export type UserCreateWithoutVersesInput = {
   accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationCreateNestedManyWithoutReviewerInput
 }
@@ -1085,6 +1131,7 @@ export type UserUncheckedCreateWithoutVersesInput = {
   accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
   driverProfile?: Prisma.DriverProfileUncheckedCreateNestedOneWithoutUserInput
   sponsorUser?: Prisma.SponsorUserUncheckedCreateNestedOneWithoutUserInput
+  admin?: Prisma.AdminUncheckedCreateNestedOneWithoutUserInput
   pointChangesGiven?: Prisma.PointChangeUncheckedCreateNestedManyWithoutChangedByUserInput
   applicationReviews?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutReviewerInput
 }
@@ -1118,6 +1165,7 @@ export type UserUpdateWithoutVersesInput = {
   accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUpdateManyWithoutReviewerNestedInput
 }
@@ -1135,8 +1183,97 @@ export type UserUncheckedUpdateWithoutVersesInput = {
   accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
   driverProfile?: Prisma.DriverProfileUncheckedUpdateOneWithoutUserNestedInput
   sponsorUser?: Prisma.SponsorUserUncheckedUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUncheckedUpdateOneWithoutUserNestedInput
   pointChangesGiven?: Prisma.PointChangeUncheckedUpdateManyWithoutChangedByUserNestedInput
   applicationReviews?: Prisma.DriverApplicationUncheckedUpdateManyWithoutReviewerNestedInput
+}
+
+export type UserCreateWithoutAdminInput = {
+  id: string
+  name: string
+  email: string
+  role?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountCreateNestedManyWithoutUserInput
+  driverProfile?: Prisma.DriverProfileCreateNestedOneWithoutUserInput
+  sponsorUser?: Prisma.SponsorUserCreateNestedOneWithoutUserInput
+  pointChangesGiven?: Prisma.PointChangeCreateNestedManyWithoutChangedByUserInput
+  applicationReviews?: Prisma.DriverApplicationCreateNestedManyWithoutReviewerInput
+  verses?: Prisma.VerseCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAdminInput = {
+  id: string
+  name: string
+  email: string
+  role?: string
+  emailVerified?: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  accounts?: Prisma.AccountUncheckedCreateNestedManyWithoutUserInput
+  driverProfile?: Prisma.DriverProfileUncheckedCreateNestedOneWithoutUserInput
+  sponsorUser?: Prisma.SponsorUserUncheckedCreateNestedOneWithoutUserInput
+  pointChangesGiven?: Prisma.PointChangeUncheckedCreateNestedManyWithoutChangedByUserInput
+  applicationReviews?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutReviewerInput
+  verses?: Prisma.VerseUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAdminInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+}
+
+export type UserUpsertWithoutAdminInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAdminInput, Prisma.UserUncheckedUpdateWithoutAdminInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAdminInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAdminInput, Prisma.UserUncheckedUpdateWithoutAdminInput>
+}
+
+export type UserUpdateWithoutAdminInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUpdateManyWithoutUserNestedInput
+  driverProfile?: Prisma.DriverProfileUpdateOneWithoutUserNestedInput
+  sponsorUser?: Prisma.SponsorUserUpdateOneWithoutUserNestedInput
+  pointChangesGiven?: Prisma.PointChangeUpdateManyWithoutChangedByUserNestedInput
+  applicationReviews?: Prisma.DriverApplicationUpdateManyWithoutReviewerNestedInput
+  verses?: Prisma.VerseUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAdminInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  accounts?: Prisma.AccountUncheckedUpdateManyWithoutUserNestedInput
+  driverProfile?: Prisma.DriverProfileUncheckedUpdateOneWithoutUserNestedInput
+  sponsorUser?: Prisma.SponsorUserUncheckedUpdateOneWithoutUserNestedInput
+  pointChangesGiven?: Prisma.PointChangeUncheckedUpdateManyWithoutChangedByUserNestedInput
+  applicationReviews?: Prisma.DriverApplicationUncheckedUpdateManyWithoutReviewerNestedInput
+  verses?: Prisma.VerseUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -1219,6 +1356,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   driverProfile?: boolean | Prisma.User$driverProfileArgs<ExtArgs>
   sponsorUser?: boolean | Prisma.User$sponsorUserArgs<ExtArgs>
+  admin?: boolean | Prisma.User$adminArgs<ExtArgs>
   pointChangesGiven?: boolean | Prisma.User$pointChangesGivenArgs<ExtArgs>
   applicationReviews?: boolean | Prisma.User$applicationReviewsArgs<ExtArgs>
   verses?: boolean | Prisma.User$versesArgs<ExtArgs>
@@ -1244,6 +1382,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   accounts?: boolean | Prisma.User$accountsArgs<ExtArgs>
   driverProfile?: boolean | Prisma.User$driverProfileArgs<ExtArgs>
   sponsorUser?: boolean | Prisma.User$sponsorUserArgs<ExtArgs>
+  admin?: boolean | Prisma.User$adminArgs<ExtArgs>
   pointChangesGiven?: boolean | Prisma.User$pointChangesGivenArgs<ExtArgs>
   applicationReviews?: boolean | Prisma.User$applicationReviewsArgs<ExtArgs>
   verses?: boolean | Prisma.User$versesArgs<ExtArgs>
@@ -1257,6 +1396,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     accounts: Prisma.$AccountPayload<ExtArgs>[]
     driverProfile: Prisma.$DriverProfilePayload<ExtArgs> | null
     sponsorUser: Prisma.$SponsorUserPayload<ExtArgs> | null
+    admin: Prisma.$AdminPayload<ExtArgs> | null
     pointChangesGiven: Prisma.$PointChangePayload<ExtArgs>[]
     applicationReviews: Prisma.$DriverApplicationPayload<ExtArgs>[]
     verses: Prisma.$VersePayload<ExtArgs>[]
@@ -1614,6 +1754,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   accounts<T extends Prisma.User$accountsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   driverProfile<T extends Prisma.User$driverProfileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$driverProfileArgs<ExtArgs>>): Prisma.Prisma__DriverProfileClient<runtime.Types.Result.GetResult<Prisma.$DriverProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   sponsorUser<T extends Prisma.User$sponsorUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sponsorUserArgs<ExtArgs>>): Prisma.Prisma__SponsorUserClient<runtime.Types.Result.GetResult<Prisma.$SponsorUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  admin<T extends Prisma.User$adminArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$adminArgs<ExtArgs>>): Prisma.Prisma__AdminClient<runtime.Types.Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   pointChangesGiven<T extends Prisma.User$pointChangesGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$pointChangesGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PointChangePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   applicationReviews<T extends Prisma.User$applicationReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$applicationReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DriverApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   verses<T extends Prisma.User$versesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$versesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VersePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2080,6 +2221,25 @@ export type User$sponsorUserArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   include?: Prisma.SponsorUserInclude<ExtArgs> | null
   where?: Prisma.SponsorUserWhereInput
+}
+
+/**
+ * User.admin
+ */
+export type User$adminArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Admin
+   */
+  select?: Prisma.AdminSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Admin
+   */
+  omit?: Prisma.AdminOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdminInclude<ExtArgs> | null
+  where?: Prisma.AdminWhereInput
 }
 
 /**

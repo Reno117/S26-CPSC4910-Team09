@@ -400,7 +400,8 @@ export const ModelName = {
   Order: 'Order',
   OrderItem: 'OrderItem',
   Verse: 'Verse',
-  SponsoredBy: 'SponsoredBy'
+  SponsoredBy: 'SponsoredBy',
+  Admin: 'Admin'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy"
+    modelProps: "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy" | "admin"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1542,6 +1543,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Admin: {
+      payload: Prisma.$AdminPayload<ExtArgs>
+      fields: Prisma.AdminFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AdminFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AdminFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        findFirst: {
+          args: Prisma.AdminFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AdminFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        findMany: {
+          args: Prisma.AdminFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>[]
+        }
+        create: {
+          args: Prisma.AdminCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        createMany: {
+          args: Prisma.AdminCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.AdminDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        update: {
+          args: Prisma.AdminUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        deleteMany: {
+          args: Prisma.AdminDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AdminUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.AdminUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AdminPayload>
+        }
+        aggregate: {
+          args: Prisma.AdminAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAdmin>
+        }
+        groupBy: {
+          args: Prisma.AdminGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdminGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AdminCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AdminCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1609,6 +1676,7 @@ export const DriverProfileScalarFieldEnum = {
   userId: 'userId',
   sponsorId: 'sponsorId',
   pointsBalance: 'pointsBalance',
+  totalPointsSpent: 'totalPointsSpent',
   status: 'status',
   address: 'address',
   createdAt: 'createdAt',
@@ -1810,6 +1878,17 @@ export const SponsoredByScalarFieldEnum = {
 export type SponsoredByScalarFieldEnum = (typeof SponsoredByScalarFieldEnum)[keyof typeof SponsoredByScalarFieldEnum]
 
 
+export const AdminScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2006,6 +2085,15 @@ export const SponsoredByOrderByRelevanceFieldEnum = {
 export type SponsoredByOrderByRelevanceFieldEnum = (typeof SponsoredByOrderByRelevanceFieldEnum)[keyof typeof SponsoredByOrderByRelevanceFieldEnum]
 
 
+export const AdminOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status'
+} as const
+
+export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
+
+
 
 /**
  * Field references
@@ -2158,6 +2246,7 @@ export type GlobalOmitConfig = {
   orderItem?: Prisma.OrderItemOmit
   verse?: Prisma.VerseOmit
   sponsoredBy?: Prisma.SponsoredByOmit
+  admin?: Prisma.AdminOmit
 }
 
 /* Types for Logging */
