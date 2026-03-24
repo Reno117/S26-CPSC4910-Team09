@@ -16,6 +16,11 @@ const auditPages = [
     description: "Track point adjustments and point-related updates.",
     href: "/admin/audit/point-change",
   },
+  {
+    title: "Password Change Audit",
+    description: "Review password reset attempts and forgot-password submissions.",
+    href: "/admin/audit/change-password-audit",
+  },
 ];
 
 export default function AuditHomePage() {
