@@ -21,6 +21,11 @@ const auditPages = [
     description: "Review password reset attempts and forgot-password submissions.",
     href: "/admin/audit/change-password-audit",
   },
+  {
+    title: "Application Audit",
+    description: "Track driver applications to sponsors and status changes.",
+    href: "/admin/audit/applications",
+  },
 ];
 
 export default function AuditHomePage() {

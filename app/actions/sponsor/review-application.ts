@@ -39,6 +39,18 @@ export async function reviewApplication(
       },
     });
 
+    // Log application status change
+    const newStatus = decision === "approved" ? "ACCEPTED" : "REJECTED";
+    await tx.applicationLog.create({
+      data: {
+        driverId: application.driverProfileId,
+        sponsorId: application.sponsorId,
+        sponsorUserId: sponsorUser.sponsorUser?.id,
+        previousStatus: "PENDING",
+        newStatus: newStatus,
+      },
+    });
+
     // If approved, update driver profile
     if (decision === "approved") {
       await tx.driverProfile.update({

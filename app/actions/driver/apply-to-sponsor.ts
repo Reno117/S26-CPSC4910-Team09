@@ -48,6 +48,16 @@ export async function applyToSponsor(
     },
   });
 
+  // Log the application submission
+  await prisma.applicationLog.create({
+    data: {
+      driverId: driverProfileId,
+      sponsorId: sponsorId,
+      previousStatus: null,
+      newStatus: "PENDING",
+    },
+  });
+
   revalidatePath("/driver/apply");
   
   return { success: true };

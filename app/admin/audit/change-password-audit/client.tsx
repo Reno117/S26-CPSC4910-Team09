@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react";
+import { downloadPasswordAuditCsv } from "@/app/actions/admin/download-password-audit-csv";
 
 function formatDate(date: Date) {
   return new Intl.DateTimeFormat("en-US", {
@@ -30,6 +31,35 @@ interface ChangePasswordAuditClientProps {
 export default function ChangePasswordAuditClient({ attempts }: ChangePasswordAuditClientProps) {
   const [searchEmail, setSearchEmail] = useState("");
   const [filtered, setFiltered] = useState<PasswordResetAttempt[]>(attempts);
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  async function handleDownloadCsv() {
+    try {
+      setIsDownloading(true);
+      const result = await downloadPasswordAuditCsv(attempts);
+
+      if (!result.success || !result.data) {
+        alert("Failed to generate CSV");
+        return;
+      }
+
+      // Create blob and download
+      const blob = new Blob([result.data], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = result.filename || "password-audit.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading CSV:", error);
+      alert("Failed to download CSV");
+    } finally {
+      setIsDownloading(false);
+    }
+  }
 
   useEffect(() => {
     if (!searchEmail.trim()) {
@@ -53,7 +83,7 @@ export default function ChangePasswordAuditClient({ attempts }: ChangePasswordAu
           <p className="mt-1 text-sm text-slate-500">Most recent {attempts.length} forgot-password attempts</p>
         </div>
 
-        <div className="mb-4">
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <input
             type="text"
             placeholder="Search by email..."
@@ -61,6 +91,13 @@ export default function ChangePasswordAuditClient({ attempts }: ChangePasswordAu
             onChange={(e) => setSearchEmail(e.target.value)}
             className="w-full max-w-sm rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-slate-400"
           />
+          <button
+            onClick={handleDownloadCsv}
+            disabled={isDownloading}
+            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            {isDownloading ? "Downloading..." : "↓ Download CSV"}
+          </button>
         </div>
 
         <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
