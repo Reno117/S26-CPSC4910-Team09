@@ -5,8 +5,15 @@ import SponsorHeader from "@/app/components/SponsorComponents/SponsorHeader";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
-export default async function AddProductsPage() {
+interface AddProductsPageProps {
+  searchParams: Promise<{ sponsorId?: string }>;
+}
+
+export default async function AddProductsPage({ searchParams }: AddProductsPageProps) {
   const { isAdmin, sponsorId } = await requireSponsorOrAdmin();
+  const { sponsorId: requestedSponsorId } = await searchParams;
+
+  const effectiveSponsorId = isAdmin ? (requestedSponsorId || null) : sponsorId;
 
   // If admin, fetch sponsors for dropdown
   const sponsors = isAdmin
@@ -45,7 +52,7 @@ export default async function AddProductsPage() {
 
         <EbaySearchForm
           isAdmin={isAdmin}
-          sponsorId={sponsorId}
+          sponsorId={effectiveSponsorId}
           sponsors={sponsors}
         />
       </div>

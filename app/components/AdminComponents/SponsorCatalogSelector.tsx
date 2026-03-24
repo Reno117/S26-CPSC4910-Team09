@@ -79,9 +79,19 @@ export default function SponsorCatalogSelector({
         <div>
           {/* Sponsor Info */}
           <div className="bg-blue-50 rounded-lg border border-blue-200 p-6 mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">
-              {selectedSponsor.name}
-            </h2>
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              <h2 className="text-xl font-bold text-gray-900 mb-2 md:mb-0">
+                {selectedSponsor.name}
+              </h2>
+              <button
+                onClick={() =>
+                  router.push(`/admin/view-catalogs/add?sponsorId=${selectedSponsorId}`)
+                }
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition font-medium"
+              >
+                + Add Products
+              </button>
+            </div>
             <p className="text-sm text-gray-700">
               <span className="font-semibold">Point Conversion Rate:</span> $
               {selectedSponsor.pointValue.toFixed(2)} per point
