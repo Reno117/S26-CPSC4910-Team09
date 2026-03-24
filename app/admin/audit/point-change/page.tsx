@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
- 
+import Link from "next/link";
+
 async function getAuditLog() {
   return await prisma.pointLog.findMany({
     orderBy: { createdAt: "desc" },
@@ -41,6 +42,14 @@ export default async function AuditLogPage() {
       <div className="mx-auto max-w-8xl">
  
         <div className="mb-6">
+          <div className="mb-4">
+            <Link
+              href="/admin/audit"
+              className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition"
+            >
+              ← Back to Audits
+            </Link>
+          </div>
           <h1 className="text-2xl font-semibold text-slate-900">Point Change Audit Log</h1>
           <p className="mt-1 text-sm text-slate-500">Most recent {changes.length} changes</p>
         </div>
