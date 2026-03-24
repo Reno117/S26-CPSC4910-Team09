@@ -64,7 +64,6 @@ model DriverProfile {
   id            String   @id @default(cuid())
   userId        String   @unique
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  totalPointsSpent Int @default(0)
   sponsorId     String?
   sponsor       Sponsor? @relation(fields: [sponsorId], references: [id], onDelete: SetNull)
   pointsBalance Int      @default(0)
