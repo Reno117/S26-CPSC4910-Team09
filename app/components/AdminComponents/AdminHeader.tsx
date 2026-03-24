@@ -80,6 +80,7 @@ export default function AdminHeader() {
                             <li><Link href="/admin/all-orders" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Orders</Link></li>
                             <li><Link href="/admin/change-password-audit" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Password Change Audit</Link></li>
                             <li><Link href="/admin/rules" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Rules</Link></li>
+                            <li><Link href="/admin/audit" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Audits</Link></li>
                         </ul>
                     </div>
                 </div>

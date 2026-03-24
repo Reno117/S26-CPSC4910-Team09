@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth-helpers";
 import { JSX } from "react";
+import Link from "next/link";
+
 
 async function getDriverStatusLogs() {
   return await prisma.driverStatusLog.findMany({
@@ -58,6 +60,14 @@ export default async function DriverStatusAuditPage() {
     <div className="min-h-screen bg-slate-50 p-6">
       <div className="mx-auto max-w-8xl">
         <div className="mb-6">
+          <div className="mb-4">
+            <Link
+              href="/admin/audit"
+              className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition"
+            >
+              ← Back to Audits
+            </Link>
+          </div>
           <h1 className="text-2xl font-semibold text-slate-900">Driver Status Change Log</h1>
           <p className="mt-1 text-sm text-slate-500">Most recent {logs.length} status changes</p>
         </div>
