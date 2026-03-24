@@ -222,6 +222,31 @@ model Verification {
   @@map("verification")
 }
 
+model PasswordResetAttempt {
+  id        String   @id @default(cuid())
+  email     String?
+  ipAddress String?  @db.VarChar(45)
+  userAgent String?  @db.Text
+  source    String   @default("login_forgot_password_button")
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+  @@map("password_reset_attempt")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([token])
+  @@map("password_reset_token")
+}
+
 model CatalogProduct {
   id          String   @id @default(cuid())
   sponsorId   String

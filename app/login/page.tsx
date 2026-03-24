@@ -1,5 +1,4 @@
 "use client";
- 
 import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import LogoutButton from "../components/logout-button";
@@ -10,7 +9,6 @@ import { handleSponsorSignIn } from "@/app/actions/sponsor/handle-signin";
 import { logFailedSignIn } from "@/lib/loginfailed";
 import { logPassedSignIn } from "@/lib/loginpassed";
 import Link from "next/link";
- 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -137,7 +135,7 @@ export default function Login() {
       setLoading(false);
     }
   };
- 
+
   if (isLoggedIn) {
     return (
       <div className="min-h-screen grid place-items-center bg-slate-50 px-4">
@@ -224,7 +222,10 @@ export default function Login() {
             </button>
  
             <div className="flex items-center justify-between pt-1 text-xs">
-              <Link href="/forgot-password" className="text-sky-600 hover:underline">
+              <Link
+                href="/forgot-password"
+                className="text-sky-600 hover:underline"
+              >
                 Forgot your password?
               </Link>
             </div>

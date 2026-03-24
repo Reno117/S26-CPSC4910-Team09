@@ -31,4 +31,5 @@ export async function updateProductTitle(productId: string, title: string) {
   });
 
   revalidatePath("/sponsor/catalog");
+  revalidatePath("/admin/view-catalogs");
 }

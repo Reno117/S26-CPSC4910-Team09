@@ -395,6 +395,7 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
+  PasswordResetAttempt: 'PasswordResetAttempt',
   CatalogProduct: 'CatalogProduct',
   Cart: 'Cart',
   CartItem: 'CartItem',
@@ -423,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "signInAttempt" | "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy" | "admin" | "loginLog" | "pointLog" | "passwordChangeLog" | "applicationLog" | "driverStatusLog"
+    modelProps: "signInAttempt" | "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "passwordResetAttempt" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy" | "admin" | "loginLog" | "pointLog" | "passwordChangeLog" | "applicationLog" | "driverStatusLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1150,6 +1151,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.VerificationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.VerificationCountAggregateOutputType> | number
+        }
+      }
+    }
+    PasswordResetAttempt: {
+      payload: Prisma.$PasswordResetAttemptPayload<ExtArgs>
+      fields: Prisma.PasswordResetAttemptFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PasswordResetAttemptFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetAttemptPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PasswordResetAttemptFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetAttemptPayload>
+        }
+        findFirst: {
+          args: Prisma.PasswordResetAttemptFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetAttemptPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PasswordResetAttemptFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetAttemptPayload>
+        }
+        findMany: {
+          args: Prisma.PasswordResetAttemptFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetAttemptPayload>[]
+        }
+        create: {
+          args: Prisma.PasswordResetAttemptCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetAttemptPayload>
+        }
+        createMany: {
+          args: Prisma.PasswordResetAttemptCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PasswordResetAttemptDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetAttemptPayload>
+        }
+        update: {
+          args: Prisma.PasswordResetAttemptUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetAttemptPayload>
+        }
+        deleteMany: {
+          args: Prisma.PasswordResetAttemptDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PasswordResetAttemptUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PasswordResetAttemptUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordResetAttemptPayload>
+        }
+        aggregate: {
+          args: Prisma.PasswordResetAttemptAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePasswordResetAttempt>
+        }
+        groupBy: {
+          args: Prisma.PasswordResetAttemptGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordResetAttemptGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PasswordResetAttemptCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordResetAttemptCountAggregateOutputType> | number
         }
       }
     }
@@ -2193,6 +2260,18 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+export const PasswordResetAttemptScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetAttemptScalarFieldEnum = (typeof PasswordResetAttemptScalarFieldEnum)[keyof typeof PasswordResetAttemptScalarFieldEnum]
+
+
 export const CatalogProductScalarFieldEnum = {
   id: 'id',
   sponsorId: 'sponsorId',
@@ -2498,6 +2577,17 @@ export const VerificationOrderByRelevanceFieldEnum = {
 export type VerificationOrderByRelevanceFieldEnum = (typeof VerificationOrderByRelevanceFieldEnum)[keyof typeof VerificationOrderByRelevanceFieldEnum]
 
 
+export const PasswordResetAttemptOrderByRelevanceFieldEnum = {
+  id: 'id',
+  email: 'email',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  source: 'source'
+} as const
+
+export type PasswordResetAttemptOrderByRelevanceFieldEnum = (typeof PasswordResetAttemptOrderByRelevanceFieldEnum)[keyof typeof PasswordResetAttemptOrderByRelevanceFieldEnum]
+
+
 export const CatalogProductOrderByRelevanceFieldEnum = {
   id: 'id',
   sponsorId: 'sponsorId',
@@ -2797,6 +2887,7 @@ export type GlobalOmitConfig = {
   session?: Prisma.SessionOmit
   account?: Prisma.AccountOmit
   verification?: Prisma.VerificationOmit
+  passwordResetAttempt?: Prisma.PasswordResetAttemptOmit
   catalogProduct?: Prisma.CatalogProductOmit
   cart?: Prisma.CartOmit
   cartItem?: Prisma.CartItemOmit

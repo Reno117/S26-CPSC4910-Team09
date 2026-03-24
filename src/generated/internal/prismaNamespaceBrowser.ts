@@ -62,6 +62,7 @@ export const ModelName = {
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification',
+  PasswordResetAttempt: 'PasswordResetAttempt',
   CatalogProduct: 'CatalogProduct',
   Cart: 'Cart',
   CartItem: 'CartItem',
@@ -234,6 +235,18 @@ export const VerificationScalarFieldEnum = {
 } as const
 
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
+
+
+export const PasswordResetAttemptScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  source: 'source',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordResetAttemptScalarFieldEnum = (typeof PasswordResetAttemptScalarFieldEnum)[keyof typeof PasswordResetAttemptScalarFieldEnum]
 
 
 export const CatalogProductScalarFieldEnum = {
@@ -539,6 +552,17 @@ export const VerificationOrderByRelevanceFieldEnum = {
 } as const
 
 export type VerificationOrderByRelevanceFieldEnum = (typeof VerificationOrderByRelevanceFieldEnum)[keyof typeof VerificationOrderByRelevanceFieldEnum]
+
+
+export const PasswordResetAttemptOrderByRelevanceFieldEnum = {
+  id: 'id',
+  email: 'email',
+  ipAddress: 'ipAddress',
+  userAgent: 'userAgent',
+  source: 'source'
+} as const
+
+export type PasswordResetAttemptOrderByRelevanceFieldEnum = (typeof PasswordResetAttemptOrderByRelevanceFieldEnum)[keyof typeof PasswordResetAttemptOrderByRelevanceFieldEnum]
 
 
 export const CatalogProductOrderByRelevanceFieldEnum = {

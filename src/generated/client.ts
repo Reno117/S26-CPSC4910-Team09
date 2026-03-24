@@ -95,6 +95,11 @@ export type Account = Prisma.AccountModel
  */
 export type Verification = Prisma.VerificationModel
 /**
+ * Model PasswordResetAttempt
+ * 
+ */
+export type PasswordResetAttempt = Prisma.PasswordResetAttemptModel
+/**
  * Model CatalogProduct
  * 
  */

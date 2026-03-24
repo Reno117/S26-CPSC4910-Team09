@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import ProductCard from "../catalog/catalog-product-card";
 
 interface Sponsor {
   id: string;
@@ -120,71 +121,24 @@ export default function SponsorCatalogSelector({
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {catalogProducts.map((product) => {
-                const pointPrice = Math.ceil(
-                  product.price / selectedSponsor.pointValue
-                );
-                
-                return (
-                  <div
-                    key={product.id}
-                    className={`bg-white border rounded-lg shadow-sm overflow-hidden transition-opacity ${
-                      !product.isActive ? "opacity-60" : ""
-                    }`}
-                  >
-                    {/* Image */}
-                    <div className="h-48 bg-gray-100 flex items-center justify-center relative">
-                      {product.imageUrl ? (
-                        <img
-                          src={product.imageUrl}
-                          alt={product.title}
-                          className="max-h-full max-w-full object-contain p-2"
-                        />
-                      ) : (
-                        <div className="text-gray-400 text-sm">No image</div>
-                      )}
-                      {!product.isActive && (
-                        <div className="absolute top-2 right-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded">
-                          Inactive
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-4">
-                      <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 min-h-[3rem]">
-                        {product.title}
-                      </h3>
-
-                      <div className="space-y-1 mb-3">
-                        <p className="text-sm text-gray-600">
-                          <span className="font-medium">Price:</span> $
-                          {product.price.toFixed(2)}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          <span className="font-medium">Points:</span>{" "}
-                          {pointPrice.toLocaleString()}
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          eBay ID: {product.ebayItemId}
-                        </p>
-                      </div>
-
-                      <div className="flex items-center justify-between pt-3 border-t border-gray-200">
-                        <span
-                          className={`text-xs px-2 py-1 rounded ${
-                            product.isActive
-                              ? "bg-green-100 text-green-800"
-                              : "bg-yellow-100 text-yellow-800"
-                          }`}
-                        >
-                          {product.isActive ? "Active" : "Inactive"}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              {catalogProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={{
+                    id: product.id,
+                    title: product.title,
+                    imageUrl: product.imageUrl,
+                    isActive: product.isActive,
+                    price: product.price,
+                    ebayItemId: product.ebayItemId,
+                    sponsor: {
+                      name: selectedSponsor.name,
+                      pointValue: selectedSponsor.pointValue,
+                    },
+                  }}
+                  isAdmin={true}
+                />
+              ))}
             </div>
           )}
         </div>
