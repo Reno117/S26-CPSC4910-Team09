@@ -402,7 +402,12 @@ export const ModelName = {
   OrderItem: 'OrderItem',
   Verse: 'Verse',
   SponsoredBy: 'SponsoredBy',
-  Admin: 'Admin'
+  Admin: 'Admin',
+  LoginLog: 'LoginLog',
+  PointLog: 'PointLog',
+  PasswordChangeLog: 'PasswordChangeLog',
+  ApplicationLog: 'ApplicationLog',
+  DriverStatusLog: 'DriverStatusLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "signInAttempt" | "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy" | "admin"
+    modelProps: "signInAttempt" | "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy" | "admin" | "loginLog" | "pointLog" | "passwordChangeLog" | "applicationLog" | "driverStatusLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1676,6 +1681,336 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    LoginLog: {
+      payload: Prisma.$LoginLogPayload<ExtArgs>
+      fields: Prisma.LoginLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LoginLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LoginLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginLogPayload>
+        }
+        findFirst: {
+          args: Prisma.LoginLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LoginLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginLogPayload>
+        }
+        findMany: {
+          args: Prisma.LoginLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginLogPayload>[]
+        }
+        create: {
+          args: Prisma.LoginLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginLogPayload>
+        }
+        createMany: {
+          args: Prisma.LoginLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.LoginLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginLogPayload>
+        }
+        update: {
+          args: Prisma.LoginLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.LoginLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LoginLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.LoginLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginLogPayload>
+        }
+        aggregate: {
+          args: Prisma.LoginLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLoginLog>
+        }
+        groupBy: {
+          args: Prisma.LoginLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LoginLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    PointLog: {
+      payload: Prisma.$PointLogPayload<ExtArgs>
+      fields: Prisma.PointLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PointLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PointLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointLogPayload>
+        }
+        findFirst: {
+          args: Prisma.PointLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PointLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointLogPayload>
+        }
+        findMany: {
+          args: Prisma.PointLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointLogPayload>[]
+        }
+        create: {
+          args: Prisma.PointLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointLogPayload>
+        }
+        createMany: {
+          args: Prisma.PointLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PointLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointLogPayload>
+        }
+        update: {
+          args: Prisma.PointLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.PointLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PointLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PointLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PointLogPayload>
+        }
+        aggregate: {
+          args: Prisma.PointLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePointLog>
+        }
+        groupBy: {
+          args: Prisma.PointLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PointLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PointLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PointLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    PasswordChangeLog: {
+      payload: Prisma.$PasswordChangeLogPayload<ExtArgs>
+      fields: Prisma.PasswordChangeLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PasswordChangeLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordChangeLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PasswordChangeLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordChangeLogPayload>
+        }
+        findFirst: {
+          args: Prisma.PasswordChangeLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordChangeLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PasswordChangeLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordChangeLogPayload>
+        }
+        findMany: {
+          args: Prisma.PasswordChangeLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordChangeLogPayload>[]
+        }
+        create: {
+          args: Prisma.PasswordChangeLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordChangeLogPayload>
+        }
+        createMany: {
+          args: Prisma.PasswordChangeLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PasswordChangeLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordChangeLogPayload>
+        }
+        update: {
+          args: Prisma.PasswordChangeLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordChangeLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.PasswordChangeLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PasswordChangeLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PasswordChangeLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PasswordChangeLogPayload>
+        }
+        aggregate: {
+          args: Prisma.PasswordChangeLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePasswordChangeLog>
+        }
+        groupBy: {
+          args: Prisma.PasswordChangeLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordChangeLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PasswordChangeLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PasswordChangeLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    ApplicationLog: {
+      payload: Prisma.$ApplicationLogPayload<ExtArgs>
+      fields: Prisma.ApplicationLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ApplicationLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApplicationLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ApplicationLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApplicationLogPayload>
+        }
+        findFirst: {
+          args: Prisma.ApplicationLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApplicationLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ApplicationLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApplicationLogPayload>
+        }
+        findMany: {
+          args: Prisma.ApplicationLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApplicationLogPayload>[]
+        }
+        create: {
+          args: Prisma.ApplicationLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApplicationLogPayload>
+        }
+        createMany: {
+          args: Prisma.ApplicationLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.ApplicationLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApplicationLogPayload>
+        }
+        update: {
+          args: Prisma.ApplicationLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApplicationLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.ApplicationLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ApplicationLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.ApplicationLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ApplicationLogPayload>
+        }
+        aggregate: {
+          args: Prisma.ApplicationLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateApplicationLog>
+        }
+        groupBy: {
+          args: Prisma.ApplicationLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ApplicationLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ApplicationLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ApplicationLogCountAggregateOutputType> | number
+        }
+      }
+    }
+    DriverStatusLog: {
+      payload: Prisma.$DriverStatusLogPayload<ExtArgs>
+      fields: Prisma.DriverStatusLogFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DriverStatusLogFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverStatusLogPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DriverStatusLogFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverStatusLogPayload>
+        }
+        findFirst: {
+          args: Prisma.DriverStatusLogFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverStatusLogPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DriverStatusLogFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverStatusLogPayload>
+        }
+        findMany: {
+          args: Prisma.DriverStatusLogFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverStatusLogPayload>[]
+        }
+        create: {
+          args: Prisma.DriverStatusLogCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverStatusLogPayload>
+        }
+        createMany: {
+          args: Prisma.DriverStatusLogCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.DriverStatusLogDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverStatusLogPayload>
+        }
+        update: {
+          args: Prisma.DriverStatusLogUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverStatusLogPayload>
+        }
+        deleteMany: {
+          args: Prisma.DriverStatusLogDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DriverStatusLogUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.DriverStatusLogUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DriverStatusLogPayload>
+        }
+        aggregate: {
+          args: Prisma.DriverStatusLogAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDriverStatusLog>
+        }
+        groupBy: {
+          args: Prisma.DriverStatusLogGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DriverStatusLogGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DriverStatusLogCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DriverStatusLogCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1966,6 +2301,74 @@ export const AdminScalarFieldEnum = {
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
 
 
+export const LoginLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  username: 'username',
+  ipAddress: 'ipAddress',
+  successful: 'successful',
+  failReason: 'failReason',
+  createdAt: 'createdAt'
+} as const
+
+export type LoginLogScalarFieldEnum = (typeof LoginLogScalarFieldEnum)[keyof typeof LoginLogScalarFieldEnum]
+
+
+export const PointLogScalarFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorId: 'sponsorId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  pointsBefore: 'pointsBefore',
+  pointsAfter: 'pointsAfter',
+  amountChange: 'amountChange',
+  changeType: 'changeType',
+  changeReason: 'changeReason',
+  createdAt: 'createdAt'
+} as const
+
+export type PointLogScalarFieldEnum = (typeof PointLogScalarFieldEnum)[keyof typeof PointLogScalarFieldEnum]
+
+
+export const PasswordChangeLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordChangeLogScalarFieldEnum = (typeof PasswordChangeLogScalarFieldEnum)[keyof typeof PasswordChangeLogScalarFieldEnum]
+
+
+export const ApplicationLogScalarFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorId: 'sponsorId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  previousStatus: 'previousStatus',
+  newStatus: 'newStatus',
+  createdAt: 'createdAt'
+} as const
+
+export type ApplicationLogScalarFieldEnum = (typeof ApplicationLogScalarFieldEnum)[keyof typeof ApplicationLogScalarFieldEnum]
+
+
+export const DriverStatusLogScalarFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  previousStatus: 'previousStatus',
+  newStatus: 'newStatus',
+  changeReason: 'changeReason',
+  createdAt: 'createdAt'
+} as const
+
+export type DriverStatusLogScalarFieldEnum = (typeof DriverStatusLogScalarFieldEnum)[keyof typeof DriverStatusLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2178,6 +2581,62 @@ export const AdminOrderByRelevanceFieldEnum = {
 export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
 
 
+export const LoginLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  username: 'username',
+  ipAddress: 'ipAddress',
+  failReason: 'failReason'
+} as const
+
+export type LoginLogOrderByRelevanceFieldEnum = (typeof LoginLogOrderByRelevanceFieldEnum)[keyof typeof LoginLogOrderByRelevanceFieldEnum]
+
+
+export const PointLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorId: 'sponsorId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  changeReason: 'changeReason'
+} as const
+
+export type PointLogOrderByRelevanceFieldEnum = (typeof PointLogOrderByRelevanceFieldEnum)[keyof typeof PointLogOrderByRelevanceFieldEnum]
+
+
+export const PasswordChangeLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ipAddress: 'ipAddress'
+} as const
+
+export type PasswordChangeLogOrderByRelevanceFieldEnum = (typeof PasswordChangeLogOrderByRelevanceFieldEnum)[keyof typeof PasswordChangeLogOrderByRelevanceFieldEnum]
+
+
+export const ApplicationLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorId: 'sponsorId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId'
+} as const
+
+export type ApplicationLogOrderByRelevanceFieldEnum = (typeof ApplicationLogOrderByRelevanceFieldEnum)[keyof typeof ApplicationLogOrderByRelevanceFieldEnum]
+
+
+export const DriverStatusLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  previousStatus: 'previousStatus',
+  newStatus: 'newStatus',
+  changeReason: 'changeReason'
+} as const
+
+export type DriverStatusLogOrderByRelevanceFieldEnum = (typeof DriverStatusLogOrderByRelevanceFieldEnum)[keyof typeof DriverStatusLogOrderByRelevanceFieldEnum]
+
+
 
 /**
  * Field references
@@ -2216,6 +2675,20 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'PointChangeTypes'
+ */
+export type EnumPointChangeTypesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PointChangeTypes'>
+    
+
+
+/**
+ * Reference to a field of type 'ApplicationStatuses'
+ */
+export type EnumApplicationStatusesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApplicationStatuses'>
     
 
 /**
@@ -2332,6 +2805,11 @@ export type GlobalOmitConfig = {
   verse?: Prisma.VerseOmit
   sponsoredBy?: Prisma.SponsoredByOmit
   admin?: Prisma.AdminOmit
+  loginLog?: Prisma.LoginLogOmit
+  pointLog?: Prisma.PointLogOmit
+  passwordChangeLog?: Prisma.PasswordChangeLogOmit
+  applicationLog?: Prisma.ApplicationLogOmit
+  driverStatusLog?: Prisma.DriverStatusLogOmit
 }
 
 /* Types for Logging */

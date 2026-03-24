@@ -9,7 +9,19 @@
 * 🟢 You can import this file directly.
 */
 
+export const PointChangeTypes = {
+  ADD: 'ADD',
+  DEDUCT: 'DEDUCT',
+  PURCHASE: 'PURCHASE'
+} as const
+
+export type PointChangeTypes = (typeof PointChangeTypes)[keyof typeof PointChangeTypes]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const ApplicationStatuses = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type ApplicationStatuses = (typeof ApplicationStatuses)[keyof typeof ApplicationStatuses]

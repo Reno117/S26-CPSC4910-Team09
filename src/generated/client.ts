@@ -134,3 +134,28 @@ export type SponsoredBy = Prisma.SponsoredByModel
  * 
  */
 export type Admin = Prisma.AdminModel
+/**
+ * Model LoginLog
+ * 
+ */
+export type LoginLog = Prisma.LoginLogModel
+/**
+ * Model PointLog
+ * 
+ */
+export type PointLog = Prisma.PointLogModel
+/**
+ * Model PasswordChangeLog
+ * 
+ */
+export type PasswordChangeLog = Prisma.PasswordChangeLogModel
+/**
+ * Model ApplicationLog
+ * 
+ */
+export type ApplicationLog = Prisma.ApplicationLogModel
+/**
+ * Model DriverStatusLog
+ * 
+ */
+export type DriverStatusLog = Prisma.DriverStatusLogModel

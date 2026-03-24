@@ -202,6 +202,57 @@ export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
+export type EnumPointChangeTypesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PointChangeTypes | Prisma.EnumPointChangeTypesFieldRefInput<$PrismaModel>
+  in?: $Enums.PointChangeTypes[]
+  notIn?: $Enums.PointChangeTypes[]
+  not?: Prisma.NestedEnumPointChangeTypesFilter<$PrismaModel> | $Enums.PointChangeTypes
+}
+
+export type EnumPointChangeTypesWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PointChangeTypes | Prisma.EnumPointChangeTypesFieldRefInput<$PrismaModel>
+  in?: $Enums.PointChangeTypes[]
+  notIn?: $Enums.PointChangeTypes[]
+  not?: Prisma.NestedEnumPointChangeTypesWithAggregatesFilter<$PrismaModel> | $Enums.PointChangeTypes
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPointChangeTypesFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPointChangeTypesFilter<$PrismaModel>
+}
+
+export type EnumApplicationStatusesNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ApplicationStatuses | Prisma.EnumApplicationStatusesFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ApplicationStatuses[] | null
+  notIn?: $Enums.ApplicationStatuses[] | null
+  not?: Prisma.NestedEnumApplicationStatusesNullableFilter<$PrismaModel> | $Enums.ApplicationStatuses | null
+}
+
+export type EnumApplicationStatusesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ApplicationStatuses | Prisma.EnumApplicationStatusesFieldRefInput<$PrismaModel>
+  in?: $Enums.ApplicationStatuses[]
+  notIn?: $Enums.ApplicationStatuses[]
+  not?: Prisma.NestedEnumApplicationStatusesFilter<$PrismaModel> | $Enums.ApplicationStatuses
+}
+
+export type EnumApplicationStatusesNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ApplicationStatuses | Prisma.EnumApplicationStatusesFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ApplicationStatuses[] | null
+  notIn?: $Enums.ApplicationStatuses[] | null
+  not?: Prisma.NestedEnumApplicationStatusesNullableWithAggregatesFilter<$PrismaModel> | $Enums.ApplicationStatuses | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumApplicationStatusesNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumApplicationStatusesNullableFilter<$PrismaModel>
+}
+
+export type EnumApplicationStatusesWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ApplicationStatuses | Prisma.EnumApplicationStatusesFieldRefInput<$PrismaModel>
+  in?: $Enums.ApplicationStatuses[]
+  notIn?: $Enums.ApplicationStatuses[]
+  not?: Prisma.NestedEnumApplicationStatusesWithAggregatesFilter<$PrismaModel> | $Enums.ApplicationStatuses
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumApplicationStatusesFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumApplicationStatusesFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[]
@@ -394,6 +445,57 @@ export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumPointChangeTypesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PointChangeTypes | Prisma.EnumPointChangeTypesFieldRefInput<$PrismaModel>
+  in?: $Enums.PointChangeTypes[]
+  notIn?: $Enums.PointChangeTypes[]
+  not?: Prisma.NestedEnumPointChangeTypesFilter<$PrismaModel> | $Enums.PointChangeTypes
+}
+
+export type NestedEnumPointChangeTypesWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PointChangeTypes | Prisma.EnumPointChangeTypesFieldRefInput<$PrismaModel>
+  in?: $Enums.PointChangeTypes[]
+  notIn?: $Enums.PointChangeTypes[]
+  not?: Prisma.NestedEnumPointChangeTypesWithAggregatesFilter<$PrismaModel> | $Enums.PointChangeTypes
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPointChangeTypesFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPointChangeTypesFilter<$PrismaModel>
+}
+
+export type NestedEnumApplicationStatusesNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.ApplicationStatuses | Prisma.EnumApplicationStatusesFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ApplicationStatuses[] | null
+  notIn?: $Enums.ApplicationStatuses[] | null
+  not?: Prisma.NestedEnumApplicationStatusesNullableFilter<$PrismaModel> | $Enums.ApplicationStatuses | null
+}
+
+export type NestedEnumApplicationStatusesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ApplicationStatuses | Prisma.EnumApplicationStatusesFieldRefInput<$PrismaModel>
+  in?: $Enums.ApplicationStatuses[]
+  notIn?: $Enums.ApplicationStatuses[]
+  not?: Prisma.NestedEnumApplicationStatusesFilter<$PrismaModel> | $Enums.ApplicationStatuses
+}
+
+export type NestedEnumApplicationStatusesNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ApplicationStatuses | Prisma.EnumApplicationStatusesFieldRefInput<$PrismaModel> | null
+  in?: $Enums.ApplicationStatuses[] | null
+  notIn?: $Enums.ApplicationStatuses[] | null
+  not?: Prisma.NestedEnumApplicationStatusesNullableWithAggregatesFilter<$PrismaModel> | $Enums.ApplicationStatuses | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumApplicationStatusesNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumApplicationStatusesNullableFilter<$PrismaModel>
+}
+
+export type NestedEnumApplicationStatusesWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.ApplicationStatuses | Prisma.EnumApplicationStatusesFieldRefInput<$PrismaModel>
+  in?: $Enums.ApplicationStatuses[]
+  notIn?: $Enums.ApplicationStatuses[]
+  not?: Prisma.NestedEnumApplicationStatusesWithAggregatesFilter<$PrismaModel> | $Enums.ApplicationStatuses
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumApplicationStatusesFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumApplicationStatusesFilter<$PrismaModel>
 }
 
 

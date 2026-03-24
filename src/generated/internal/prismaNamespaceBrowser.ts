@@ -69,7 +69,12 @@ export const ModelName = {
   OrderItem: 'OrderItem',
   Verse: 'Verse',
   SponsoredBy: 'SponsoredBy',
-  Admin: 'Admin'
+  Admin: 'Admin',
+  LoginLog: 'LoginLog',
+  PointLog: 'PointLog',
+  PasswordChangeLog: 'PasswordChangeLog',
+  ApplicationLog: 'ApplicationLog',
+  DriverStatusLog: 'DriverStatusLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -339,6 +344,74 @@ export const AdminScalarFieldEnum = {
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
 
 
+export const LoginLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  username: 'username',
+  ipAddress: 'ipAddress',
+  successful: 'successful',
+  failReason: 'failReason',
+  createdAt: 'createdAt'
+} as const
+
+export type LoginLogScalarFieldEnum = (typeof LoginLogScalarFieldEnum)[keyof typeof LoginLogScalarFieldEnum]
+
+
+export const PointLogScalarFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorId: 'sponsorId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  pointsBefore: 'pointsBefore',
+  pointsAfter: 'pointsAfter',
+  amountChange: 'amountChange',
+  changeType: 'changeType',
+  changeReason: 'changeReason',
+  createdAt: 'createdAt'
+} as const
+
+export type PointLogScalarFieldEnum = (typeof PointLogScalarFieldEnum)[keyof typeof PointLogScalarFieldEnum]
+
+
+export const PasswordChangeLogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ipAddress: 'ipAddress',
+  createdAt: 'createdAt'
+} as const
+
+export type PasswordChangeLogScalarFieldEnum = (typeof PasswordChangeLogScalarFieldEnum)[keyof typeof PasswordChangeLogScalarFieldEnum]
+
+
+export const ApplicationLogScalarFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorId: 'sponsorId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  previousStatus: 'previousStatus',
+  newStatus: 'newStatus',
+  createdAt: 'createdAt'
+} as const
+
+export type ApplicationLogScalarFieldEnum = (typeof ApplicationLogScalarFieldEnum)[keyof typeof ApplicationLogScalarFieldEnum]
+
+
+export const DriverStatusLogScalarFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  previousStatus: 'previousStatus',
+  newStatus: 'newStatus',
+  changeReason: 'changeReason',
+  createdAt: 'createdAt'
+} as const
+
+export type DriverStatusLogScalarFieldEnum = (typeof DriverStatusLogScalarFieldEnum)[keyof typeof DriverStatusLogScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -549,4 +622,60 @@ export const AdminOrderByRelevanceFieldEnum = {
 } as const
 
 export type AdminOrderByRelevanceFieldEnum = (typeof AdminOrderByRelevanceFieldEnum)[keyof typeof AdminOrderByRelevanceFieldEnum]
+
+
+export const LoginLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  username: 'username',
+  ipAddress: 'ipAddress',
+  failReason: 'failReason'
+} as const
+
+export type LoginLogOrderByRelevanceFieldEnum = (typeof LoginLogOrderByRelevanceFieldEnum)[keyof typeof LoginLogOrderByRelevanceFieldEnum]
+
+
+export const PointLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorId: 'sponsorId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  changeReason: 'changeReason'
+} as const
+
+export type PointLogOrderByRelevanceFieldEnum = (typeof PointLogOrderByRelevanceFieldEnum)[keyof typeof PointLogOrderByRelevanceFieldEnum]
+
+
+export const PasswordChangeLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ipAddress: 'ipAddress'
+} as const
+
+export type PasswordChangeLogOrderByRelevanceFieldEnum = (typeof PasswordChangeLogOrderByRelevanceFieldEnum)[keyof typeof PasswordChangeLogOrderByRelevanceFieldEnum]
+
+
+export const ApplicationLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorId: 'sponsorId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId'
+} as const
+
+export type ApplicationLogOrderByRelevanceFieldEnum = (typeof ApplicationLogOrderByRelevanceFieldEnum)[keyof typeof ApplicationLogOrderByRelevanceFieldEnum]
+
+
+export const DriverStatusLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  driverId: 'driverId',
+  sponsorUserId: 'sponsorUserId',
+  adminUserId: 'adminUserId',
+  previousStatus: 'previousStatus',
+  newStatus: 'newStatus',
+  changeReason: 'changeReason'
+} as const
+
+export type DriverStatusLogOrderByRelevanceFieldEnum = (typeof DriverStatusLogOrderByRelevanceFieldEnum)[keyof typeof DriverStatusLogOrderByRelevanceFieldEnum]
 

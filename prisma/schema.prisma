@@ -64,7 +64,7 @@ model DriverProfile {
   id            String   @id @default(cuid())
   userId        String   @unique
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  totalPointsSpent Int
+  totalPointsSpent Int @default(0)
   sponsorId     String?
   sponsor       Sponsor? @relation(fields: [sponsorId], references: [id], onDelete: SetNull)
   pointsBalance Int      @default(0)
@@ -84,6 +84,8 @@ model DriverProfile {
   sponsorships  SponsoredBy[]
   pointLogs     PointLog[]
   applicationLogs ApplicationLog[]
+  statusLogs    DriverStatusLog[]
+
 
 
   @@map("driver_profile")
@@ -126,6 +128,8 @@ model SponsorUser {
 
   pointLogs       PointLog[]
   applicationLogs ApplicationLog[]
+  driverStatusLogs DriverStatusLog[]
+
 
   @@map("sponsor_user")
 }
@@ -364,9 +368,12 @@ model Admin {
 
   pointLogs       PointLog[]
   applicationLogs ApplicationLog[]
+  driverStatusLogs DriverStatusLog[]
+
 
   // Relations
   @@map("admin")
+
 }
 
 model LoginLog {
@@ -464,4 +471,25 @@ model ApplicationLog {
   @@index([sponsorId, createdAt])
 
   @@map("application_log")  
+}
+
+model DriverStatusLog {
+  id              String          @id @default(cuid())
+  driverId        String
+  sponsorUserId   String?
+  adminUserId     String?
+
+  previousStatus  String?
+  newStatus       String
+
+  changeReason    String?
+
+  createdAt       DateTime        @default(now())
+
+  driver          DriverProfile   @relation(fields: [driverId], references: [id])
+  sponsorUser     SponsorUser?    @relation(fields: [sponsorUserId], references: [id])
+  admin           Admin?          @relation(fields: [adminUserId], references: [id])
+
+  @@index([driverId, createdAt])
+  @@map("driver_status_log")
 }

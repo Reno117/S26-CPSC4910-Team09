@@ -183,6 +183,9 @@ export type AdminWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  pointLogs?: Prisma.PointLogListRelationFilter
+  applicationLogs?: Prisma.ApplicationLogListRelationFilter
+  driverStatusLogs?: Prisma.DriverStatusLogListRelationFilter
 }
 
 export type AdminOrderByWithRelationInput = {
@@ -192,6 +195,9 @@ export type AdminOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
+  pointLogs?: Prisma.PointLogOrderByRelationAggregateInput
+  applicationLogs?: Prisma.ApplicationLogOrderByRelationAggregateInput
+  driverStatusLogs?: Prisma.DriverStatusLogOrderByRelationAggregateInput
   _relevance?: Prisma.AdminOrderByRelevanceInput
 }
 
@@ -205,6 +211,9 @@ export type AdminWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Admin"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  pointLogs?: Prisma.PointLogListRelationFilter
+  applicationLogs?: Prisma.ApplicationLogListRelationFilter
+  driverStatusLogs?: Prisma.DriverStatusLogListRelationFilter
 }, "id" | "userId">
 
 export type AdminOrderByWithAggregationInput = {
@@ -235,6 +244,9 @@ export type AdminCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutAdminInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutAdminUserInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutAdminInput
+  driverStatusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutAdminInput
 }
 
 export type AdminUncheckedCreateInput = {
@@ -243,6 +255,9 @@ export type AdminUncheckedCreateInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutAdminUserInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutAdminInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type AdminUpdateInput = {
@@ -251,6 +266,9 @@ export type AdminUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutAdminNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutAdminUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutAdminNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminUncheckedUpdateInput = {
@@ -259,6 +277,9 @@ export type AdminUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutAdminUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutAdminNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminCreateManyInput = {
@@ -351,11 +372,62 @@ export type AdminUncheckedUpdateOneWithoutUserNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutUserInput, Prisma.AdminUpdateWithoutUserInput>, Prisma.AdminUncheckedUpdateWithoutUserInput>
 }
 
+export type AdminCreateNestedOneWithoutPointLogsInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutPointLogsInput, Prisma.AdminUncheckedCreateWithoutPointLogsInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutPointLogsInput
+  connect?: Prisma.AdminWhereUniqueInput
+}
+
+export type AdminUpdateOneWithoutPointLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutPointLogsInput, Prisma.AdminUncheckedCreateWithoutPointLogsInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutPointLogsInput
+  upsert?: Prisma.AdminUpsertWithoutPointLogsInput
+  disconnect?: Prisma.AdminWhereInput | boolean
+  delete?: Prisma.AdminWhereInput | boolean
+  connect?: Prisma.AdminWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutPointLogsInput, Prisma.AdminUpdateWithoutPointLogsInput>, Prisma.AdminUncheckedUpdateWithoutPointLogsInput>
+}
+
+export type AdminCreateNestedOneWithoutApplicationLogsInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutApplicationLogsInput, Prisma.AdminUncheckedCreateWithoutApplicationLogsInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutApplicationLogsInput
+  connect?: Prisma.AdminWhereUniqueInput
+}
+
+export type AdminUpdateOneWithoutApplicationLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutApplicationLogsInput, Prisma.AdminUncheckedCreateWithoutApplicationLogsInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutApplicationLogsInput
+  upsert?: Prisma.AdminUpsertWithoutApplicationLogsInput
+  disconnect?: Prisma.AdminWhereInput | boolean
+  delete?: Prisma.AdminWhereInput | boolean
+  connect?: Prisma.AdminWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutApplicationLogsInput, Prisma.AdminUpdateWithoutApplicationLogsInput>, Prisma.AdminUncheckedUpdateWithoutApplicationLogsInput>
+}
+
+export type AdminCreateNestedOneWithoutDriverStatusLogsInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutDriverStatusLogsInput, Prisma.AdminUncheckedCreateWithoutDriverStatusLogsInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutDriverStatusLogsInput
+  connect?: Prisma.AdminWhereUniqueInput
+}
+
+export type AdminUpdateOneWithoutDriverStatusLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutDriverStatusLogsInput, Prisma.AdminUncheckedCreateWithoutDriverStatusLogsInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutDriverStatusLogsInput
+  upsert?: Prisma.AdminUpsertWithoutDriverStatusLogsInput
+  disconnect?: Prisma.AdminWhereInput | boolean
+  delete?: Prisma.AdminWhereInput | boolean
+  connect?: Prisma.AdminWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutDriverStatusLogsInput, Prisma.AdminUpdateWithoutDriverStatusLogsInput>, Prisma.AdminUncheckedUpdateWithoutDriverStatusLogsInput>
+}
+
 export type AdminCreateWithoutUserInput = {
   id?: string
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutAdminUserInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutAdminInput
+  driverStatusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutAdminInput
 }
 
 export type AdminUncheckedCreateWithoutUserInput = {
@@ -363,6 +435,9 @@ export type AdminUncheckedCreateWithoutUserInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutAdminUserInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutAdminInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type AdminCreateOrConnectWithoutUserInput = {
@@ -386,6 +461,9 @@ export type AdminUpdateWithoutUserInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUpdateManyWithoutAdminUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutAdminNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminUncheckedUpdateWithoutUserInput = {
@@ -393,8 +471,226 @@ export type AdminUncheckedUpdateWithoutUserInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutAdminUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutAdminNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutAdminNestedInput
 }
 
+export type AdminCreateWithoutPointLogsInput = {
+  id?: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutAdminInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutAdminInput
+  driverStatusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutAdminInput
+}
+
+export type AdminUncheckedCreateWithoutPointLogsInput = {
+  id?: string
+  userId: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutAdminInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutAdminInput
+}
+
+export type AdminCreateOrConnectWithoutPointLogsInput = {
+  where: Prisma.AdminWhereUniqueInput
+  create: Prisma.XOR<Prisma.AdminCreateWithoutPointLogsInput, Prisma.AdminUncheckedCreateWithoutPointLogsInput>
+}
+
+export type AdminUpsertWithoutPointLogsInput = {
+  update: Prisma.XOR<Prisma.AdminUpdateWithoutPointLogsInput, Prisma.AdminUncheckedUpdateWithoutPointLogsInput>
+  create: Prisma.XOR<Prisma.AdminCreateWithoutPointLogsInput, Prisma.AdminUncheckedCreateWithoutPointLogsInput>
+  where?: Prisma.AdminWhereInput
+}
+
+export type AdminUpdateToOneWithWhereWithoutPointLogsInput = {
+  where?: Prisma.AdminWhereInput
+  data: Prisma.XOR<Prisma.AdminUpdateWithoutPointLogsInput, Prisma.AdminUncheckedUpdateWithoutPointLogsInput>
+}
+
+export type AdminUpdateWithoutPointLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutAdminNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutAdminNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUpdateManyWithoutAdminNestedInput
+}
+
+export type AdminUncheckedUpdateWithoutPointLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutAdminNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutAdminNestedInput
+}
+
+export type AdminCreateWithoutApplicationLogsInput = {
+  id?: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutAdminInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutAdminUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutAdminInput
+}
+
+export type AdminUncheckedCreateWithoutApplicationLogsInput = {
+  id?: string
+  userId: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutAdminUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutAdminInput
+}
+
+export type AdminCreateOrConnectWithoutApplicationLogsInput = {
+  where: Prisma.AdminWhereUniqueInput
+  create: Prisma.XOR<Prisma.AdminCreateWithoutApplicationLogsInput, Prisma.AdminUncheckedCreateWithoutApplicationLogsInput>
+}
+
+export type AdminUpsertWithoutApplicationLogsInput = {
+  update: Prisma.XOR<Prisma.AdminUpdateWithoutApplicationLogsInput, Prisma.AdminUncheckedUpdateWithoutApplicationLogsInput>
+  create: Prisma.XOR<Prisma.AdminCreateWithoutApplicationLogsInput, Prisma.AdminUncheckedCreateWithoutApplicationLogsInput>
+  where?: Prisma.AdminWhereInput
+}
+
+export type AdminUpdateToOneWithWhereWithoutApplicationLogsInput = {
+  where?: Prisma.AdminWhereInput
+  data: Prisma.XOR<Prisma.AdminUpdateWithoutApplicationLogsInput, Prisma.AdminUncheckedUpdateWithoutApplicationLogsInput>
+}
+
+export type AdminUpdateWithoutApplicationLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutAdminNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutAdminUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUpdateManyWithoutAdminNestedInput
+}
+
+export type AdminUncheckedUpdateWithoutApplicationLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutAdminUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutAdminNestedInput
+}
+
+export type AdminCreateWithoutDriverStatusLogsInput = {
+  id?: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutAdminInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutAdminUserInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutAdminInput
+}
+
+export type AdminUncheckedCreateWithoutDriverStatusLogsInput = {
+  id?: string
+  userId: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutAdminUserInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutAdminInput
+}
+
+export type AdminCreateOrConnectWithoutDriverStatusLogsInput = {
+  where: Prisma.AdminWhereUniqueInput
+  create: Prisma.XOR<Prisma.AdminCreateWithoutDriverStatusLogsInput, Prisma.AdminUncheckedCreateWithoutDriverStatusLogsInput>
+}
+
+export type AdminUpsertWithoutDriverStatusLogsInput = {
+  update: Prisma.XOR<Prisma.AdminUpdateWithoutDriverStatusLogsInput, Prisma.AdminUncheckedUpdateWithoutDriverStatusLogsInput>
+  create: Prisma.XOR<Prisma.AdminCreateWithoutDriverStatusLogsInput, Prisma.AdminUncheckedCreateWithoutDriverStatusLogsInput>
+  where?: Prisma.AdminWhereInput
+}
+
+export type AdminUpdateToOneWithWhereWithoutDriverStatusLogsInput = {
+  where?: Prisma.AdminWhereInput
+  data: Prisma.XOR<Prisma.AdminUpdateWithoutDriverStatusLogsInput, Prisma.AdminUncheckedUpdateWithoutDriverStatusLogsInput>
+}
+
+export type AdminUpdateWithoutDriverStatusLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutAdminNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutAdminUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutAdminNestedInput
+}
+
+export type AdminUncheckedUpdateWithoutDriverStatusLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutAdminUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutAdminNestedInput
+}
+
+
+/**
+ * Count Type AdminCountOutputType
+ */
+
+export type AdminCountOutputType = {
+  pointLogs: number
+  applicationLogs: number
+  driverStatusLogs: number
+}
+
+export type AdminCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pointLogs?: boolean | AdminCountOutputTypeCountPointLogsArgs
+  applicationLogs?: boolean | AdminCountOutputTypeCountApplicationLogsArgs
+  driverStatusLogs?: boolean | AdminCountOutputTypeCountDriverStatusLogsArgs
+}
+
+/**
+ * AdminCountOutputType without action
+ */
+export type AdminCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdminCountOutputType
+   */
+  select?: Prisma.AdminCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * AdminCountOutputType without action
+ */
+export type AdminCountOutputTypeCountPointLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PointLogWhereInput
+}
+
+/**
+ * AdminCountOutputType without action
+ */
+export type AdminCountOutputTypeCountApplicationLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ApplicationLogWhereInput
+}
+
+/**
+ * AdminCountOutputType without action
+ */
+export type AdminCountOutputTypeCountDriverStatusLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DriverStatusLogWhereInput
+}
 
 
 export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -404,6 +700,10 @@ export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  pointLogs?: boolean | Prisma.Admin$pointLogsArgs<ExtArgs>
+  applicationLogs?: boolean | Prisma.Admin$applicationLogsArgs<ExtArgs>
+  driverStatusLogs?: boolean | Prisma.Admin$driverStatusLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.AdminCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admin"]>
 
 
@@ -419,12 +719,19 @@ export type AdminSelectScalar = {
 export type AdminOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["admin"]>
 export type AdminInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  pointLogs?: boolean | Prisma.Admin$pointLogsArgs<ExtArgs>
+  applicationLogs?: boolean | Prisma.Admin$applicationLogsArgs<ExtArgs>
+  driverStatusLogs?: boolean | Prisma.Admin$driverStatusLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.AdminCountOutputTypeDefaultArgs<ExtArgs>
 }
 
 export type $AdminPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Admin"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
+    pointLogs: Prisma.$PointLogPayload<ExtArgs>[]
+    applicationLogs: Prisma.$ApplicationLogPayload<ExtArgs>[]
+    driverStatusLogs: Prisma.$DriverStatusLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -773,6 +1080,9 @@ readonly fields: AdminFieldRefs;
 export interface Prisma__AdminClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  pointLogs<T extends Prisma.Admin$pointLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$pointLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PointLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  applicationLogs<T extends Prisma.Admin$applicationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$applicationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  driverStatusLogs<T extends Prisma.Admin$driverStatusLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$driverStatusLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DriverStatusLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1147,6 +1457,78 @@ export type AdminDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Admins to delete.
    */
   limit?: number
+}
+
+/**
+ * Admin.pointLogs
+ */
+export type Admin$pointLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PointLog
+   */
+  select?: Prisma.PointLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PointLog
+   */
+  omit?: Prisma.PointLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PointLogInclude<ExtArgs> | null
+  where?: Prisma.PointLogWhereInput
+  orderBy?: Prisma.PointLogOrderByWithRelationInput | Prisma.PointLogOrderByWithRelationInput[]
+  cursor?: Prisma.PointLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PointLogScalarFieldEnum | Prisma.PointLogScalarFieldEnum[]
+}
+
+/**
+ * Admin.applicationLogs
+ */
+export type Admin$applicationLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApplicationLog
+   */
+  select?: Prisma.ApplicationLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApplicationLog
+   */
+  omit?: Prisma.ApplicationLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationLogInclude<ExtArgs> | null
+  where?: Prisma.ApplicationLogWhereInput
+  orderBy?: Prisma.ApplicationLogOrderByWithRelationInput | Prisma.ApplicationLogOrderByWithRelationInput[]
+  cursor?: Prisma.ApplicationLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ApplicationLogScalarFieldEnum | Prisma.ApplicationLogScalarFieldEnum[]
+}
+
+/**
+ * Admin.driverStatusLogs
+ */
+export type Admin$driverStatusLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DriverStatusLog
+   */
+  select?: Prisma.DriverStatusLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DriverStatusLog
+   */
+  omit?: Prisma.DriverStatusLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DriverStatusLogInclude<ExtArgs> | null
+  where?: Prisma.DriverStatusLogWhereInput
+  orderBy?: Prisma.DriverStatusLogOrderByWithRelationInput | Prisma.DriverStatusLogOrderByWithRelationInput[]
+  cursor?: Prisma.DriverStatusLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DriverStatusLogScalarFieldEnum | Prisma.DriverStatusLogScalarFieldEnum[]
 }
 
 /**

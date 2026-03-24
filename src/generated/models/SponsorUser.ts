@@ -192,6 +192,9 @@ export type SponsorUserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"SponsorUser"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   sponsor?: Prisma.XOR<Prisma.SponsorScalarRelationFilter, Prisma.SponsorWhereInput>
+  pointLogs?: Prisma.PointLogListRelationFilter
+  applicationLogs?: Prisma.ApplicationLogListRelationFilter
+  driverStatusLogs?: Prisma.DriverStatusLogListRelationFilter
 }
 
 export type SponsorUserOrderByWithRelationInput = {
@@ -203,6 +206,9 @@ export type SponsorUserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   sponsor?: Prisma.SponsorOrderByWithRelationInput
+  pointLogs?: Prisma.PointLogOrderByRelationAggregateInput
+  applicationLogs?: Prisma.ApplicationLogOrderByRelationAggregateInput
+  driverStatusLogs?: Prisma.DriverStatusLogOrderByRelationAggregateInput
   _relevance?: Prisma.SponsorUserOrderByRelevanceInput
 }
 
@@ -218,6 +224,9 @@ export type SponsorUserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"SponsorUser"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   sponsor?: Prisma.XOR<Prisma.SponsorScalarRelationFilter, Prisma.SponsorWhereInput>
+  pointLogs?: Prisma.PointLogListRelationFilter
+  applicationLogs?: Prisma.ApplicationLogListRelationFilter
+  driverStatusLogs?: Prisma.DriverStatusLogListRelationFilter
 }, "id" | "userId">
 
 export type SponsorUserOrderByWithAggregationInput = {
@@ -251,6 +260,9 @@ export type SponsorUserCreateInput = {
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSponsorUserInput
   sponsor: Prisma.SponsorCreateNestedOneWithoutSponsorUsersInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutSponsorUserInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutSponsorUserInput
 }
 
 export type SponsorUserUncheckedCreateInput = {
@@ -260,6 +272,9 @@ export type SponsorUserUncheckedCreateInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutSponsorUserInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutSponsorUserInput
 }
 
 export type SponsorUserUpdateInput = {
@@ -269,6 +284,9 @@ export type SponsorUserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSponsorUserNestedInput
   sponsor?: Prisma.SponsorUpdateOneRequiredWithoutSponsorUsersNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutSponsorUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUpdateManyWithoutSponsorUserNestedInput
 }
 
 export type SponsorUserUncheckedUpdateInput = {
@@ -278,6 +296,9 @@ export type SponsorUserUncheckedUpdateInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutSponsorUserNestedInput
 }
 
 export type SponsorUserCreateManyInput = {
@@ -427,12 +448,63 @@ export type SponsorUserUncheckedUpdateManyWithoutSponsorNestedInput = {
   deleteMany?: Prisma.SponsorUserScalarWhereInput | Prisma.SponsorUserScalarWhereInput[]
 }
 
+export type SponsorUserCreateNestedOneWithoutPointLogsInput = {
+  create?: Prisma.XOR<Prisma.SponsorUserCreateWithoutPointLogsInput, Prisma.SponsorUserUncheckedCreateWithoutPointLogsInput>
+  connectOrCreate?: Prisma.SponsorUserCreateOrConnectWithoutPointLogsInput
+  connect?: Prisma.SponsorUserWhereUniqueInput
+}
+
+export type SponsorUserUpdateOneWithoutPointLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.SponsorUserCreateWithoutPointLogsInput, Prisma.SponsorUserUncheckedCreateWithoutPointLogsInput>
+  connectOrCreate?: Prisma.SponsorUserCreateOrConnectWithoutPointLogsInput
+  upsert?: Prisma.SponsorUserUpsertWithoutPointLogsInput
+  disconnect?: Prisma.SponsorUserWhereInput | boolean
+  delete?: Prisma.SponsorUserWhereInput | boolean
+  connect?: Prisma.SponsorUserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SponsorUserUpdateToOneWithWhereWithoutPointLogsInput, Prisma.SponsorUserUpdateWithoutPointLogsInput>, Prisma.SponsorUserUncheckedUpdateWithoutPointLogsInput>
+}
+
+export type SponsorUserCreateNestedOneWithoutApplicationLogsInput = {
+  create?: Prisma.XOR<Prisma.SponsorUserCreateWithoutApplicationLogsInput, Prisma.SponsorUserUncheckedCreateWithoutApplicationLogsInput>
+  connectOrCreate?: Prisma.SponsorUserCreateOrConnectWithoutApplicationLogsInput
+  connect?: Prisma.SponsorUserWhereUniqueInput
+}
+
+export type SponsorUserUpdateOneWithoutApplicationLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.SponsorUserCreateWithoutApplicationLogsInput, Prisma.SponsorUserUncheckedCreateWithoutApplicationLogsInput>
+  connectOrCreate?: Prisma.SponsorUserCreateOrConnectWithoutApplicationLogsInput
+  upsert?: Prisma.SponsorUserUpsertWithoutApplicationLogsInput
+  disconnect?: Prisma.SponsorUserWhereInput | boolean
+  delete?: Prisma.SponsorUserWhereInput | boolean
+  connect?: Prisma.SponsorUserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SponsorUserUpdateToOneWithWhereWithoutApplicationLogsInput, Prisma.SponsorUserUpdateWithoutApplicationLogsInput>, Prisma.SponsorUserUncheckedUpdateWithoutApplicationLogsInput>
+}
+
+export type SponsorUserCreateNestedOneWithoutDriverStatusLogsInput = {
+  create?: Prisma.XOR<Prisma.SponsorUserCreateWithoutDriverStatusLogsInput, Prisma.SponsorUserUncheckedCreateWithoutDriverStatusLogsInput>
+  connectOrCreate?: Prisma.SponsorUserCreateOrConnectWithoutDriverStatusLogsInput
+  connect?: Prisma.SponsorUserWhereUniqueInput
+}
+
+export type SponsorUserUpdateOneWithoutDriverStatusLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.SponsorUserCreateWithoutDriverStatusLogsInput, Prisma.SponsorUserUncheckedCreateWithoutDriverStatusLogsInput>
+  connectOrCreate?: Prisma.SponsorUserCreateOrConnectWithoutDriverStatusLogsInput
+  upsert?: Prisma.SponsorUserUpsertWithoutDriverStatusLogsInput
+  disconnect?: Prisma.SponsorUserWhereInput | boolean
+  delete?: Prisma.SponsorUserWhereInput | boolean
+  connect?: Prisma.SponsorUserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SponsorUserUpdateToOneWithWhereWithoutDriverStatusLogsInput, Prisma.SponsorUserUpdateWithoutDriverStatusLogsInput>, Prisma.SponsorUserUncheckedUpdateWithoutDriverStatusLogsInput>
+}
+
 export type SponsorUserCreateWithoutUserInput = {
   id?: string
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
   sponsor: Prisma.SponsorCreateNestedOneWithoutSponsorUsersInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutSponsorUserInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutSponsorUserInput
 }
 
 export type SponsorUserUncheckedCreateWithoutUserInput = {
@@ -441,6 +513,9 @@ export type SponsorUserUncheckedCreateWithoutUserInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutSponsorUserInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutSponsorUserInput
 }
 
 export type SponsorUserCreateOrConnectWithoutUserInput = {
@@ -465,6 +540,9 @@ export type SponsorUserUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sponsor?: Prisma.SponsorUpdateOneRequiredWithoutSponsorUsersNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutSponsorUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUpdateManyWithoutSponsorUserNestedInput
 }
 
 export type SponsorUserUncheckedUpdateWithoutUserInput = {
@@ -473,6 +551,9 @@ export type SponsorUserUncheckedUpdateWithoutUserInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutSponsorUserNestedInput
 }
 
 export type SponsorUserCreateWithoutSponsorInput = {
@@ -481,6 +562,9 @@ export type SponsorUserCreateWithoutSponsorInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutSponsorUserInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutSponsorUserInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutSponsorUserInput
 }
 
 export type SponsorUserUncheckedCreateWithoutSponsorInput = {
@@ -489,6 +573,9 @@ export type SponsorUserUncheckedCreateWithoutSponsorInput = {
   status?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutSponsorUserInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutSponsorUserInput
 }
 
 export type SponsorUserCreateOrConnectWithoutSponsorInput = {
@@ -529,6 +616,186 @@ export type SponsorUserScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"SponsorUser"> | Date | string
 }
 
+export type SponsorUserCreateWithoutPointLogsInput = {
+  id?: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSponsorUserInput
+  sponsor: Prisma.SponsorCreateNestedOneWithoutSponsorUsersInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutSponsorUserInput
+}
+
+export type SponsorUserUncheckedCreateWithoutPointLogsInput = {
+  id?: string
+  userId: string
+  sponsorId: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutSponsorUserInput
+}
+
+export type SponsorUserCreateOrConnectWithoutPointLogsInput = {
+  where: Prisma.SponsorUserWhereUniqueInput
+  create: Prisma.XOR<Prisma.SponsorUserCreateWithoutPointLogsInput, Prisma.SponsorUserUncheckedCreateWithoutPointLogsInput>
+}
+
+export type SponsorUserUpsertWithoutPointLogsInput = {
+  update: Prisma.XOR<Prisma.SponsorUserUpdateWithoutPointLogsInput, Prisma.SponsorUserUncheckedUpdateWithoutPointLogsInput>
+  create: Prisma.XOR<Prisma.SponsorUserCreateWithoutPointLogsInput, Prisma.SponsorUserUncheckedCreateWithoutPointLogsInput>
+  where?: Prisma.SponsorUserWhereInput
+}
+
+export type SponsorUserUpdateToOneWithWhereWithoutPointLogsInput = {
+  where?: Prisma.SponsorUserWhereInput
+  data: Prisma.XOR<Prisma.SponsorUserUpdateWithoutPointLogsInput, Prisma.SponsorUserUncheckedUpdateWithoutPointLogsInput>
+}
+
+export type SponsorUserUpdateWithoutPointLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSponsorUserNestedInput
+  sponsor?: Prisma.SponsorUpdateOneRequiredWithoutSponsorUsersNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUpdateManyWithoutSponsorUserNestedInput
+}
+
+export type SponsorUserUncheckedUpdateWithoutPointLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  sponsorId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+}
+
+export type SponsorUserCreateWithoutApplicationLogsInput = {
+  id?: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSponsorUserInput
+  sponsor: Prisma.SponsorCreateNestedOneWithoutSponsorUsersInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutSponsorUserInput
+}
+
+export type SponsorUserUncheckedCreateWithoutApplicationLogsInput = {
+  id?: string
+  userId: string
+  sponsorId: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutSponsorUserInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutSponsorUserInput
+}
+
+export type SponsorUserCreateOrConnectWithoutApplicationLogsInput = {
+  where: Prisma.SponsorUserWhereUniqueInput
+  create: Prisma.XOR<Prisma.SponsorUserCreateWithoutApplicationLogsInput, Prisma.SponsorUserUncheckedCreateWithoutApplicationLogsInput>
+}
+
+export type SponsorUserUpsertWithoutApplicationLogsInput = {
+  update: Prisma.XOR<Prisma.SponsorUserUpdateWithoutApplicationLogsInput, Prisma.SponsorUserUncheckedUpdateWithoutApplicationLogsInput>
+  create: Prisma.XOR<Prisma.SponsorUserCreateWithoutApplicationLogsInput, Prisma.SponsorUserUncheckedCreateWithoutApplicationLogsInput>
+  where?: Prisma.SponsorUserWhereInput
+}
+
+export type SponsorUserUpdateToOneWithWhereWithoutApplicationLogsInput = {
+  where?: Prisma.SponsorUserWhereInput
+  data: Prisma.XOR<Prisma.SponsorUserUpdateWithoutApplicationLogsInput, Prisma.SponsorUserUncheckedUpdateWithoutApplicationLogsInput>
+}
+
+export type SponsorUserUpdateWithoutApplicationLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSponsorUserNestedInput
+  sponsor?: Prisma.SponsorUpdateOneRequiredWithoutSponsorUsersNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUpdateManyWithoutSponsorUserNestedInput
+}
+
+export type SponsorUserUncheckedUpdateWithoutApplicationLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  sponsorId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+}
+
+export type SponsorUserCreateWithoutDriverStatusLogsInput = {
+  id?: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutSponsorUserInput
+  sponsor: Prisma.SponsorCreateNestedOneWithoutSponsorUsersInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutSponsorUserInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutSponsorUserInput
+}
+
+export type SponsorUserUncheckedCreateWithoutDriverStatusLogsInput = {
+  id?: string
+  userId: string
+  sponsorId: string
+  status?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutSponsorUserInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutSponsorUserInput
+}
+
+export type SponsorUserCreateOrConnectWithoutDriverStatusLogsInput = {
+  where: Prisma.SponsorUserWhereUniqueInput
+  create: Prisma.XOR<Prisma.SponsorUserCreateWithoutDriverStatusLogsInput, Prisma.SponsorUserUncheckedCreateWithoutDriverStatusLogsInput>
+}
+
+export type SponsorUserUpsertWithoutDriverStatusLogsInput = {
+  update: Prisma.XOR<Prisma.SponsorUserUpdateWithoutDriverStatusLogsInput, Prisma.SponsorUserUncheckedUpdateWithoutDriverStatusLogsInput>
+  create: Prisma.XOR<Prisma.SponsorUserCreateWithoutDriverStatusLogsInput, Prisma.SponsorUserUncheckedCreateWithoutDriverStatusLogsInput>
+  where?: Prisma.SponsorUserWhereInput
+}
+
+export type SponsorUserUpdateToOneWithWhereWithoutDriverStatusLogsInput = {
+  where?: Prisma.SponsorUserWhereInput
+  data: Prisma.XOR<Prisma.SponsorUserUpdateWithoutDriverStatusLogsInput, Prisma.SponsorUserUncheckedUpdateWithoutDriverStatusLogsInput>
+}
+
+export type SponsorUserUpdateWithoutDriverStatusLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutSponsorUserNestedInput
+  sponsor?: Prisma.SponsorUpdateOneRequiredWithoutSponsorUsersNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutSponsorUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutSponsorUserNestedInput
+}
+
+export type SponsorUserUncheckedUpdateWithoutDriverStatusLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  sponsorId?: Prisma.StringFieldUpdateOperationsInput | string
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+}
+
 export type SponsorUserCreateManySponsorInput = {
   id?: string
   userId: string
@@ -543,6 +810,9 @@ export type SponsorUserUpdateWithoutSponsorInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutSponsorUserNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutSponsorUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUpdateManyWithoutSponsorUserNestedInput
 }
 
 export type SponsorUserUncheckedUpdateWithoutSponsorInput = {
@@ -551,6 +821,9 @@ export type SponsorUserUncheckedUpdateWithoutSponsorInput = {
   status?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutSponsorUserNestedInput
+  driverStatusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutSponsorUserNestedInput
 }
 
 export type SponsorUserUncheckedUpdateManyWithoutSponsorInput = {
@@ -562,6 +835,53 @@ export type SponsorUserUncheckedUpdateManyWithoutSponsorInput = {
 }
 
 
+/**
+ * Count Type SponsorUserCountOutputType
+ */
+
+export type SponsorUserCountOutputType = {
+  pointLogs: number
+  applicationLogs: number
+  driverStatusLogs: number
+}
+
+export type SponsorUserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  pointLogs?: boolean | SponsorUserCountOutputTypeCountPointLogsArgs
+  applicationLogs?: boolean | SponsorUserCountOutputTypeCountApplicationLogsArgs
+  driverStatusLogs?: boolean | SponsorUserCountOutputTypeCountDriverStatusLogsArgs
+}
+
+/**
+ * SponsorUserCountOutputType without action
+ */
+export type SponsorUserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SponsorUserCountOutputType
+   */
+  select?: Prisma.SponsorUserCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SponsorUserCountOutputType without action
+ */
+export type SponsorUserCountOutputTypeCountPointLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PointLogWhereInput
+}
+
+/**
+ * SponsorUserCountOutputType without action
+ */
+export type SponsorUserCountOutputTypeCountApplicationLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ApplicationLogWhereInput
+}
+
+/**
+ * SponsorUserCountOutputType without action
+ */
+export type SponsorUserCountOutputTypeCountDriverStatusLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DriverStatusLogWhereInput
+}
+
 
 export type SponsorUserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -572,6 +892,10 @@ export type SponsorUserSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sponsor?: boolean | Prisma.SponsorDefaultArgs<ExtArgs>
+  pointLogs?: boolean | Prisma.SponsorUser$pointLogsArgs<ExtArgs>
+  applicationLogs?: boolean | Prisma.SponsorUser$applicationLogsArgs<ExtArgs>
+  driverStatusLogs?: boolean | Prisma.SponsorUser$driverStatusLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.SponsorUserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["sponsorUser"]>
 
 
@@ -589,6 +913,10 @@ export type SponsorUserOmit<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type SponsorUserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sponsor?: boolean | Prisma.SponsorDefaultArgs<ExtArgs>
+  pointLogs?: boolean | Prisma.SponsorUser$pointLogsArgs<ExtArgs>
+  applicationLogs?: boolean | Prisma.SponsorUser$applicationLogsArgs<ExtArgs>
+  driverStatusLogs?: boolean | Prisma.SponsorUser$driverStatusLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.SponsorUserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
 export type $SponsorUserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -596,6 +924,9 @@ export type $SponsorUserPayload<ExtArgs extends runtime.Types.Extensions.Interna
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
     sponsor: Prisma.$SponsorPayload<ExtArgs>
+    pointLogs: Prisma.$PointLogPayload<ExtArgs>[]
+    applicationLogs: Prisma.$ApplicationLogPayload<ExtArgs>[]
+    driverStatusLogs: Prisma.$DriverStatusLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -946,6 +1277,9 @@ export interface Prisma__SponsorUserClient<T, Null = never, ExtArgs extends runt
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   sponsor<T extends Prisma.SponsorDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SponsorDefaultArgs<ExtArgs>>): Prisma.Prisma__SponsorClient<runtime.Types.Result.GetResult<Prisma.$SponsorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  pointLogs<T extends Prisma.SponsorUser$pointLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SponsorUser$pointLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PointLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  applicationLogs<T extends Prisma.SponsorUser$applicationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SponsorUser$applicationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  driverStatusLogs<T extends Prisma.SponsorUser$driverStatusLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SponsorUser$driverStatusLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DriverStatusLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1321,6 +1655,78 @@ export type SponsorUserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many SponsorUsers to delete.
    */
   limit?: number
+}
+
+/**
+ * SponsorUser.pointLogs
+ */
+export type SponsorUser$pointLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PointLog
+   */
+  select?: Prisma.PointLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PointLog
+   */
+  omit?: Prisma.PointLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PointLogInclude<ExtArgs> | null
+  where?: Prisma.PointLogWhereInput
+  orderBy?: Prisma.PointLogOrderByWithRelationInput | Prisma.PointLogOrderByWithRelationInput[]
+  cursor?: Prisma.PointLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PointLogScalarFieldEnum | Prisma.PointLogScalarFieldEnum[]
+}
+
+/**
+ * SponsorUser.applicationLogs
+ */
+export type SponsorUser$applicationLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApplicationLog
+   */
+  select?: Prisma.ApplicationLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApplicationLog
+   */
+  omit?: Prisma.ApplicationLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationLogInclude<ExtArgs> | null
+  where?: Prisma.ApplicationLogWhereInput
+  orderBy?: Prisma.ApplicationLogOrderByWithRelationInput | Prisma.ApplicationLogOrderByWithRelationInput[]
+  cursor?: Prisma.ApplicationLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ApplicationLogScalarFieldEnum | Prisma.ApplicationLogScalarFieldEnum[]
+}
+
+/**
+ * SponsorUser.driverStatusLogs
+ */
+export type SponsorUser$driverStatusLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DriverStatusLog
+   */
+  select?: Prisma.DriverStatusLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DriverStatusLog
+   */
+  omit?: Prisma.DriverStatusLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DriverStatusLogInclude<ExtArgs> | null
+  where?: Prisma.DriverStatusLogWhereInput
+  orderBy?: Prisma.DriverStatusLogOrderByWithRelationInput | Prisma.DriverStatusLogOrderByWithRelationInput[]
+  cursor?: Prisma.DriverStatusLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DriverStatusLogScalarFieldEnum | Prisma.DriverStatusLogScalarFieldEnum[]
 }
 
 /**

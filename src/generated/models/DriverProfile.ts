@@ -259,6 +259,9 @@ export type DriverProfileWhereInput = {
   cart?: Prisma.CartListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   sponsorships?: Prisma.SponsoredByListRelationFilter
+  pointLogs?: Prisma.PointLogListRelationFilter
+  applicationLogs?: Prisma.ApplicationLogListRelationFilter
+  statusLogs?: Prisma.DriverStatusLogListRelationFilter
 }
 
 export type DriverProfileOrderByWithRelationInput = {
@@ -278,6 +281,9 @@ export type DriverProfileOrderByWithRelationInput = {
   cart?: Prisma.CartOrderByRelationAggregateInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
   sponsorships?: Prisma.SponsoredByOrderByRelationAggregateInput
+  pointLogs?: Prisma.PointLogOrderByRelationAggregateInput
+  applicationLogs?: Prisma.ApplicationLogOrderByRelationAggregateInput
+  statusLogs?: Prisma.DriverStatusLogOrderByRelationAggregateInput
   _relevance?: Prisma.DriverProfileOrderByRelevanceInput
 }
 
@@ -301,6 +307,9 @@ export type DriverProfileWhereUniqueInput = Prisma.AtLeast<{
   cart?: Prisma.CartListRelationFilter
   orders?: Prisma.OrderListRelationFilter
   sponsorships?: Prisma.SponsoredByListRelationFilter
+  pointLogs?: Prisma.PointLogListRelationFilter
+  applicationLogs?: Prisma.ApplicationLogListRelationFilter
+  statusLogs?: Prisma.DriverStatusLogListRelationFilter
 }, "id" | "userId">
 
 export type DriverProfileOrderByWithAggregationInput = {
@@ -337,7 +346,7 @@ export type DriverProfileScalarWhereWithAggregatesInput = {
 
 export type DriverProfileCreateInput = {
   id?: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -350,12 +359,15 @@ export type DriverProfileCreateInput = {
   cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileUncheckedCreateInput = {
   id?: string
   userId: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -367,6 +379,9 @@ export type DriverProfileUncheckedCreateInput = {
   cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileUpdateInput = {
@@ -384,6 +399,9 @@ export type DriverProfileUpdateInput = {
   cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileUncheckedUpdateInput = {
@@ -401,12 +419,15 @@ export type DriverProfileUncheckedUpdateInput = {
   cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileCreateManyInput = {
   id?: string
   userId: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -653,9 +674,51 @@ export type DriverProfileUpdateOneRequiredWithoutSponsorshipsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DriverProfileUpdateToOneWithWhereWithoutSponsorshipsInput, Prisma.DriverProfileUpdateWithoutSponsorshipsInput>, Prisma.DriverProfileUncheckedUpdateWithoutSponsorshipsInput>
 }
 
+export type DriverProfileCreateNestedOneWithoutPointLogsInput = {
+  create?: Prisma.XOR<Prisma.DriverProfileCreateWithoutPointLogsInput, Prisma.DriverProfileUncheckedCreateWithoutPointLogsInput>
+  connectOrCreate?: Prisma.DriverProfileCreateOrConnectWithoutPointLogsInput
+  connect?: Prisma.DriverProfileWhereUniqueInput
+}
+
+export type DriverProfileUpdateOneRequiredWithoutPointLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.DriverProfileCreateWithoutPointLogsInput, Prisma.DriverProfileUncheckedCreateWithoutPointLogsInput>
+  connectOrCreate?: Prisma.DriverProfileCreateOrConnectWithoutPointLogsInput
+  upsert?: Prisma.DriverProfileUpsertWithoutPointLogsInput
+  connect?: Prisma.DriverProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DriverProfileUpdateToOneWithWhereWithoutPointLogsInput, Prisma.DriverProfileUpdateWithoutPointLogsInput>, Prisma.DriverProfileUncheckedUpdateWithoutPointLogsInput>
+}
+
+export type DriverProfileCreateNestedOneWithoutApplicationLogsInput = {
+  create?: Prisma.XOR<Prisma.DriverProfileCreateWithoutApplicationLogsInput, Prisma.DriverProfileUncheckedCreateWithoutApplicationLogsInput>
+  connectOrCreate?: Prisma.DriverProfileCreateOrConnectWithoutApplicationLogsInput
+  connect?: Prisma.DriverProfileWhereUniqueInput
+}
+
+export type DriverProfileUpdateOneRequiredWithoutApplicationLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.DriverProfileCreateWithoutApplicationLogsInput, Prisma.DriverProfileUncheckedCreateWithoutApplicationLogsInput>
+  connectOrCreate?: Prisma.DriverProfileCreateOrConnectWithoutApplicationLogsInput
+  upsert?: Prisma.DriverProfileUpsertWithoutApplicationLogsInput
+  connect?: Prisma.DriverProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DriverProfileUpdateToOneWithWhereWithoutApplicationLogsInput, Prisma.DriverProfileUpdateWithoutApplicationLogsInput>, Prisma.DriverProfileUncheckedUpdateWithoutApplicationLogsInput>
+}
+
+export type DriverProfileCreateNestedOneWithoutStatusLogsInput = {
+  create?: Prisma.XOR<Prisma.DriverProfileCreateWithoutStatusLogsInput, Prisma.DriverProfileUncheckedCreateWithoutStatusLogsInput>
+  connectOrCreate?: Prisma.DriverProfileCreateOrConnectWithoutStatusLogsInput
+  connect?: Prisma.DriverProfileWhereUniqueInput
+}
+
+export type DriverProfileUpdateOneRequiredWithoutStatusLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.DriverProfileCreateWithoutStatusLogsInput, Prisma.DriverProfileUncheckedCreateWithoutStatusLogsInput>
+  connectOrCreate?: Prisma.DriverProfileCreateOrConnectWithoutStatusLogsInput
+  upsert?: Prisma.DriverProfileUpsertWithoutStatusLogsInput
+  connect?: Prisma.DriverProfileWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DriverProfileUpdateToOneWithWhereWithoutStatusLogsInput, Prisma.DriverProfileUpdateWithoutStatusLogsInput>, Prisma.DriverProfileUncheckedUpdateWithoutStatusLogsInput>
+}
+
 export type DriverProfileCreateWithoutUserInput = {
   id?: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -667,11 +730,14 @@ export type DriverProfileCreateWithoutUserInput = {
   cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileUncheckedCreateWithoutUserInput = {
   id?: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -683,6 +749,9 @@ export type DriverProfileUncheckedCreateWithoutUserInput = {
   cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileCreateOrConnectWithoutUserInput = {
@@ -715,6 +784,9 @@ export type DriverProfileUpdateWithoutUserInput = {
   cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileUncheckedUpdateWithoutUserInput = {
@@ -731,11 +803,14 @@ export type DriverProfileUncheckedUpdateWithoutUserInput = {
   cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileCreateWithoutSponsorInput = {
   id?: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -747,12 +822,15 @@ export type DriverProfileCreateWithoutSponsorInput = {
   cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileUncheckedCreateWithoutSponsorInput = {
   id?: string
   userId: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -763,6 +841,9 @@ export type DriverProfileUncheckedCreateWithoutSponsorInput = {
   cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileCreateOrConnectWithoutSponsorInput = {
@@ -808,7 +889,7 @@ export type DriverProfileScalarWhereInput = {
 
 export type DriverProfileCreateWithoutApplicationsInput = {
   id?: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -820,12 +901,15 @@ export type DriverProfileCreateWithoutApplicationsInput = {
   cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileUncheckedCreateWithoutApplicationsInput = {
   id?: string
   userId: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -836,6 +920,9 @@ export type DriverProfileUncheckedCreateWithoutApplicationsInput = {
   cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileCreateOrConnectWithoutApplicationsInput = {
@@ -868,6 +955,9 @@ export type DriverProfileUpdateWithoutApplicationsInput = {
   cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileUncheckedUpdateWithoutApplicationsInput = {
@@ -884,11 +974,14 @@ export type DriverProfileUncheckedUpdateWithoutApplicationsInput = {
   cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileCreateWithoutPointChangesInput = {
   id?: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -900,12 +993,15 @@ export type DriverProfileCreateWithoutPointChangesInput = {
   cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileUncheckedCreateWithoutPointChangesInput = {
   id?: string
   userId: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -916,6 +1012,9 @@ export type DriverProfileUncheckedCreateWithoutPointChangesInput = {
   cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileCreateOrConnectWithoutPointChangesInput = {
@@ -948,6 +1047,9 @@ export type DriverProfileUpdateWithoutPointChangesInput = {
   cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileUncheckedUpdateWithoutPointChangesInput = {
@@ -964,11 +1066,14 @@ export type DriverProfileUncheckedUpdateWithoutPointChangesInput = {
   cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileCreateWithoutCartInput = {
   id?: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -980,12 +1085,15 @@ export type DriverProfileCreateWithoutCartInput = {
   pointChanges?: Prisma.PointChangeCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileUncheckedCreateWithoutCartInput = {
   id?: string
   userId: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -996,6 +1104,9 @@ export type DriverProfileUncheckedCreateWithoutCartInput = {
   pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileCreateOrConnectWithoutCartInput = {
@@ -1028,6 +1139,9 @@ export type DriverProfileUpdateWithoutCartInput = {
   pointChanges?: Prisma.PointChangeUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileUncheckedUpdateWithoutCartInput = {
@@ -1044,11 +1158,14 @@ export type DriverProfileUncheckedUpdateWithoutCartInput = {
   pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileCreateWithoutOrdersInput = {
   id?: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -1060,12 +1177,15 @@ export type DriverProfileCreateWithoutOrdersInput = {
   pointChanges?: Prisma.PointChangeCreateNestedManyWithoutDriverProfileInput
   cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileUncheckedCreateWithoutOrdersInput = {
   id?: string
   userId: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -1076,6 +1196,9 @@ export type DriverProfileUncheckedCreateWithoutOrdersInput = {
   pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutDriverProfileInput
   cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
   sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileCreateOrConnectWithoutOrdersInput = {
@@ -1108,6 +1231,9 @@ export type DriverProfileUpdateWithoutOrdersInput = {
   pointChanges?: Prisma.PointChangeUpdateManyWithoutDriverProfileNestedInput
   cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileUncheckedUpdateWithoutOrdersInput = {
@@ -1124,11 +1250,14 @@ export type DriverProfileUncheckedUpdateWithoutOrdersInput = {
   pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutDriverProfileNestedInput
   cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileCreateWithoutSponsorshipsInput = {
   id?: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -1140,12 +1269,15 @@ export type DriverProfileCreateWithoutSponsorshipsInput = {
   pointChanges?: Prisma.PointChangeCreateNestedManyWithoutDriverProfileInput
   cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileUncheckedCreateWithoutSponsorshipsInput = {
   id?: string
   userId: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   sponsorId?: string | null
   pointsBalance?: number
   status?: string
@@ -1156,6 +1288,9 @@ export type DriverProfileUncheckedCreateWithoutSponsorshipsInput = {
   pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutDriverProfileInput
   cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
 }
 
 export type DriverProfileCreateOrConnectWithoutSponsorshipsInput = {
@@ -1188,6 +1323,9 @@ export type DriverProfileUpdateWithoutSponsorshipsInput = {
   pointChanges?: Prisma.PointChangeUpdateManyWithoutDriverProfileNestedInput
   cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileUncheckedUpdateWithoutSponsorshipsInput = {
@@ -1204,12 +1342,291 @@ export type DriverProfileUncheckedUpdateWithoutSponsorshipsInput = {
   pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutDriverProfileNestedInput
   cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
+}
+
+export type DriverProfileCreateWithoutPointLogsInput = {
+  id?: string
+  totalPointsSpent?: number
+  pointsBalance?: number
+  status?: string
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutDriverProfileInput
+  sponsor?: Prisma.SponsorCreateNestedOneWithoutDriversInput
+  applications?: Prisma.DriverApplicationCreateNestedManyWithoutDriverProfileInput
+  pointChanges?: Prisma.PointChangeCreateNestedManyWithoutDriverProfileInput
+  cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
+  orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
+}
+
+export type DriverProfileUncheckedCreateWithoutPointLogsInput = {
+  id?: string
+  userId: string
+  totalPointsSpent?: number
+  sponsorId?: string | null
+  pointsBalance?: number
+  status?: string
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applications?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutDriverProfileInput
+  pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutDriverProfileInput
+  cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
+}
+
+export type DriverProfileCreateOrConnectWithoutPointLogsInput = {
+  where: Prisma.DriverProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.DriverProfileCreateWithoutPointLogsInput, Prisma.DriverProfileUncheckedCreateWithoutPointLogsInput>
+}
+
+export type DriverProfileUpsertWithoutPointLogsInput = {
+  update: Prisma.XOR<Prisma.DriverProfileUpdateWithoutPointLogsInput, Prisma.DriverProfileUncheckedUpdateWithoutPointLogsInput>
+  create: Prisma.XOR<Prisma.DriverProfileCreateWithoutPointLogsInput, Prisma.DriverProfileUncheckedCreateWithoutPointLogsInput>
+  where?: Prisma.DriverProfileWhereInput
+}
+
+export type DriverProfileUpdateToOneWithWhereWithoutPointLogsInput = {
+  where?: Prisma.DriverProfileWhereInput
+  data: Prisma.XOR<Prisma.DriverProfileUpdateWithoutPointLogsInput, Prisma.DriverProfileUncheckedUpdateWithoutPointLogsInput>
+}
+
+export type DriverProfileUpdateWithoutPointLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutDriverProfileNestedInput
+  sponsor?: Prisma.SponsorUpdateOneWithoutDriversNestedInput
+  applications?: Prisma.DriverApplicationUpdateManyWithoutDriverProfileNestedInput
+  pointChanges?: Prisma.PointChangeUpdateManyWithoutDriverProfileNestedInput
+  cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
+}
+
+export type DriverProfileUncheckedUpdateWithoutPointLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
+  sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applications?: Prisma.DriverApplicationUncheckedUpdateManyWithoutDriverProfileNestedInput
+  pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutDriverProfileNestedInput
+  cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
+}
+
+export type DriverProfileCreateWithoutApplicationLogsInput = {
+  id?: string
+  totalPointsSpent?: number
+  pointsBalance?: number
+  status?: string
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutDriverProfileInput
+  sponsor?: Prisma.SponsorCreateNestedOneWithoutDriversInput
+  applications?: Prisma.DriverApplicationCreateNestedManyWithoutDriverProfileInput
+  pointChanges?: Prisma.PointChangeCreateNestedManyWithoutDriverProfileInput
+  cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
+  orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogCreateNestedManyWithoutDriverInput
+}
+
+export type DriverProfileUncheckedCreateWithoutApplicationLogsInput = {
+  id?: string
+  userId: string
+  totalPointsSpent?: number
+  sponsorId?: string | null
+  pointsBalance?: number
+  status?: string
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applications?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutDriverProfileInput
+  pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutDriverProfileInput
+  cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedCreateNestedManyWithoutDriverInput
+}
+
+export type DriverProfileCreateOrConnectWithoutApplicationLogsInput = {
+  where: Prisma.DriverProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.DriverProfileCreateWithoutApplicationLogsInput, Prisma.DriverProfileUncheckedCreateWithoutApplicationLogsInput>
+}
+
+export type DriverProfileUpsertWithoutApplicationLogsInput = {
+  update: Prisma.XOR<Prisma.DriverProfileUpdateWithoutApplicationLogsInput, Prisma.DriverProfileUncheckedUpdateWithoutApplicationLogsInput>
+  create: Prisma.XOR<Prisma.DriverProfileCreateWithoutApplicationLogsInput, Prisma.DriverProfileUncheckedCreateWithoutApplicationLogsInput>
+  where?: Prisma.DriverProfileWhereInput
+}
+
+export type DriverProfileUpdateToOneWithWhereWithoutApplicationLogsInput = {
+  where?: Prisma.DriverProfileWhereInput
+  data: Prisma.XOR<Prisma.DriverProfileUpdateWithoutApplicationLogsInput, Prisma.DriverProfileUncheckedUpdateWithoutApplicationLogsInput>
+}
+
+export type DriverProfileUpdateWithoutApplicationLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutDriverProfileNestedInput
+  sponsor?: Prisma.SponsorUpdateOneWithoutDriversNestedInput
+  applications?: Prisma.DriverApplicationUpdateManyWithoutDriverProfileNestedInput
+  pointChanges?: Prisma.PointChangeUpdateManyWithoutDriverProfileNestedInput
+  cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
+}
+
+export type DriverProfileUncheckedUpdateWithoutApplicationLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
+  sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applications?: Prisma.DriverApplicationUncheckedUpdateManyWithoutDriverProfileNestedInput
+  pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutDriverProfileNestedInput
+  cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
+}
+
+export type DriverProfileCreateWithoutStatusLogsInput = {
+  id?: string
+  totalPointsSpent?: number
+  pointsBalance?: number
+  status?: string
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutDriverProfileInput
+  sponsor?: Prisma.SponsorCreateNestedOneWithoutDriversInput
+  applications?: Prisma.DriverApplicationCreateNestedManyWithoutDriverProfileInput
+  pointChanges?: Prisma.PointChangeCreateNestedManyWithoutDriverProfileInput
+  cart?: Prisma.CartCreateNestedManyWithoutDriverProfileInput
+  orders?: Prisma.OrderCreateNestedManyWithoutDriverProfileInput
+  sponsorships?: Prisma.SponsoredByCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogCreateNestedManyWithoutDriverInput
+}
+
+export type DriverProfileUncheckedCreateWithoutStatusLogsInput = {
+  id?: string
+  userId: string
+  totalPointsSpent?: number
+  sponsorId?: string | null
+  pointsBalance?: number
+  status?: string
+  address?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  applications?: Prisma.DriverApplicationUncheckedCreateNestedManyWithoutDriverProfileInput
+  pointChanges?: Prisma.PointChangeUncheckedCreateNestedManyWithoutDriverProfileInput
+  cart?: Prisma.CartUncheckedCreateNestedManyWithoutDriverProfileInput
+  orders?: Prisma.OrderUncheckedCreateNestedManyWithoutDriverProfileInput
+  sponsorships?: Prisma.SponsoredByUncheckedCreateNestedManyWithoutDriverInput
+  pointLogs?: Prisma.PointLogUncheckedCreateNestedManyWithoutDriverInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedCreateNestedManyWithoutDriverInput
+}
+
+export type DriverProfileCreateOrConnectWithoutStatusLogsInput = {
+  where: Prisma.DriverProfileWhereUniqueInput
+  create: Prisma.XOR<Prisma.DriverProfileCreateWithoutStatusLogsInput, Prisma.DriverProfileUncheckedCreateWithoutStatusLogsInput>
+}
+
+export type DriverProfileUpsertWithoutStatusLogsInput = {
+  update: Prisma.XOR<Prisma.DriverProfileUpdateWithoutStatusLogsInput, Prisma.DriverProfileUncheckedUpdateWithoutStatusLogsInput>
+  create: Prisma.XOR<Prisma.DriverProfileCreateWithoutStatusLogsInput, Prisma.DriverProfileUncheckedCreateWithoutStatusLogsInput>
+  where?: Prisma.DriverProfileWhereInput
+}
+
+export type DriverProfileUpdateToOneWithWhereWithoutStatusLogsInput = {
+  where?: Prisma.DriverProfileWhereInput
+  data: Prisma.XOR<Prisma.DriverProfileUpdateWithoutStatusLogsInput, Prisma.DriverProfileUncheckedUpdateWithoutStatusLogsInput>
+}
+
+export type DriverProfileUpdateWithoutStatusLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
+  pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutDriverProfileNestedInput
+  sponsor?: Prisma.SponsorUpdateOneWithoutDriversNestedInput
+  applications?: Prisma.DriverApplicationUpdateManyWithoutDriverProfileNestedInput
+  pointChanges?: Prisma.PointChangeUpdateManyWithoutDriverProfileNestedInput
+  cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
+  orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
+  sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+}
+
+export type DriverProfileUncheckedUpdateWithoutStatusLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  totalPointsSpent?: Prisma.IntFieldUpdateOperationsInput | number
+  sponsorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pointsBalance?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  applications?: Prisma.DriverApplicationUncheckedUpdateManyWithoutDriverProfileNestedInput
+  pointChanges?: Prisma.PointChangeUncheckedUpdateManyWithoutDriverProfileNestedInput
+  cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
+  orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
+  sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileCreateManySponsorInput = {
   id?: string
   userId: string
-  totalPointsSpent: number
+  totalPointsSpent?: number
   pointsBalance?: number
   status?: string
   address?: string | null
@@ -1231,6 +1648,9 @@ export type DriverProfileUpdateWithoutSponsorInput = {
   cart?: Prisma.CartUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileUncheckedUpdateWithoutSponsorInput = {
@@ -1247,6 +1667,9 @@ export type DriverProfileUncheckedUpdateWithoutSponsorInput = {
   cart?: Prisma.CartUncheckedUpdateManyWithoutDriverProfileNestedInput
   orders?: Prisma.OrderUncheckedUpdateManyWithoutDriverProfileNestedInput
   sponsorships?: Prisma.SponsoredByUncheckedUpdateManyWithoutDriverNestedInput
+  pointLogs?: Prisma.PointLogUncheckedUpdateManyWithoutDriverNestedInput
+  applicationLogs?: Prisma.ApplicationLogUncheckedUpdateManyWithoutDriverNestedInput
+  statusLogs?: Prisma.DriverStatusLogUncheckedUpdateManyWithoutDriverNestedInput
 }
 
 export type DriverProfileUncheckedUpdateManyWithoutSponsorInput = {
@@ -1271,6 +1694,9 @@ export type DriverProfileCountOutputType = {
   cart: number
   orders: number
   sponsorships: number
+  pointLogs: number
+  applicationLogs: number
+  statusLogs: number
 }
 
 export type DriverProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1279,6 +1705,9 @@ export type DriverProfileCountOutputTypeSelect<ExtArgs extends runtime.Types.Ext
   cart?: boolean | DriverProfileCountOutputTypeCountCartArgs
   orders?: boolean | DriverProfileCountOutputTypeCountOrdersArgs
   sponsorships?: boolean | DriverProfileCountOutputTypeCountSponsorshipsArgs
+  pointLogs?: boolean | DriverProfileCountOutputTypeCountPointLogsArgs
+  applicationLogs?: boolean | DriverProfileCountOutputTypeCountApplicationLogsArgs
+  statusLogs?: boolean | DriverProfileCountOutputTypeCountStatusLogsArgs
 }
 
 /**
@@ -1326,6 +1755,27 @@ export type DriverProfileCountOutputTypeCountSponsorshipsArgs<ExtArgs extends ru
   where?: Prisma.SponsoredByWhereInput
 }
 
+/**
+ * DriverProfileCountOutputType without action
+ */
+export type DriverProfileCountOutputTypeCountPointLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PointLogWhereInput
+}
+
+/**
+ * DriverProfileCountOutputType without action
+ */
+export type DriverProfileCountOutputTypeCountApplicationLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ApplicationLogWhereInput
+}
+
+/**
+ * DriverProfileCountOutputType without action
+ */
+export type DriverProfileCountOutputTypeCountStatusLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DriverStatusLogWhereInput
+}
+
 
 export type DriverProfileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1344,6 +1794,9 @@ export type DriverProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   cart?: boolean | Prisma.DriverProfile$cartArgs<ExtArgs>
   orders?: boolean | Prisma.DriverProfile$ordersArgs<ExtArgs>
   sponsorships?: boolean | Prisma.DriverProfile$sponsorshipsArgs<ExtArgs>
+  pointLogs?: boolean | Prisma.DriverProfile$pointLogsArgs<ExtArgs>
+  applicationLogs?: boolean | Prisma.DriverProfile$applicationLogsArgs<ExtArgs>
+  statusLogs?: boolean | Prisma.DriverProfile$statusLogsArgs<ExtArgs>
   _count?: boolean | Prisma.DriverProfileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["driverProfile"]>
 
@@ -1370,6 +1823,9 @@ export type DriverProfileInclude<ExtArgs extends runtime.Types.Extensions.Intern
   cart?: boolean | Prisma.DriverProfile$cartArgs<ExtArgs>
   orders?: boolean | Prisma.DriverProfile$ordersArgs<ExtArgs>
   sponsorships?: boolean | Prisma.DriverProfile$sponsorshipsArgs<ExtArgs>
+  pointLogs?: boolean | Prisma.DriverProfile$pointLogsArgs<ExtArgs>
+  applicationLogs?: boolean | Prisma.DriverProfile$applicationLogsArgs<ExtArgs>
+  statusLogs?: boolean | Prisma.DriverProfile$statusLogsArgs<ExtArgs>
   _count?: boolean | Prisma.DriverProfileCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1383,6 +1839,9 @@ export type $DriverProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
     cart: Prisma.$CartPayload<ExtArgs>[]
     orders: Prisma.$OrderPayload<ExtArgs>[]
     sponsorships: Prisma.$SponsoredByPayload<ExtArgs>[]
+    pointLogs: Prisma.$PointLogPayload<ExtArgs>[]
+    applicationLogs: Prisma.$ApplicationLogPayload<ExtArgs>[]
+    statusLogs: Prisma.$DriverStatusLogPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1741,6 +2200,9 @@ export interface Prisma__DriverProfileClient<T, Null = never, ExtArgs extends ru
   cart<T extends Prisma.DriverProfile$cartArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DriverProfile$cartArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   orders<T extends Prisma.DriverProfile$ordersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DriverProfile$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sponsorships<T extends Prisma.DriverProfile$sponsorshipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DriverProfile$sponsorshipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SponsoredByPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  pointLogs<T extends Prisma.DriverProfile$pointLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DriverProfile$pointLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PointLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  applicationLogs<T extends Prisma.DriverProfile$applicationLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DriverProfile$applicationLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  statusLogs<T extends Prisma.DriverProfile$statusLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DriverProfile$statusLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DriverStatusLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2258,6 +2720,78 @@ export type DriverProfile$sponsorshipsArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.SponsoredByScalarFieldEnum | Prisma.SponsoredByScalarFieldEnum[]
+}
+
+/**
+ * DriverProfile.pointLogs
+ */
+export type DriverProfile$pointLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PointLog
+   */
+  select?: Prisma.PointLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PointLog
+   */
+  omit?: Prisma.PointLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PointLogInclude<ExtArgs> | null
+  where?: Prisma.PointLogWhereInput
+  orderBy?: Prisma.PointLogOrderByWithRelationInput | Prisma.PointLogOrderByWithRelationInput[]
+  cursor?: Prisma.PointLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PointLogScalarFieldEnum | Prisma.PointLogScalarFieldEnum[]
+}
+
+/**
+ * DriverProfile.applicationLogs
+ */
+export type DriverProfile$applicationLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApplicationLog
+   */
+  select?: Prisma.ApplicationLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApplicationLog
+   */
+  omit?: Prisma.ApplicationLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationLogInclude<ExtArgs> | null
+  where?: Prisma.ApplicationLogWhereInput
+  orderBy?: Prisma.ApplicationLogOrderByWithRelationInput | Prisma.ApplicationLogOrderByWithRelationInput[]
+  cursor?: Prisma.ApplicationLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ApplicationLogScalarFieldEnum | Prisma.ApplicationLogScalarFieldEnum[]
+}
+
+/**
+ * DriverProfile.statusLogs
+ */
+export type DriverProfile$statusLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DriverStatusLog
+   */
+  select?: Prisma.DriverStatusLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DriverStatusLog
+   */
+  omit?: Prisma.DriverStatusLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DriverStatusLogInclude<ExtArgs> | null
+  where?: Prisma.DriverStatusLogWhereInput
+  orderBy?: Prisma.DriverStatusLogOrderByWithRelationInput | Prisma.DriverStatusLogOrderByWithRelationInput[]
+  cursor?: Prisma.DriverStatusLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DriverStatusLogScalarFieldEnum | Prisma.DriverStatusLogScalarFieldEnum[]
 }
 
 /**
