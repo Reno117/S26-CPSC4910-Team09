@@ -25,6 +25,9 @@ export async function reviewApplication(
     throw new Error("Unauthorized");
   }
 
+  const previousDriverStatus = application.driverProfile.status;
+
+
   await prisma.$transaction(async (tx) => {
     // Update application
     await tx.driverApplication.update({
@@ -33,6 +36,18 @@ export async function reviewApplication(
         status: decision,
         reason: reason,
         reviewedBy: sponsorUser.id,
+      },
+    });
+
+    // Log application status change
+    const newStatus = decision === "approved" ? "ACCEPTED" : "REJECTED";
+    await tx.applicationLog.create({
+      data: {
+        driverId: application.driverProfileId,
+        sponsorId: application.sponsorId,
+        sponsorUserId: sponsorUser.sponsorUser?.id,
+        previousStatus: "PENDING",
+        newStatus: newStatus,
       },
     });
 
@@ -61,6 +76,20 @@ export async function reviewApplication(
   });
     }
   });
+
+  if (decision === "approved") {
+    console.log("sponsorUser:", sponsorUser);
+    await prisma.driverStatusLog.create({
+      data: {
+        driverId: application.driverProfileId,
+        sponsorUserId: sponsorUser.sponsorUser?.id,
+        adminUserId: null,
+        previousStatus: previousDriverStatus,
+        newStatus: "active",
+        changeReason: "Application approved by sponsor",
+      },
+    });
+  }
 
   revalidatePath("/sponsor/driverApplications");
   revalidatePath("/sponsor/viewDrivers");

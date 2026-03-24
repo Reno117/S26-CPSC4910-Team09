@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireDriver } from "@/lib/auth-helpers";
+import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
 
 interface DeliveryInformation {
@@ -115,7 +116,37 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
         },
       });
 
-      // 5. Clear this cart
+      const sponsorUser = await prisma.sponsorUser.findUnique({
+        where: { userId: user.id },
+      });
+      const currentSponsorship = await prisma.sponsoredBy.findUnique({
+      where: {
+        driverId_sponsorOrgId: {
+        driverId: driverProfile.id,
+        sponsorOrgId: cart.sponsorId,
+      },
+    },
+  });
+      const pointsBefore = currentSponsorship?.points ?? 0;
+      const pointsAfter = pointsBefore + totalPoints;
+      const changeType = "PURCHASE"
+      const reason = "USER ORDER"
+      //5. Create point change log
+      await tx.pointLog.create({
+        data: {
+          driverId: driverProfile.id,
+          sponsorId: cart.sponsorId,
+          sponsorUserId: sponsorUser?.id ?? null,
+          adminUserId: null,
+          pointsBefore,
+          pointsAfter,
+          amountChange: totalPoints,
+          changeType,
+          changeReason: reason,
+        }
+      })
+
+      // 6. Clear this cart
       await tx.cartItem.deleteMany({
         where: { cartId: cart.id },
       });

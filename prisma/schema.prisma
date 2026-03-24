@@ -7,6 +7,17 @@ datasource db {
   provider = "mysql"
 }
 
+model SignInAttempt {
+  id        Int      @id @default(autoincrement())
+  success   Boolean
+  createdAt DateTime @default(now())
+
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@index([userId, createdAt])
+  @@map("signin_history")
+}
 
 model Rule {
   id          Int       @id @default(autoincrement())
@@ -33,6 +44,7 @@ model User {
 
   sessions      Session[]
   accounts      Account[]
+  signInAttempts SignInAttempt[]
   driverProfile DriverProfile?
   sponsorUser   SponsorUser?
   admin         Admin?
@@ -40,6 +52,8 @@ model User {
   // Audit trail relations
   pointChangesGiven PointChange[] @relation("PointChanger")
   applicationReviews DriverApplication[] @relation("ApplicationReviewer")
+  loginLogs            LoginLog[]
+  passwordChangeLogs   PasswordChangeLog[]
 
   verses        Verse[]   // Bible Memory app
 
@@ -50,7 +64,7 @@ model DriverProfile {
   id            String   @id @default(cuid())
   userId        String   @unique
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
+  totalPointsSpent Int @default(0)
   sponsorId     String?
   sponsor       Sponsor? @relation(fields: [sponsorId], references: [id], onDelete: SetNull)
   pointsBalance Int      @default(0)
@@ -69,6 +83,11 @@ model DriverProfile {
   cart          Cart[]    @relation("CartDriver")
   orders        Order[]
   sponsorships  SponsoredBy[]
+  pointLogs     PointLog[]
+  applicationLogs ApplicationLog[]
+  statusLogs    DriverStatusLog[]
+
+
 
   @@map("driver_profile")
 }
@@ -88,6 +107,8 @@ model Sponsor {
   orders          Order[]
   sponsorships    SponsoredBy[]
   carts           Cart[]      @relation("CartSponsor")
+  pointLogs       PointLog[]
+  applicationLogs ApplicationLog[]
 
   @@map("sponsor")
 }
@@ -105,6 +126,11 @@ model SponsorUser {
   
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+
+  pointLogs       PointLog[]
+  applicationLogs ApplicationLog[]
+  driverStatusLogs DriverStatusLog[]
+
 
   @@map("sponsor_user")
 }
@@ -195,6 +221,31 @@ model Verification {
   updatedAt  DateTime @updatedAt
 
   @@map("verification")
+}
+
+model PasswordResetAttempt {
+  id        String   @id @default(cuid())
+  email     String?
+  ipAddress String?  @db.VarChar(45)
+  userAgent String?  @db.Text
+  source    String   @default("login_forgot_password_button")
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+  @@map("password_reset_attempt")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@index([token])
+  @@map("password_reset_token")
 }
 
 model CatalogProduct {
@@ -341,6 +392,130 @@ model Admin {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
+  pointLogs       PointLog[]
+  applicationLogs ApplicationLog[]
+  driverStatusLogs DriverStatusLog[]
+
+
   // Relations
   @@map("admin")
+
+}
+
+model LoginLog {
+  id          String    @id @default(cuid())
+  userId      String? 
+  username    String
+  ipAddress   String
+
+  successful  Boolean
+  failReason  String?   
+
+  user          User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdAt   DateTime  @default(now())
+
+  @@index([userId])
+  @@index([ipAddress, createdAt])
+
+  @@map("login_log")  
+}
+
+enum PointChangeTypes {
+  ADD
+  DEDUCT
+  PURCHASE
+}
+
+model PointLog {
+  id            String    @id @default(cuid())
+  driverId      String    
+  sponsorId     String
+  sponsorUserId String?   //Null if points changed by admin
+  adminUserId   String?   //Null if points changed by sponsor
+
+
+  pointsBefore  Int
+  pointsAfter   Int
+  amountChange  Int
+  
+  changeType    PointChangeTypes
+  changeReason  String
+
+  createdAt     DateTime  @default(now())
+
+  driver        DriverProfile @relation(fields: [driverId], references: [id])
+  sponsor       Sponsor       @relation(fields: [sponsorId], references: [id])
+  sponsorUser   SponsorUser?  @relation(fields: [sponsorUserId], references: [id])    
+  adminUser     Admin?        @relation(fields: [adminUserId], references: [id]) 
+
+  @@index([driverId, createdAt])
+  @@index([sponsorId, createdAt])
+
+  @@map("point_log")  
+}
+
+model PasswordChangeLog {
+  id          String    @id @default(cuid())
+  userId      String?
+
+  ipAddress   String    
+
+  createdAt   DateTime  @default(now())
+
+  user        User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+
+  @@map("password_change_log")  
+}
+
+enum ApplicationStatuses {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model ApplicationLog {
+  id              String     @id  @default(cuid())
+  driverId        String
+  sponsorId       String
+  sponsorUserId   String?    //Null if changed by admin
+  adminUserId     String?    //Null if changed by sponsor
+
+  previousStatus     ApplicationStatuses?  //Null if its a new application
+  newStatus          ApplicationStatuses
+
+  createdAt       DateTime  @default(now())
+
+  driver        DriverProfile        @relation(fields: [driverId], references: [id])
+  sponsor       Sponsor              @relation(fields: [sponsorId], references: [id])
+  sponsorUser   SponsorUser?         @relation(fields: [sponsorUserId], references: [id])
+  admin         Admin?               @relation(fields: [adminUserId], references: [id])
+
+  @@index([driverId, createdAt])
+  @@index([sponsorId, createdAt])
+
+  @@map("application_log")  
+}
+
+model DriverStatusLog {
+  id              String          @id @default(cuid())
+  driverId        String
+  sponsorUserId   String?
+  adminUserId     String?
+
+  previousStatus  String?
+  newStatus       String
+
+  changeReason    String?
+
+  createdAt       DateTime        @default(now())
+
+  driver          DriverProfile   @relation(fields: [driverId], references: [id])
+  sponsorUser     SponsorUser?    @relation(fields: [sponsorUserId], references: [id])
+  admin           Admin?          @relation(fields: [adminUserId], references: [id])
+
+  @@index([driverId, createdAt])
+  @@map("driver_status_log")
 }

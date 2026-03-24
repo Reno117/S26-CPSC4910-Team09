@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
 
+
 export async function addPoints(
   driverProfileId: string,
   amount: number,
@@ -43,6 +44,24 @@ console.log("sponsorId from auth:", sponsorId);
     }
   }
 
+  const currentSponsorship = await prisma.sponsoredBy.findUnique({
+    where: {
+      driverId_sponsorOrgId: {
+        driverId: driverProfileId,
+        sponsorOrgId: actualSponsorId,
+      },
+    },
+  });
+
+  const pointsBefore = currentSponsorship?.points ?? 0;
+  const pointsAfter = pointsBefore + amount;
+
+  const sponsorUser = await prisma.sponsorUser.findUnique({
+    where: { userId: user.id },
+  });
+
+  const changeType = amount >= 0 ? "ADD" : "DEDUCT";
+
   // Update points in transaction
   await prisma.$transaction([
     prisma.sponsoredBy.update({
@@ -66,6 +85,20 @@ console.log("sponsorId from auth:", sponsorId);
         amount: amount,
         reason: reason,
         changedBy: user.id,
+      },
+    }),
+
+     prisma.pointLog.create({
+      data: {
+        driverId: driverProfileId,
+        sponsorId: actualSponsorId,
+        sponsorUserId: sponsorUser?.id ?? null,
+        adminUserId: isAdmin ? user.id : null,
+        pointsBefore,
+        pointsAfter,
+        amountChange: amount,
+        changeType,
+        changeReason: reason,
       },
     }),
   ]);

@@ -148,6 +148,24 @@ export async function updateDriverProfile(formData: FormData) {
     }
   });
 
+  // Only log if status actually changed
+if (statusInput !== existingDriver.status) {
+  const adminProfile = await prisma.admin.findUnique({
+    where: { userId: admin.id },
+  });
+
+  await prisma.driverStatusLog.create({
+    data: {
+      driverId: driverId,
+      adminUserId: adminProfile?.id ?? null,
+      sponsorUserId: null,
+      previousStatus: existingDriver.status,
+      newStatus: statusInput,
+      changeReason: "Admin updated driver status",
+    },
+  });
+}
+
   revalidatePath("/admin");
   revalidatePath(`/admin/${driverId}`);
   revalidatePath("/driver/apply");

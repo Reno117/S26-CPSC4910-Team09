@@ -109,6 +109,7 @@ export async function createSingleUser(formData: FormData) {
         sponsorId: driverSponsorId,
         status: driverStatus,
         pointsBalance: totalDriverPointsBalance,
+        totalPointsSpent: 0,
         address: driverAddressInput || null,
       },
       select: {
