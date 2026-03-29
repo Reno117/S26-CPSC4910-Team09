@@ -320,7 +320,10 @@ export default async function LoginAttemptsReportPage({ searchParams }: PageProp
           {/* CSV export — client component so it can use Blob download */}
           <ExportCSVButton
             filename={`signin-audit-${from}-to-${to}.csv`}
-            fetchCSV={() => exportSignInAuditCSV({ dateFrom: from, dateTo: to, sponsor })}
+            fetchCSV={async () => {
+              "use server";
+              return exportSignInAuditCSV({ dateFrom: from, dateTo: to, sponsor });
+            }}
           />
         </div>
       </div>
@@ -358,3 +361,4 @@ export default async function LoginAttemptsReportPage({ searchParams }: PageProp
     </div>
   );
 }
+ 

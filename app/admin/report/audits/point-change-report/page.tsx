@@ -345,7 +345,10 @@ export default async function PointChangeReportPage({ searchParams }: PageProps)
           </div>
           <ExportCSVButton
             filename={`point-change-audit-${from}-to-${to}.csv`}
-            fetchCSV={() => exportPointChangeAuditCSV({ dateFrom: from, dateTo: to, sponsor })}
+            fetchCSV={async () => {
+              "use server";
+              return exportPointChangeAuditCSV({ dateFrom: from, dateTo: to, sponsor });
+            }}
           />
         </div>
       </div>

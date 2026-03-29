@@ -23,6 +23,8 @@ const CATEGORIES: AuditCategory[] = [
 const ROUTED_CATEGORIES: Partial<Record<AuditCategory, string>> = {
   "Login Attempts": "/admin/report/audits/login-attempts-report",
   "Point Change":   "/admin/report/audits/point-change-report",
+  "Password Change": "/admin/report/audits/password-change-report",
+  "Driver Status":  "/admin/report/audits/driver-status-report",
 };
  
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -107,7 +109,6 @@ export default function AuditReportPage() {
   } | null>(null);
  
   const selectCategory = (cat: AuditCategory) => {
-    // Click the active category to deselect, otherwise switch to it
     setSelectedCategory((prev) => (prev === cat ? null : cat));
     setValidationError(null);
   };
@@ -304,15 +305,7 @@ export default function AuditReportPage() {
               })}
             </div>
  
-            {/* Hint when selected category has a dedicated page */}
-            {willRoute && (
-              <p className="text-xs text-indigo-500 flex items-center gap-1">
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                This category opens a dedicated report page.
-              </p>
-            )}
+
           </div>
  
           {/* Validation error */}

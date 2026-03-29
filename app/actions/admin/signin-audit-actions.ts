@@ -21,15 +21,13 @@ export interface SignInUserSummary {
   successes: number;
   failures: number;
   successRate: number;
-  /** ISO timestamp of last attempt */
   lastAttempt: string;
-  /** true if the user's most recent N attempts are all failures */
   suspiciousStreak: boolean;
   streakLength: number;
 }
  
 export interface SignInDayBucket {
-  date: string; // "MMM D" formatted
+  date: string;
   successes: number;
   failures: number;
 }
@@ -52,6 +50,22 @@ export interface SignInAuditResult {
  
 const STREAK_THRESHOLD = 3;
  
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+ 
+function parseDateRange(dateFrom: string, dateTo: string): { from: Date; to: Date } {
+  if (!dateFrom || !dateTo) {
+    throw new Error(`Invalid date range: dateFrom=${dateFrom}, dateTo=${dateTo}`);
+  }
+  const [fromYear, fromMonth, fromDay] = dateFrom.split("-").map(Number);
+  const [toYear, toMonth, toDay] = dateTo.split("-").map(Number);
+  if (!fromYear || !fromMonth || !fromDay || !toYear || !toMonth || !toDay) {
+    throw new Error(`Could not parse date range: ${dateFrom} - ${dateTo}`);
+  }
+  const from = new Date(fromYear, fromMonth - 1, fromDay, 0, 0, 0, 0);
+  const to = new Date(toYear, toMonth - 1, toDay, 23, 59, 59, 999);
+  return { from, to };
+}
+ 
 // ─── Action ───────────────────────────────────────────────────────────────────
  
 export async function getSignInAuditReport({
@@ -63,9 +77,7 @@ export async function getSignInAuditReport({
   dateTo: string;
   sponsor: string;
 }): Promise<SignInAuditResult> {
-  const from = new Date(dateFrom);
-  const to = new Date(dateTo);
-  to.setHours(23, 59, 59, 999);
+  const { from, to } = parseDateRange(dateFrom, dateTo);
  
   // Resolve userIds to filter by sponsor
   let userIdFilter: string[] | undefined;
@@ -139,12 +151,10 @@ export async function getSignInAuditReport({
  
   const userSummaries: SignInUserSummary[] = [];
   for (const u of userMap.values()) {
-    // attempts are already newest-first from the query
     const total = u.attempts.length;
     const successes = u.attempts.filter((a) => a.success).length;
     const failures = total - successes;
  
-    // Streak: count leading failures (newest-first)
     let streakLength = 0;
     for (const a of u.attempts) {
       if (!a.success) streakLength++;
@@ -165,7 +175,6 @@ export async function getSignInAuditReport({
     });
   }
  
-  // Sort: suspicious first, then by total desc
   userSummaries.sort((a, b) => {
     if (a.suspiciousStreak !== b.suspiciousStreak)
       return a.suspiciousStreak ? -1 : 1;
@@ -175,7 +184,6 @@ export async function getSignInAuditReport({
   // ── Daily trend ──────────────────────────────────────────────────────────
   const dayMap = new Map<string, { successes: number; failures: number }>();
  
-  // Pre-fill every day in range so the chart has no gaps
   const cursor = new Date(from);
   cursor.setHours(0, 0, 0, 0);
   const end = new Date(to);
@@ -221,7 +229,9 @@ export async function getSignInAuditReport({
     },
   };
 }
-
+ 
+// ─── CSV Export ───────────────────────────────────────────────────────────────
+ 
 export async function exportSignInAuditCSV({
   dateFrom,
   dateTo,
@@ -232,20 +242,20 @@ export async function exportSignInAuditCSV({
   sponsor: string;
 }): Promise<string> {
   const result = await getSignInAuditReport({ dateFrom, dateTo, sponsor });
-
+ 
   const header = ["ID", "Timestamp", "Name", "Email", "Result"].join(",");
-
+ 
   const rows = result.entries.map((e) => {
     const ts = new Date(e.timestamp).toLocaleString("en-US");
-    const result = e.success ? "Success" : "Failed";
+    const outcome = e.success ? "Success" : "Failed";
     return [
       e.id,
       `"${ts}"`,
       `"${e.userName ?? ""}"`,
       `"${e.userEmail ?? ""}"`,
-      result,
+      outcome,
     ].join(",");
   });
-
+ 
   return [header, ...rows].join("\n");
 }

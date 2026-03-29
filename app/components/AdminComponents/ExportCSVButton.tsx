@@ -1,28 +1,24 @@
 "use client";
  
 import { useState } from "react";
-import { exportSignInAuditCSV } from "@/app/actions/admin/signin-audit-actions";
  
-export function ExportCSVButton({
-  from,
-  to,
-  sponsor,
-}: {
-  from: string;
-  to: string;
-  sponsor: string;
-}) {
+interface ExportCSVButtonProps {
+  filename: string;
+  fetchCSV: () => Promise<string>;
+}
+ 
+export function ExportCSVButton({ filename, fetchCSV }: ExportCSVButtonProps) {
   const [loading, setLoading] = useState(false);
  
   const handleExport = async () => {
     setLoading(true);
     try {
-      const csv = await exportSignInAuditCSV({ dateFrom: from, dateTo: to, sponsor });
+      const csv = await fetchCSV();
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `signin-audit-${from}-to-${to}.csv`;
+      a.download = filename;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
