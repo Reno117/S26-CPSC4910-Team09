@@ -68,10 +68,14 @@ export async function getPointChangeAuditReport({
   dateFrom,
   dateTo,
   sponsor,
+  driver,
+  reason,
 }: {
   dateFrom: string;
   dateTo: string;
   sponsor: string;
+  driver?: string;
+  reason?: string;
 }): Promise<PointChangeAuditResult> {
   const from = new Date(dateFrom);
   const to = new Date(dateTo);
@@ -119,10 +123,16 @@ export async function getPointChangeAuditReport({
     changedByName: r.changedByUser?.name ?? null,
     changedByEmail: r.changedByUser?.email ?? null,
   }));
+
+  const filteredEntries = entries.filter((e) => {
+  if (driver && e.driverId !== driver) return false;
+  if (reason && !e.reason.toLowerCase().includes(reason.toLowerCase())) return false;
+  return true;
+});
  
   // ── Per-driver summaries ─────────────────────────────────────────────────
   const driverMap = new Map<string, PointChangeDriverSummary>();
-  for (const e of entries) {
+  for (const e of filteredEntries) {
     if (!driverMap.has(e.driverId)) {
       driverMap.set(e.driverId, {
         driverId: e.driverId,
@@ -150,7 +160,7 @@ export async function getPointChangeAuditReport({
  
   // ── Per-sponsor summaries ────────────────────────────────────────────────
   const sponsorMap = new Map<string, PointChangeSponsorSummary>();
-  for (const e of entries) {
+  for (const e of filteredEntries) {
     if (!sponsorMap.has(e.sponsorId)) {
       sponsorMap.set(e.sponsorId, {
         sponsorId: e.sponsorId,
@@ -191,7 +201,7 @@ export async function getPointChangeAuditReport({
     cursor.setDate(cursor.getDate() + 1);
   }
  
-  for (const e of entries) {
+  for (const e of filteredEntries) {
     const key = new Date(e.timestamp).toLocaleDateString("en-US", {
       month: "short", day: "numeric",
     });
@@ -207,17 +217,17 @@ export async function getPointChangeAuditReport({
   );
  
   // ── Top-level metrics ────────────────────────────────────────────────────
-  const totalAdded = entries.filter((e) => e.amount > 0).reduce((s, e) => s + e.amount, 0);
-  const totalDeducted = entries.filter((e) => e.amount < 0).reduce((s, e) => s + Math.abs(e.amount), 0);
-  const largestSingleChange = entries.reduce((max, e) => Math.max(max, Math.abs(e.amount)), 0);
+  const totalAdded = filteredEntries.filter((e) => e.amount > 0).reduce((s, e) => s + e.amount, 0);
+  const totalDeducted = filteredEntries.filter((e) => e.amount < 0).reduce((s, e) => s + Math.abs(e.amount), 0);
+  const largestSingleChange = filteredEntries.reduce((max, e) => Math.max(max, Math.abs(e.amount)), 0);
  
   return {
-    entries,
+    entries: filteredEntries,
     driverSummaries,
     sponsorSummaries,
     dailyTrend,
     metrics: {
-      total: entries.length,
+      total: filteredEntries.length,
       totalAdded,
       totalDeducted,
       netChange: totalAdded - totalDeducted,
@@ -234,12 +244,16 @@ export async function exportPointChangeAuditCSV({
   dateFrom,
   dateTo,
   sponsor,
+  driver,
+  reason,
 }: {
   dateFrom: string;
   dateTo: string;
   sponsor: string;
+  driver?: string,
+  reason?: string
 }): Promise<string> {
-  const result = await getPointChangeAuditReport({ dateFrom, dateTo, sponsor });
+  const result = await getPointChangeAuditReport({ dateFrom, dateTo, sponsor, driver, reason });
  
   const header = [
     "ID", "Timestamp", "Driver Name", "Driver Email",

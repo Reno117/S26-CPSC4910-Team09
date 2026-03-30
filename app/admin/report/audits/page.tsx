@@ -17,6 +17,7 @@ const CATEGORIES: AuditCategory[] = [
   "Driver Status",
   "Login Attempts",
   "Point Change",
+  "In Depth Point Change"
 ];
  
 // Categories that have their own dedicated report page
@@ -25,6 +26,7 @@ const ROUTED_CATEGORIES: Partial<Record<AuditCategory, string>> = {
   "Point Change":   "/admin/report/audits/point-change-report",
   "Password Change": "/admin/report/audits/password-change-report",
   "Driver Status":  "/admin/report/audits/driver-status-report",
+  "In Depth Point Change": "/admin/report/audits/in-depth-point-report",
 };
  
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -49,6 +51,8 @@ const CATEGORY_COLORS: Record<AuditCategory, string> = {
   "Driver Status":   "bg-teal-50 text-teal-700 border-teal-200",
   "Login Attempts":  "bg-indigo-50 text-indigo-700 border-indigo-200",
   "Point Change":    "bg-orange-50 text-orange-700 border-orange-200",
+  "In Depth Point Change":  "bg-pink-50 text-pink-700 border-pink-200", 
+
 };
  
 // ─── Sub-components ───────────────────────────────────────────────────────────

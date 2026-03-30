@@ -10,7 +10,8 @@ export type AuditCategory =
   | "Password Change"
   | "Driver Status"
   | "Login Attempts"
-  | "Point Change";
+  | "Point Change"
+  | "In Depth Point Change";
  
 export interface AuditEntry {
   id: string;
