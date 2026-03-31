@@ -77,9 +77,10 @@ export async function getPointChangeAuditReport({
   driver?: string;
   reason?: string;
 }): Promise<PointChangeAuditResult> {
-  const from = new Date(dateFrom);
-  const to = new Date(dateTo);
-  to.setHours(23, 59, 59, 999);
+  const [fromYear, fromMonth, fromDay] = dateFrom.split("-").map(Number);
+  const [toYear, toMonth, toDay] = dateTo.split("-").map(Number);
+  const from = new Date(fromYear, fromMonth - 1, fromDay, 0, 0, 0, 0);
+  const to = new Date(toYear, toMonth - 1, toDay, 23, 59, 59, 999);
  
   // Resolve sponsorId filter
   let sponsorIdFilter: string | undefined;

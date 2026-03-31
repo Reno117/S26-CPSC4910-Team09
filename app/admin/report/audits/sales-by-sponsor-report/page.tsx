@@ -9,7 +9,28 @@ import {
 import { ExportCSVButton } from "@/app/components/AdminComponents/ExportCSVButton";
 
 interface PageProps {
-  searchParams: Promise<{ from?: string; to?: string; sponsor?: string }>;
+  searchParams: Promise<{ from?: string; to?: string; sponsor?: string; view?: string }>;
+}
+
+type ViewMode = "summary" | "detailed";
+
+function getViewMode(view?: string): ViewMode {
+  return view === "detailed" ? "detailed" : "summary";
+}
+
+function buildViewHref({
+  from,
+  to,
+  sponsor,
+  view,
+}: {
+  from: string;
+  to: string;
+  sponsor: string;
+  view: ViewMode;
+}) {
+  const params = new URLSearchParams({ from, to, sponsor, view });
+  return `/admin/report/audits/sales-by-sponsor-report?${params.toString()}`;
 }
 
 function formatTimestamp(iso: string): { date: string; time: string } {
@@ -203,7 +224,8 @@ function OrdersTable({ entries }: { entries: SalesOrderEntry[] }) {
 }
 
 export default async function SalesBySponsorReportPage({ searchParams }: PageProps) {
-  const { from, to, sponsor = "All Sponsors" } = await searchParams;
+  const { from, to, sponsor = "All Sponsors", view } = await searchParams;
+  const viewMode = getViewMode(view);
 
   if (!from || !to || from > to) {
     return (
@@ -242,36 +264,71 @@ export default async function SalesBySponsorReportPage({ searchParams }: PagePro
             <div>
               <h1 className="text-xl font-semibold text-slate-900">Sales by Sponsor Report</h1>
               <p className="text-xs text-slate-400 mt-0.5">
-                {from} → {to} · {sponsor}
+                {from} → {to} · {sponsor} · {viewMode === "summary" ? "Summary" : "Detailed"} view
               </p>
             </div>
           </div>
-          <ExportCSVButton
-            filename={`sales-by-sponsor-${from}-to-${to}.csv`}
-            fetchCSV={async () => {
-              "use server";
-              return exportSalesBySponsorCSV({ dateFrom: from, dateTo: to, sponsor });
-            }}
-          />
+          <div className="flex items-center gap-2">
+            <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
+              <Link
+                href={buildViewHref({ from, to, sponsor, view: "summary" })}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                  viewMode === "summary"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                Summary
+              </Link>
+              <Link
+                href={buildViewHref({ from, to, sponsor, view: "detailed" })}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                  viewMode === "detailed"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                Detailed
+              </Link>
+            </div>
+            <ExportCSVButton
+              filename={`sales-by-sponsor-${viewMode}-${from}-to-${to}.csv`}
+              fetchCSV={async () => {
+                "use server";
+                return exportSalesBySponsorCSV({ dateFrom: from, dateTo: to, sponsor });
+              }}
+            />
+          </div>
         </div>
       </div>
 
       <div className="max-w-screen-xl mx-auto px-8 py-6 space-y-5">
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-9 gap-3">
-          <MetricCard label="Total orders" value={result.metrics.totalOrders.toLocaleString()} />
-          <MetricCard label="Active orders" value={result.metrics.activeOrders.toLocaleString()} accent="emerald" />
-          <MetricCard label="Cancelled" value={result.metrics.cancelledOrders.toLocaleString()} accent="red" />
-          <MetricCard label="Sales points" value={fmtPoints(result.metrics.totalPoints)} accent="emerald" />
-          <MetricCard label="Cancelled points" value={fmtPoints(result.metrics.cancelledPoints)} accent="red" />
-          <MetricCard label="Net points" value={fmtPoints(result.metrics.netPoints)} accent="sky" />
-          <MetricCard label="Sponsors" value={result.metrics.uniqueSponsors.toString()} />
-          <MetricCard label="Drivers" value={result.metrics.uniqueDrivers.toString()} />
-          <MetricCard label="Avg order" value={fmtPoints(result.metrics.averageOrderPoints)} accent="amber" />
-        </div>
+        {viewMode === "summary" ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <MetricCard label="Total orders" value={result.metrics.totalOrders.toLocaleString()} />
+            <MetricCard label="Sales points" value={fmtPoints(result.metrics.totalPoints)} accent="emerald" />
+            <MetricCard label="Cancelled points" value={fmtPoints(result.metrics.cancelledPoints)} accent="red" />
+            <MetricCard label="Net points" value={fmtPoints(result.metrics.netPoints)} accent="sky" />
+            <MetricCard label="Sponsors" value={result.metrics.uniqueSponsors.toString()} />
+            <MetricCard label="Avg order" value={fmtPoints(result.metrics.averageOrderPoints)} accent="amber" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-9 gap-3">
+            <MetricCard label="Total orders" value={result.metrics.totalOrders.toLocaleString()} />
+            <MetricCard label="Active orders" value={result.metrics.activeOrders.toLocaleString()} accent="emerald" />
+            <MetricCard label="Cancelled" value={result.metrics.cancelledOrders.toLocaleString()} accent="red" />
+            <MetricCard label="Sales points" value={fmtPoints(result.metrics.totalPoints)} accent="emerald" />
+            <MetricCard label="Cancelled points" value={fmtPoints(result.metrics.cancelledPoints)} accent="red" />
+            <MetricCard label="Net points" value={fmtPoints(result.metrics.netPoints)} accent="sky" />
+            <MetricCard label="Sponsors" value={result.metrics.uniqueSponsors.toString()} />
+            <MetricCard label="Drivers" value={result.metrics.uniqueDrivers.toString()} />
+            <MetricCard label="Avg order" value={fmtPoints(result.metrics.averageOrderPoints)} accent="amber" />
+          </div>
+        )}
 
         {result.dailyTrend.length > 1 && <TrendChart data={result.dailyTrend} />}
 
-        {result.statusBreakdown.length > 0 && (
+        {viewMode === "detailed" && result.statusBreakdown.length > 0 && (
           <div className="bg-white border border-slate-200 rounded-xl p-4">
             <p className="text-sm font-semibold text-slate-700 mb-3">Order status breakdown</p>
             <div className="flex flex-wrap gap-2">
@@ -290,7 +347,7 @@ export default async function SalesBySponsorReportPage({ searchParams }: PagePro
 
         {result.sponsorSummaries.length > 0 && <SponsorSummaryTable sponsors={result.sponsorSummaries} />}
 
-        <OrdersTable entries={result.entries} />
+        {viewMode === "detailed" && <OrdersTable entries={result.entries} />}
       </div>
     </div>
   );

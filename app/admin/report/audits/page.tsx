@@ -18,7 +18,6 @@ const CATEGORIES: AuditCategory[] = [
   "Driver Status",
   "Login Attempts",
   "Point Change",
-  "In Depth Point Change",
   "Sales by Sponsor",
 ];
  

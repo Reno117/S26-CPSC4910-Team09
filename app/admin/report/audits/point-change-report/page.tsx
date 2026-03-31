@@ -12,7 +12,28 @@ import { ExportCSVButton } from "@/app/components/AdminComponents/ExportCSVButto
 // ─── Types ────────────────────────────────────────────────────────────────────
  
 interface PageProps {
-  searchParams: Promise<{ from?: string; to?: string; sponsor?: string }>;
+  searchParams: Promise<{ from?: string; to?: string; sponsor?: string; view?: string }>;
+}
+
+type ViewMode = "summary" | "detailed";
+
+function getViewMode(view?: string): ViewMode {
+  return view === "detailed" ? "detailed" : "summary";
+}
+
+function buildViewHref({
+  from,
+  to,
+  sponsor,
+  view,
+}: {
+  from: string;
+  to: string;
+  sponsor: string;
+  view: ViewMode;
+}) {
+  const params = new URLSearchParams({ from, to, sponsor, view });
+  return `/admin/report/audits/point-change-report?${params.toString()}`;
 }
  
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -298,7 +319,8 @@ function LogTable({ entries }: { entries: PointChangeEntry[] }) {
 // ─── Page (Server Component) ──────────────────────────────────────────────────
  
 export default async function PointChangeReportPage({ searchParams }: PageProps) {
-  const { from, to, sponsor = "All Sponsors" } = await searchParams;
+  const { from, to, sponsor = "All Sponsors", view } = await searchParams;
+  const viewMode = getViewMode(view);
  
   if (!from || !to || from > to) {
     return (
@@ -339,57 +361,103 @@ export default async function PointChangeReportPage({ searchParams }: PageProps)
             <div>
               <h1 className="text-xl font-semibold text-slate-900">Point Change Report</h1>
               <p className="text-xs text-slate-400 mt-0.5">
-                {from} → {to} · {sponsor}
+                {from} → {to} · {sponsor} · {viewMode === "summary" ? "Summary" : "Detailed"} view
               </p>
             </div>
           </div>
-          <ExportCSVButton
-            filename={`point-change-audit-${from}-to-${to}.csv`}
-            fetchCSV={async () => {
-              "use server";
-              return exportPointChangeAuditCSV({ dateFrom: from, dateTo: to, sponsor });
-            }}
-          />
+          <div className="flex items-center gap-2">
+            <div className="inline-flex rounded-lg border border-slate-200 bg-slate-50 p-1">
+              <Link
+                href={buildViewHref({ from, to, sponsor, view: "summary" })}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                  viewMode === "summary"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                Summary
+              </Link>
+              <Link
+                href={buildViewHref({ from, to, sponsor, view: "detailed" })}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                  viewMode === "detailed"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                Detailed
+              </Link>
+            </div>
+            <ExportCSVButton
+              filename={`point-change-audit-${viewMode}-${from}-to-${to}.csv`}
+              fetchCSV={async () => {
+                "use server";
+                return exportPointChangeAuditCSV({ dateFrom: from, dateTo: to, sponsor });
+              }}
+            />
+          </div>
         </div>
       </div>
  
       <div className="max-w-screen-xl mx-auto px-8 py-6 space-y-5">
  
         {/* ── Metric cards ── */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-          <MetricCard label="Total changes"   value={result.metrics.total.toLocaleString()} />
-          <MetricCard label="Points added"    value={`+${fmtPoints(result.metrics.totalAdded)}`}    accent="emerald" />
-          <MetricCard label="Points deducted" value={`−${fmtPoints(result.metrics.totalDeducted)}`} accent="red" />
-          <MetricCard
-            label="Net change"
-            value={`${result.metrics.netChange >= 0 ? "+" : "−"}${fmtPoints(Math.abs(result.metrics.netChange))}`}
-            accent={result.metrics.netChange >= 0 ? "emerald" : "red"}
-          />
-          <MetricCard label="Drivers"         value={result.metrics.uniqueDrivers.toString()} />
-          <MetricCard label="Sponsors"        value={result.metrics.uniqueSponsors.toString()} />
-          <MetricCard
-            label="Largest change"
-            value={fmtPoints(result.metrics.largestSingleChange)}
-            sub="Single transaction"
-            accent="amber"
-          />
-        </div>
+        {viewMode === "summary" ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            <MetricCard label="Total changes" value={result.metrics.total.toLocaleString()} />
+            <MetricCard label="Points added" value={`+${fmtPoints(result.metrics.totalAdded)}`} accent="emerald" />
+            <MetricCard label="Points deducted" value={`−${fmtPoints(result.metrics.totalDeducted)}`} accent="red" />
+            <MetricCard
+              label="Net change"
+              value={`${result.metrics.netChange >= 0 ? "+" : "−"}${fmtPoints(Math.abs(result.metrics.netChange))}`}
+              accent={result.metrics.netChange >= 0 ? "emerald" : "red"}
+            />
+            <MetricCard label="Sponsors" value={result.metrics.uniqueSponsors.toString()} />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+            <MetricCard label="Total changes" value={result.metrics.total.toLocaleString()} />
+            <MetricCard label="Points added" value={`+${fmtPoints(result.metrics.totalAdded)}`} accent="emerald" />
+            <MetricCard label="Points deducted" value={`−${fmtPoints(result.metrics.totalDeducted)}`} accent="red" />
+            <MetricCard
+              label="Net change"
+              value={`${result.metrics.netChange >= 0 ? "+" : "−"}${fmtPoints(Math.abs(result.metrics.netChange))}`}
+              accent={result.metrics.netChange >= 0 ? "emerald" : "red"}
+            />
+            <MetricCard label="Drivers" value={result.metrics.uniqueDrivers.toString()} />
+            <MetricCard label="Sponsors" value={result.metrics.uniqueSponsors.toString()} />
+            <MetricCard
+              label="Largest change"
+              value={fmtPoints(result.metrics.largestSingleChange)}
+              sub="Single transaction"
+              accent="amber"
+            />
+          </div>
+        )}
  
         {/* ── Trend chart ── */}
         {result.dailyTrend.length > 1 && <TrendChart data={result.dailyTrend} />}
  
         {/* ── Two-column summaries ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {result.driverSummaries.length > 0 && (
-            <DriverSummaryTable drivers={result.driverSummaries} />
-          )}
-          {result.sponsorSummaries.length > 0 && (
-            <SponsorSummaryTable sponsors={result.sponsorSummaries} />
-          )}
-        </div>
+        {viewMode === "summary" ? (
+          <div>
+            {result.sponsorSummaries.length > 0 && (
+              <SponsorSummaryTable sponsors={result.sponsorSummaries} />
+            )}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {result.driverSummaries.length > 0 && (
+              <DriverSummaryTable drivers={result.driverSummaries} />
+            )}
+            {result.sponsorSummaries.length > 0 && (
+              <SponsorSummaryTable sponsors={result.sponsorSummaries} />
+            )}
+          </div>
+        )}
  
         {/* ── Log table ── */}
-        <LogTable entries={result.entries} />
+        {viewMode === "detailed" && <LogTable entries={result.entries} />}
  
       </div>
     </div>
