@@ -1,6 +1,110 @@
 "use server";
  
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/auth-helpers";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
+export async function createAdminPointTransaction(formData: FormData) {
+  const driverId = String(formData.get("driverId") ?? "").trim();
+  const sponsorId = String(formData.get("sponsorId") ?? "").trim();
+  const amountRaw = String(formData.get("amount") ?? "").trim();
+  const reason = String(formData.get("reason") ?? "").trim();
+
+  if (!driverId) {
+    redirect("/admin?error=1");
+  }
+
+  const errorRedirect = `/admin/${driverId}/transactions?error=1`;
+
+  if (!sponsorId || !amountRaw || !reason) {
+    redirect(errorRedirect);
+  }
+
+  const amount = Number.parseInt(amountRaw, 10);
+  if (!Number.isFinite(amount) || amount === 0) {
+    redirect(errorRedirect);
+  }
+
+  const adminUser = await requireAdmin();
+
+  try {
+    const sponsorship = await prisma.sponsoredBy.findUnique({
+      where: {
+        driverId_sponsorOrgId: {
+          driverId,
+          sponsorOrgId: sponsorId,
+        },
+      },
+    });
+
+    if (!sponsorship) {
+      redirect(errorRedirect);
+    }
+
+    const adminProfile = await prisma.admin.findUnique({
+      where: { userId: adminUser.id },
+      select: { id: true },
+    });
+
+    const pointsBefore = sponsorship.points;
+    const pointsAfter = pointsBefore + amount;
+    const changeType = amount > 0 ? "ADD" : "DEDUCT";
+
+    await prisma.$transaction([
+      prisma.sponsoredBy.update({
+        where: {
+          driverId_sponsorOrgId: {
+            driverId,
+            sponsorOrgId: sponsorId,
+          },
+        },
+        data: {
+          points: {
+            increment: amount,
+          },
+        },
+      }),
+      prisma.pointChange.create({
+        data: {
+          driverProfileId: driverId,
+          sponsorId,
+          amount,
+          reason,
+          changedBy: adminUser.id,
+        },
+      }),
+      prisma.pointLog.create({
+        data: {
+          driverId,
+          sponsorId,
+          sponsorUserId: null,
+          adminUserId: adminProfile?.id ?? null,
+          pointsBefore,
+          pointsAfter,
+          amountChange: amount,
+          changeType,
+          changeReason: reason,
+        },
+      }),
+    ]);
+  } catch (error: unknown) {
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "digest" in error &&
+      String((error as { digest?: string }).digest).includes("NEXT_REDIRECT")
+    ) {
+      throw error;
+    }
+    redirect(errorRedirect);
+  }
+
+  revalidatePath(`/admin/${driverId}/transactions`);
+  revalidatePath(`/admin/${driverId}`);
+  revalidatePath("/admin/report/audits/point-change-report");
+  redirect(`/admin/${driverId}/transactions?saved=1`);
+}
  
 // ─── Types ────────────────────────────────────────────────────────────────────
  
