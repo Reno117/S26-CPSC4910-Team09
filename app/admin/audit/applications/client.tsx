@@ -1,5 +1,6 @@
 'use client';
 
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 function formatDate(date: Date) {
@@ -85,6 +86,14 @@ export default function ApplicationAuditClient({ logs }: ApplicationAuditClientP
     <main className="min-h-screen bg-slate-50 px-6 pt-24 pb-6">
       <div className="mx-auto max-w-6xl">
         <div className="mb-6">
+          <div className="mb-4">
+            <Link
+              href="/admin/audit"
+              className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-800 transition"
+            >
+              &larr; Back to Audits
+            </Link>
+          </div>
           <h1 className="text-2xl font-semibold text-slate-900">Application Audit Log</h1>
           <p className="mt-1 text-sm text-slate-500">Most recent {logs.length} driver applications</p>
         </div>
