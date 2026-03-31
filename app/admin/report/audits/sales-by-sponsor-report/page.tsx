@@ -326,7 +326,7 @@ export default async function SalesBySponsorReportPage({ searchParams }: PagePro
           </div>
         )}
 
-        {result.dailyTrend.length > 1 && <TrendChart data={result.dailyTrend} />}
+        {result.dailyTrend.length > 0 && <TrendChart data={result.dailyTrend} />}
 
         {viewMode === "detailed" && result.statusBreakdown.length > 0 && (
           <div className="bg-white border border-slate-200 rounded-xl p-4">
