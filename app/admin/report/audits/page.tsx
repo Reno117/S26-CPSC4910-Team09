@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import {
   getSponsors,
   getAuditLogs,
+  getDrivers,
+  type DriverOption,
   type AuditEntry,
   type AuditCategory,
   type LogStatus,
@@ -19,6 +21,7 @@ const CATEGORIES: AuditCategory[] = [
   "Login Attempts",
   "Point Change",
   "Sales by Sponsor",
+  "Sales by Driver",
 ];
  
 // Categories that have their own dedicated report page
@@ -29,6 +32,7 @@ const ROUTED_CATEGORIES: Partial<Record<AuditCategory, string>> = {
   "Driver Status":  "/admin/report/audits/driver-status-report",
   "In Depth Point Change": "/admin/report/audits/in-depth-point-report",
   "Sales by Sponsor": "/admin/report/audits/sales-by-sponsor-report",
+  "Sales by Driver": "/admin/report/audits/sales-by-driver-report",
 };
  
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -55,6 +59,7 @@ const CATEGORY_COLORS: Record<AuditCategory, string> = {
   "Point Change":    "bg-orange-50 text-orange-700 border-orange-200",
   "In Depth Point Change":  "bg-pink-50 text-pink-700 border-pink-200", 
   "Sales by Sponsor": "bg-cyan-50 text-cyan-700 border-cyan-200",
+  "Sales by Driver": "bg-lime-50 text-lime-700 border-lime-200",
 
 };
  
@@ -97,11 +102,15 @@ export default function AuditReportPage() {
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [sponsor, setSponsor] = useState("All Sponsors");
+  const [driverFilter, setDriverFilter] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<AuditCategory | null>(null);
  
   // Sponsor dropdown — lazy loaded from DB on first focus
   const [sponsors, setSponsors] = useState<string[]>([]);
   const [sponsorsLoaded, setSponsorsLoaded] = useState(false);
+  const [drivers, setDrivers] = useState<DriverOption[]>([]);
+  const [driversLoaded, setDriversLoaded] = useState(false);
+  const [showDriverSuggestions, setShowDriverSuggestions] = useState(false);
  
   // Results state
   const [results, setResults] = useState<AuditEntry[] | null>(null);
@@ -126,6 +135,21 @@ export default function AuditReportPage() {
     setSponsors(["All Sponsors", ...names]);
     setSponsorsLoaded(true);
   };
+
+  const handleDriverFocus = async () => {
+    if (!driversLoaded) {
+      const options = await getDrivers();
+      setDrivers(options);
+      setDriversLoaded(true);
+    }
+    setShowDriverSuggestions(true);
+  };
+
+  const filteredDrivers = drivers.filter((d) => {
+    const q = driverFilter.trim().toLowerCase();
+    if (!q) return true;
+    return d.name.toLowerCase().includes(q) || d.email.toLowerCase().includes(q);
+  }).slice(0, 8);
  
   const handleGenerate = async () => {
     if (!dateFrom || !dateTo) {
@@ -140,12 +164,19 @@ export default function AuditReportPage() {
       setValidationError("Please select an audit log category.");
       return;
     }
+    if (selectedCategory === "Sales by Driver" && !driverFilter.trim()) {
+      setValidationError("Please select a driver for the Sales by Driver report.");
+      return;
+    }
  
     setValidationError(null);
  
     // Route to dedicated page if one exists for this category
     if (ROUTED_CATEGORIES[selectedCategory]) {
       const params = new URLSearchParams({ from: dateFrom, to: dateTo, sponsor });
+      if (selectedCategory === "Sales by Driver" && driverFilter.trim()) {
+        params.set("driver", driverFilter.trim());
+      }
       router.push(`${ROUTED_CATEGORIES[selectedCategory]}?${params.toString()}`);
       return;
     }
@@ -163,6 +194,7 @@ export default function AuditReportPage() {
     setDateFrom("");
     setDateTo("");
     setSponsor("All Sponsors");
+    setDriverFilter("");
     setSelectedCategory(null);
     setResults(null);
     setAppliedFilters(null);
@@ -180,7 +212,9 @@ export default function AuditReportPage() {
       }
     : null;
  
-  const canGenerate = !!dateFrom && !!dateTo && !!selectedCategory;
+  const requiresDriverSelection = selectedCategory === "Sales by Driver";
+  const hasDriverSelection = !!driverFilter.trim();
+  const canGenerate = !!dateFrom && !!dateTo && !!selectedCategory && (!requiresDriverSelection || hasDriverSelection);
   const willRoute = !!selectedCategory && !!ROUTED_CATEGORIES[selectedCategory];
  
   const MIN_DATE = "2026-01-01";
@@ -275,6 +309,58 @@ export default function AuditReportPage() {
           </div>
  
           {/* Row 2: Category single-select */}
+          {selectedCategory === "Sales by Driver" && (
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-slate-700">
+                Driver filter <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={driverFilter}
+                  onFocus={handleDriverFocus}
+                  onBlur={() => {
+                    setTimeout(() => setShowDriverSuggestions(false), 120);
+                  }}
+                  onChange={async (e) => {
+                    if (!driversLoaded) {
+                      await handleDriverFocus();
+                    }
+                    setDriverFilter(e.target.value);
+                    setShowDriverSuggestions(true);
+                    setValidationError(null);
+                  }}
+                  placeholder="Type driver email or name"
+                  className={`h-9 w-full px-3 text-sm border rounded-lg bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-300 ${
+                    validationError && !driverFilter.trim() ? "border-red-300 bg-red-50" : "border-slate-200"
+                  }`}
+                />
+
+                {showDriverSuggestions && filteredDrivers.length > 0 && (
+                  <div className="absolute z-30 mt-1 w-full max-h-56 overflow-auto rounded-lg border border-slate-200 bg-white shadow-lg">
+                    {filteredDrivers.map((d) => (
+                      <button
+                        type="button"
+                        key={d.email}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          setDriverFilter(d.email);
+                          setShowDriverSuggestions(false);
+                          setValidationError(null);
+                        }}
+                        className="w-full px-3 py-2 text-left hover:bg-slate-50 border-b border-slate-100 last:border-b-0"
+                      >
+                        <p className="text-sm font-medium text-slate-800">{d.name}</p>
+                        <p className="text-xs text-slate-500">{d.email}</p>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-slate-400">Required for Sales by Driver and supports suggestions while typing.</p>
+            </div>
+          )}
+
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium text-slate-700">

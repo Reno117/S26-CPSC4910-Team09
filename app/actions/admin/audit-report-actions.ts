@@ -12,7 +12,8 @@ export type AuditCategory =
   | "Login Attempts"
   | "Point Change"
   | "In Depth Point Change"
-  | "Sales by Sponsor";
+  | "Sales by Sponsor"
+  | "Sales by Driver";
  
 export interface AuditEntry {
   id: string;
@@ -23,6 +24,11 @@ export interface AuditEntry {
   performedBy: string;
   status: LogStatus;
   details: string;
+}
+
+export interface DriverOption {
+  name: string;
+  email: string;
 }
  
 // ─── Actions ──────────────────────────────────────────────────────────────────
@@ -37,6 +43,38 @@ export async function getSponsors(): Promise<string[]> {
     orderBy: { name: "asc" },
   });
   return sponsors.map((s) => s.name);
+}
+
+/**
+ * Returns drivers for report filtering autocomplete.
+ * Returns user-facing values only (name + email).
+ */
+export async function getDrivers(): Promise<DriverOption[]> {
+  const drivers = await prisma.driverProfile.findMany({
+    select: {
+      user: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  const values = new Map<string, DriverOption>();
+  for (const d of drivers) {
+    const email = d.user?.email?.trim();
+    if (!email) continue;
+    values.set(email.toLowerCase(), {
+      name: d.user?.name?.trim() || email,
+      email,
+    });
+  }
+
+  return Array.from(values.values()).sort((a, b) => a.name.localeCompare(b.name));
 }
  
 /**
