@@ -9,6 +9,7 @@ import {
   type AuditCategory,
   type LogStatus,
 } from "@/app/actions/admin/audit-report-actions";
+import AdminHeader from "@/app/components/AdminComponents/AdminHeader";
  
 // ─── Constants ────────────────────────────────────────────────────────────────
  
@@ -17,7 +18,8 @@ const CATEGORIES: AuditCategory[] = [
   "Driver Status",
   "Login Attempts",
   "Point Change",
-  "In Depth Point Change"
+  "In Depth Point Change",
+  "Sales by Sponsor",
 ];
  
 // Categories that have their own dedicated report page
@@ -27,6 +29,7 @@ const ROUTED_CATEGORIES: Partial<Record<AuditCategory, string>> = {
   "Password Change": "/admin/report/audits/password-change-report",
   "Driver Status":  "/admin/report/audits/driver-status-report",
   "In Depth Point Change": "/admin/report/audits/in-depth-point-report",
+  "Sales by Sponsor": "/admin/report/audits/sales-by-sponsor-report",
 };
  
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -52,6 +55,7 @@ const CATEGORY_COLORS: Record<AuditCategory, string> = {
   "Login Attempts":  "bg-indigo-50 text-indigo-700 border-indigo-200",
   "Point Change":    "bg-orange-50 text-orange-700 border-orange-200",
   "In Depth Point Change":  "bg-pink-50 text-pink-700 border-pink-200", 
+  "Sales by Sponsor": "bg-cyan-50 text-cyan-700 border-cyan-200",
 
 };
  
@@ -185,9 +189,10 @@ export default function AuditReportPage() {
  
   return (
     <div className="min-h-screen bg-slate-50 font-sans">
+      <AdminHeader />
  
       {/* ── Page header ── */}
-      <div className="bg-white border-b border-slate-200 px-8 py-5">
+      <div className="bg-white border-b border-slate-200 px-8 py-5 pt-24">
         <div className="max-w-screen-xl mx-auto flex items-center justify-between">
           <h1 className="text-xl font-semibold text-slate-900">Audit Log</h1>
  

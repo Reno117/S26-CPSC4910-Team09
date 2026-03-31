@@ -11,7 +11,8 @@ export type AuditCategory =
   | "Driver Status"
   | "Login Attempts"
   | "Point Change"
-  | "In Depth Point Change";
+  | "In Depth Point Change"
+  | "Sales by Sponsor";
  
 export interface AuditEntry {
   id: string;
