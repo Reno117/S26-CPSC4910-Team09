@@ -2,8 +2,37 @@ import { prisma } from "@/lib/prisma";
 import AdminHeader from "../../components/AdminComponents/AdminHeader";
 import OrderCard from "@/app/components/orders/OrderCard";
 
-export default async function AdminAllOrdersPage() {
+type AdminAllOrdersPageProps = {
+  searchParams: Promise<{
+    user?: string | string[];
+  }>;
+};
+
+export default async function AdminAllOrdersPage({ searchParams }: AdminAllOrdersPageProps) {
+  const { user: userSearchParam } = await searchParams;
+  const userSearch = (Array.isArray(userSearchParam) ? userSearchParam[0] : userSearchParam ?? "").trim();
+
   const orders = await prisma.order.findMany({
+    where: userSearch
+      ? {
+          driverProfile: {
+            user: {
+              OR: [
+                {
+                  name: {
+                    contains: userSearch,
+                  },
+                },
+                {
+                  email: {
+                    contains: userSearch,
+                  },
+                },
+              ],
+            },
+          },
+        }
+      : undefined,
     include: {
       driverProfile: {
         include: {
@@ -34,6 +63,38 @@ export default async function AdminAllOrdersPage() {
           <p className="text-gray-600">Manage and update order statuses</p>
         </div>
 
+        <form method="GET" className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <input
+            type="text"
+            name="user"
+            defaultValue={userSearch}
+            placeholder="Search by user name or email"
+            className="w-full sm:max-w-md rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
+          />
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+            >
+              Search
+            </button>
+            {userSearch && (
+              <a
+                href="/admin/all-orders"
+                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+              >
+                Clear
+              </a>
+            )}
+          </div>
+        </form>
+
+        {userSearch && (
+          <p className="mb-4 text-sm text-gray-600">
+            Showing results for user: <span className="font-medium text-gray-900">{userSearch}</span>
+          </p>
+        )}
+
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
           <div className="bg-white p-3 rounded-lg border text-center">
             <p className="text-xs text-gray-600 mb-1">Pending</p>
@@ -59,7 +120,9 @@ export default async function AdminAllOrdersPage() {
 
         {orders.length === 0 ? (
           <div className="text-center py-16 bg-gray-50 rounded-lg">
-            <p className="text-gray-600">No orders yet</p>
+            <p className="text-gray-600">
+              {userSearch ? "No orders match that user search" : "No orders yet"}
+            </p>
           </div>
         ) : (
           <div className="space-y-4">

@@ -3,8 +3,15 @@ import { betterAuth } from "better-auth";
 import { prisma } from "./prisma";
 import { createAuthMiddleware } from "better-auth/api";
 
+const authBaseURL =
+  process.env.BETTER_AUTH_BASE_URL ??
+  (process.env.NODE_ENV === "production"
+    ? "https://main.d3snic3demckqa.amplifyapp.com"
+    : "http://localhost:3000");
+
 
 export const auth = betterAuth({
+  baseURL: authBaseURL,
   trustedOrigins : ["http://localhost:3000", "https://main.d3snic3demckqa.amplifyapp.com"],
   hooks: {
         before: createAuthMiddleware(async (ctx) => {
