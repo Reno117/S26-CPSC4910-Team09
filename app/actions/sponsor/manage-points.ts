@@ -62,6 +62,10 @@ console.log("sponsorId from auth:", sponsorId);
 
   const changeType = amount >= 0 ? "ADD" : "DEDUCT";
 
+  const alertContent = amount > 0
+  ? `${amount} Points have been added to your account`
+  : `${Math.abs(amount)} Points have been deducted from your account`;
+
   // Update points in transaction
   await prisma.$transaction([
     prisma.sponsoredBy.update({
@@ -99,6 +103,14 @@ console.log("sponsorId from auth:", sponsorId);
         amountChange: amount,
         changeType,
         changeReason: reason,
+      },
+    }),
+   
+     prisma.alert.create({
+      data: {
+        alertContent: alertContent,
+        alertType: "POINT_CHANGE",
+        userId: driverProfile.userId,
       },
     }),
   ]);

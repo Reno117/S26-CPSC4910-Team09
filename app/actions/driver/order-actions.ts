@@ -70,6 +70,23 @@ export async function cancelOrder(orderId: string) {
         changedBy: user.id,
       },
     });
+
+    const driverProfile = await tx.driverProfile.findUnique({
+      where: {
+         id: order.driverProfileId, 
+        },
+    });
+
+    if (!driverProfile) {
+      throw new Error("Driver not found");
+    };
+    await tx.alert.create({
+      data: {
+        alertContent: `${order.totalPoints} Points have been refunded to your account due to order cancellation`,
+        alertType: "POINT_CHANGE",
+        userId: driverProfile.userId,
+      }
+    });
   });
 
   revalidatePath("/driver/orders");

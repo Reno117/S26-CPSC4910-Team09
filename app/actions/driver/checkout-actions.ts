@@ -146,6 +146,14 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
         }
       })
 
+      await tx.alert.create({
+        data: {
+        alertContent: `${totalPoints} Points have been deducted from your account due to a new order`,
+        alertType: "POINT_CHANGE",
+        userId: driverProfile.userId,
+        }    
+       })
+
       // 6. Clear this cart
       await tx.cartItem.deleteMany({
         where: { cartId: cart.id },

@@ -31,10 +31,53 @@ export default function DriverProfilePage() {
     }
   }, [user]);
 
+  const [togglesLoaded, setTogglesLoaded] = useState(false);
+
+  const [toggles, setToggles] = useState({
+  adminChangeAlert: false,
+  pointChangeAlert: false,
+  applicationAlert: false,
+  orderAlert: false,
+  passwordChangeAlert: false,
+  statusAlert: false,
+});
+
+const [initialToggles, setInitialToggles] = useState({
+  adminChangeAlert: false,
+  pointChangeAlert: false,
+  applicationAlert: false,
+  orderAlert: false,
+  passwordChangeAlert: false,
+  statusAlert: false,
+ });
+
+useEffect(() => {
+  const fetchPreferences = async () => {
+    try {
+      const res = await fetch("/api/alert-preferences");
+      const data = await res.json();
+      const prefs = {
+      adminChangeAlert: data.adminChangeAlert,
+      pointChangeAlert: data.pointChangeAlert,
+      applicationAlert: data.applicationAlert,
+      orderAlert: data.orderAlert,
+      passwordChangeAlert: data.passwordChangeAlert,
+      statusAlert: data.statusAlert,
+    };
+    setToggles(prefs);
+    setInitialToggles(prefs); 
+  } finally {
+    setTogglesLoaded(true);
+  }
+};
+  fetchPreferences(); 
+}, []);
+
   const hasChanges =
     editForm.name !== initialForm.name ||
     editForm.email !== initialForm.email ||
-    editForm.address !== initialForm.address;
+    editForm.address !== initialForm.address ||
+    JSON.stringify(toggles) !== JSON.stringify(initialToggles);
 
   useEffect(() => {
     const fetchSponsor = async () => {
@@ -58,7 +101,15 @@ export default function DriverProfilePage() {
     setSaving(true);
     try {
       await authClient.updateUser({ name: editForm.name });
+
+      await fetch("/api/alert-preferences", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(toggles),
+    });
+
       setInitialForm(editForm);
+      setInitialToggles(toggles); 
       setSaveMsg("Profile updated successfully!");
     } catch {
       setSaveMsg("Failed to update profile.");
@@ -102,6 +153,13 @@ export default function DriverProfilePage() {
       e.target.value = "";
     }
   };
+
+
+
+const handleToggle = async (key: keyof typeof toggles) => {
+  const newToggles = { ...toggles, [key]: !toggles[key] };
+  setToggles(newToggles);
+};
 
   return (
     <div className="min-h-screen bg-gray-50 pt-20 px-4">
@@ -208,8 +266,45 @@ export default function DriverProfilePage() {
                 {sponsorLoading ? "Loading..." : sponsorName ?? "No sponsor assigned"}
               </div>
             </div>
+            <div className="bg-white rounded-2xl shadow-md p-8 mt-6">
+              {!togglesLoaded ? (
+                <p className="text-center text-gray-400">Loading preferences...</p>
+              ) : (
+              <>
+              <h2 className="text-lg font-semibold text-gray-700 mb-5">Preferences</h2>
+              <div className="space-y-4">
+                {[
+                  { key: "pointChangeAlert", label: "Point Change Alerts",  desc: "Receive alerts when points change" },
+                  { key: "applicationAlert",   label: "Application Status Alerts",   desc: "Receive updates when applications are accepted or rejected" },
+                  { key: "orderAlert",        label: "Order Alerts",        desc: "Receive updates when orders are placed or updated" },
+                  { key: "passwordChangeAlert", label: "Password Change Alerts", desc: "Receive alerts when your password is changed" },
+                  { key: "statusAlert",       label: "Status Alerts",       desc: "Receive alerts when your account status changes" },
+                  { key: "adminChangeAlert", label: "Admin Change Alerts", desc: "Receive alerts when an admin makes changes to your account" },
+                ].map(({ key, label, desc }) => (
+                  <div key={key} className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">{label}</p>
+                      <p className="text-xs text-gray-400">{desc}</p>
+                    </div>
+                    <button
+                      onClick={() => handleToggle(key as keyof typeof toggles)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        toggles[key as keyof typeof toggles] ? "bg-blue-400" : "bg-gray-300"
+                      }`}
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
+                          toggles[key as keyof typeof toggles] ? "translate-x-6" : "translate-x-1"
+                        }`}
+                      />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              </>
+              )}
+            </div>
           </div>
-
           {saveMsg && (
             <p className={`mt-4 text-sm text-center ${saveMsg.includes("success") ? "text-green-500" : "text-red-500"}`}>
               {saveMsg}

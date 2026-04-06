@@ -68,6 +68,18 @@ export async function createDriverManually(data: {
     },
   });
 
+  await prisma.alertPreferences.create({
+    data: {
+        adminChangeAlert: true,
+        applicationAlert: true,
+        orderAlert: true,
+        passwordChangeAlert: true,
+        pointChangeAlert: true,
+        statusAlert: true,
+        userId: user.id,
+    },
+  });
+
   revalidatePath("/sponsor/drivers");
   revalidatePath("/sponsor");
   
