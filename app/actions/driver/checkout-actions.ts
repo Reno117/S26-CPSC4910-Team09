@@ -146,13 +146,21 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
         }
       })
 
-      await tx.alert.create({
-        data: {
-        alertContent: `${totalPoints} Points have been deducted from your account due to a new order`,
-        alertType: "POINT_CHANGE",
-        userId: driverProfile.userId,
-        }    
-       })
+      const pchangeAlertOn = await tx.alertPreferences.findUnique({
+        where: {
+          userId: driverProfile.userId,
+        }
+      });
+      if(pchangeAlertOn?.pointChangeAlert)
+      {
+        await tx.alert.create({
+          data: {
+          alertContent: `${totalPoints} Points have been deducted from your account due to a new order`,
+          alertType: "POINT_CHANGE",
+          userId: driverProfile.userId,
+          }    
+        })
+      }
 
       // 6. Clear this cart
       await tx.cartItem.deleteMany({

@@ -57,7 +57,11 @@ export async function createAdminPointTransaction(formData: FormData) {
     const pointsBefore = sponsorship.points;
     const pointsAfter = pointsBefore + amount;
     const changeType = amount > 0 ? "ADD" : "DEDUCT";
-
+    const pchangeAlertOn = await prisma.alertPreferences.findUnique({
+      where: {
+        userId: driverProfile.userId,
+      }
+    });
     await prisma.$transaction([
       prisma.sponsoredBy.update({
         where: {
@@ -103,6 +107,16 @@ export async function createAdminPointTransaction(formData: FormData) {
         },
       }),
     ]);
+    if(pchangeAlertOn?.pointChangeAlert)
+    {
+      await prisma.alert.create({ 
+        data: {
+        alertContent: amount + "Points have been added/deducted by an admin",
+        alertType: "POINT_CHANGE",
+        userId: driverProfile.userId,
+        },
+      })
+    };
   } catch (error: unknown) {
     if (
       typeof error === "object" &&
