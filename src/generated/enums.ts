@@ -25,3 +25,15 @@ export const ApplicationStatuses = {
 } as const
 
 export type ApplicationStatuses = (typeof ApplicationStatuses)[keyof typeof ApplicationStatuses]
+
+
+export const AlertType = {
+  PASSWORD_CHANGE: 'PASSWORD_CHANGE',
+  POINT_CHANGE: 'POINT_CHANGE',
+  ADMIN_CHANGE: 'ADMIN_CHANGE',
+  ORDER: 'ORDER',
+  APPLICATION: 'APPLICATION',
+  STATUS: 'STATUS'
+} as const
+
+export type AlertType = (typeof AlertType)[keyof typeof AlertType]

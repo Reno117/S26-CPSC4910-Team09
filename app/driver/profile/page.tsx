@@ -1,17 +1,26 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef, useTransition } from "react";
+import { getAlertPreferences } from "@/app/actions/alerts/get-alert-preferences";
+import { updateAlertPreferences, AlertPreferencesInput } from "@/app/actions/alerts/update-alert-preferences";
 
 export default function DriverProfilePage() {
   const session = authClient.useSession();
   const user = session.data?.user;
   const router = useRouter();
 
-
-  const [editForm, setEditForm] = useState({ name: "", email: "", address: "" });
-  const [initialForm, setInitialForm] = useState({ name: "", email: "", address: "" });
+  const [editForm, setEditForm] = useState({
+    name: "",
+    email: "",
+    address: "",
+  });
+  const [initialForm, setInitialForm] = useState({
+    name: "",
+    email: "",
+    address: "",
+  });
   const [sponsorName, setSponsorName] = useState<string | null>(null);
   const [sponsorLoading, setSponsorLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -40,7 +49,9 @@ export default function DriverProfilePage() {
     const fetchSponsor = async () => {
       setSponsorLoading(true);
       try {
-        const res = await fetch("/api/user/driver/sponsor", { cache: "no-store" });
+        const res = await fetch("/api/user/driver/sponsor", {
+          cache: "no-store",
+        });
         const data = await res.json();
         setSponsorName(data?.sponsorName ?? null);
       } catch {
@@ -51,6 +62,77 @@ export default function DriverProfilePage() {
     };
     fetchSponsor();
   }, []);
+
+  const DEFAULT_PREFS: AlertPreferencesInput = {
+    passwordChangeAlert: true,
+    pointChangeAlert: true,
+    adminChangeAlert: true,
+    orderAlert: true,
+    applicationAlert: true,
+    statusAlert: true,
+  };
+
+  const ALERT_FIELDS: {
+    key: keyof AlertPreferencesInput;
+    label: string;
+    description: string;
+  }[] = [
+    {
+      key: "passwordChangeAlert",
+      label: "Password Changes",
+      description: "When your password is updated",
+    },
+    {
+      key: "pointChangeAlert",
+      label: "Point Changes",
+      description: "When points are added or removed",
+    },
+    {
+      key: "adminChangeAlert",
+      label: "Admin Changes",
+      description: "When an admin updates your profile",
+    },
+    {
+      key: "orderAlert",
+      label: "Orders",
+      description: "When your order status changes",
+    },
+    {
+      key: "applicationAlert",
+      label: "Applications",
+      description: "When your application is reviewed",
+    },
+    {
+      key: "statusAlert",
+      label: "Status Changes",
+      description: "When your driver status changes",
+    },
+  ];
+
+  const [prefs, setPrefs] = useState<AlertPreferencesInput>(DEFAULT_PREFS);
+  const [prefsSaving, setPrefsSaving] = useState(false);
+  const [prefsMsg, setPrefsMsg] = useState("");
+  const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    getAlertPreferences().then((p) => {
+      if (p) setPrefs(p);
+    });
+  }, []);
+
+  function handlePrefToggle(key: keyof AlertPreferencesInput) {
+    setPrefs((prev) => ({ ...prev, [key]: !prev[key] }));
+  }
+
+  function handlePrefsSave() {
+    startTransition(async () => {
+      setPrefsSaving(true);
+      const result = await updateAlertPreferences(prefs);
+      setPrefsMsg(result.success ? "Preferences saved!" : "Failed to save.");
+      setPrefsSaving(false);
+      setTimeout(() => setPrefsMsg(""), 3000);
+    });
+  }
 
   const handleSave = async () => {
     if (!hasChanges) return;
@@ -166,7 +248,9 @@ export default function DriverProfilePage() {
               <input
                 type="text"
                 value={editForm.name}
-                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, name: e.target.value })
+                }
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800"
                 placeholder="Your name"
               />
@@ -191,7 +275,9 @@ export default function DriverProfilePage() {
               <input
                 type="text"
                 value={editForm.address}
-                onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
+                onChange={(e) =>
+                  setEditForm({ ...editForm, address: e.target.value })
+                }
                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-800"
                 placeholder="123 Main St"
               />
@@ -205,13 +291,17 @@ export default function DriverProfilePage() {
                 </span>
               </label>
               <div className="w-full border border-gray-200 bg-gray-50 rounded-lg px-4 py-2.5 text-sm text-gray-500 cursor-not-allowed">
-                {sponsorLoading ? "Loading..." : sponsorName ?? "No sponsor assigned"}
+                {sponsorLoading
+                  ? "Loading..."
+                  : (sponsorName ?? "No sponsor assigned")}
               </div>
             </div>
           </div>
 
           {saveMsg && (
-            <p className={`mt-4 text-sm text-center ${saveMsg.includes("success") ? "text-green-500" : "text-red-500"}`}>
+            <p
+              className={`mt-4 text-sm text-center ${saveMsg.includes("success") ? "text-green-500" : "text-red-500"}`}
+            >
               {saveMsg}
             </p>
           )}
@@ -233,6 +323,62 @@ export default function DriverProfilePage() {
               }`}
             >
               {saving ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+          {/* Alert Preferences */}
+          <div className="mt-8 pt-6 border-t border-gray-100">
+            <h2 className="text-base font-semibold text-gray-700 mb-1">
+              Alert Preferences
+            </h2>
+            <p className="text-xs text-gray-400 mb-4">
+              Choose which notifications you want to receive.
+            </p>
+
+            <div className="space-y-4">
+              {ALERT_FIELDS.map(({ key, label, description }) => (
+                <div key={key} className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-700">{label}</p>
+                    <p className="text-xs text-gray-400">{description}</p>
+                  </div>
+                  {/* Toggle switch — no shadcn dependency */}
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked={prefs[key]}
+                    onClick={() => handlePrefToggle(key)}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                      prefs[key] ? "bg-blue-400" : "bg-gray-300"
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
+                        prefs[key] ? "translate-x-6" : "translate-x-1"
+                      }`}
+                    />
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {prefsMsg && (
+              <p
+                className={`mt-3 text-sm text-center ${prefsMsg.includes("saved") ? "text-green-500" : "text-red-500"}`}
+              >
+                {prefsMsg}
+              </p>
+            )}
+
+            <button
+              onClick={handlePrefsSave}
+              disabled={prefsSaving}
+              className={`mt-4 w-full py-2.5 rounded-lg text-sm transition ${
+                prefsSaving
+                  ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  : "bg-blue-400 text-white hover:bg-blue-500"
+              }`}
+            >
+              {prefsSaving ? "Saving..." : "Save Alert Preferences"}
             </button>
           </div>
         </div>

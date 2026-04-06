@@ -21,7 +21,7 @@ export default async function DriverCatalogPage({ searchParams }: { searchParams
   let products: any[] = [];
   let pointValue = 0.01;
   let sponsorName: string | null = null;
-  let currentBalance = 0;
+  let currentBalance = user.driverProfile?.pointsBalance ?? 0;
   let driverProfileId: string | null = null;
   let isViewingAsDriver = false;
 
@@ -54,7 +54,7 @@ export default async function DriverCatalogPage({ searchParams }: { searchParams
         },
       },
     });
-    currentBalance = sponsorship?.points ?? 0;
+   // currentBalance = sponsorship?.points ?? 0;
   }
 
   }

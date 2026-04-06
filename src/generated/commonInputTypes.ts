@@ -253,6 +253,23 @@ export type EnumApplicationStatusesWithAggregatesFilter<$PrismaModel = never> = 
   _max?: Prisma.NestedEnumApplicationStatusesFilter<$PrismaModel>
 }
 
+export type EnumAlertTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.AlertType | Prisma.EnumAlertTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AlertType[]
+  notIn?: $Enums.AlertType[]
+  not?: Prisma.NestedEnumAlertTypeFilter<$PrismaModel> | $Enums.AlertType
+}
+
+export type EnumAlertTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AlertType | Prisma.EnumAlertTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AlertType[]
+  notIn?: $Enums.AlertType[]
+  not?: Prisma.NestedEnumAlertTypeWithAggregatesFilter<$PrismaModel> | $Enums.AlertType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAlertTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAlertTypeFilter<$PrismaModel>
+}
+
 export type NestedIntFilter<$PrismaModel = never> = {
   equals?: number | Prisma.IntFieldRefInput<$PrismaModel>
   in?: number[]
@@ -496,6 +513,23 @@ export type NestedEnumApplicationStatusesWithAggregatesFilter<$PrismaModel = nev
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumApplicationStatusesFilter<$PrismaModel>
   _max?: Prisma.NestedEnumApplicationStatusesFilter<$PrismaModel>
+}
+
+export type NestedEnumAlertTypeFilter<$PrismaModel = never> = {
+  equals?: $Enums.AlertType | Prisma.EnumAlertTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AlertType[]
+  notIn?: $Enums.AlertType[]
+  not?: Prisma.NestedEnumAlertTypeFilter<$PrismaModel> | $Enums.AlertType
+}
+
+export type NestedEnumAlertTypeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AlertType | Prisma.EnumAlertTypeFieldRefInput<$PrismaModel>
+  in?: $Enums.AlertType[]
+  notIn?: $Enums.AlertType[]
+  not?: Prisma.NestedEnumAlertTypeWithAggregatesFilter<$PrismaModel> | $Enums.AlertType
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAlertTypeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAlertTypeFilter<$PrismaModel>
 }
 
 

@@ -87,7 +87,9 @@ export default async function DriverDashboard() {
                   <div key={s.id} className="border border-gray-100 rounded-lg p-4">
                     <p className="text-sm font-medium text-gray-500 mb-1">{s.sponsorOrg.name}</p>
                     <div className="text-4xl font-bold text-blue-600">
-                      {s.points.toLocaleString()} points
+                      
+                      {pointsBalance} points
+                      
                   </div>
                 </div>
                 ))}

@@ -1,5 +1,6 @@
 "use server";
 
+import { createAlert } from "@/app/actions/alerts/create-alert";
 import { prisma } from "@/lib/prisma";
 import { requireDriver } from "@/lib/auth-helpers";
 import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
@@ -35,11 +36,11 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
 
   // Get cart with items
   const carts = await prisma.cart.findMany({
-    where: { 
+    where: {
       driverProfileId: driverProfile.id,
       items: { some: {} },
     },
-    include: {items: true},
+    include: { items: true },
   });
 
   if (carts.length === 0) {
@@ -53,7 +54,8 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
       if (!cart.sponsorId) continue;
 
       const totalPoints = cart.items.reduce(
-        (sum, item) => sum + item.pointPrice * item.quantity, 0
+        (sum, item) => sum + item.pointPrice * item.quantity,
+        0,
       );
 
       // Verify sufficient points for this sponsor
@@ -68,7 +70,7 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
 
       if (!sponsorship || sponsorship.points < totalPoints) {
         throw new Error(
-          `Insufficient points for sponsor. You need ${totalPoints - (sponsorship?.points ?? 0)} more points.`
+          `Insufficient points for sponsor. You need ${totalPoints - (sponsorship?.points ?? 0)} more points.`,
         );
       }
 
@@ -120,17 +122,17 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
         where: { userId: user.id },
       });
       const currentSponsorship = await prisma.sponsoredBy.findUnique({
-      where: {
-        driverId_sponsorOrgId: {
-        driverId: driverProfile.id,
-        sponsorOrgId: cart.sponsorId,
-      },
-    },
-  });
+        where: {
+          driverId_sponsorOrgId: {
+            driverId: driverProfile.id,
+            sponsorOrgId: cart.sponsorId,
+          },
+        },
+      });
       const pointsBefore = currentSponsorship?.points ?? 0;
       const pointsAfter = pointsBefore + totalPoints;
-      const changeType = "PURCHASE"
-      const reason = "USER ORDER"
+      const changeType = "PURCHASE";
+      const reason = "USER ORDER";
       //5. Create point change log
       await tx.pointLog.create({
         data: {
@@ -143,8 +145,14 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
           amountChange: totalPoints,
           changeType,
           changeReason: reason,
-        }
-      })
+        },
+      });
+      // Create order alert
+      await createAlert(
+        user.id,
+        "ORDER",
+        `Your order #${newOrder.id.slice(-8)} has been placed for ${totalPoints} points.`,
+      );
 
       // 6. Clear this cart
       await tx.cartItem.deleteMany({
