@@ -536,11 +536,13 @@ model Alert {
 
   alertType     AlertType
   alertContent  String
+  isRead        Boolean   @default(false)  // ADD
 
   createdAt   DateTime        @default(now())
 
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   
+  @@index([userId, isRead])  // ADD
   @@map("alert")
 }
 

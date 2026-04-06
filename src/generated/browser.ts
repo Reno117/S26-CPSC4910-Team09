@@ -147,3 +147,13 @@ export type ApplicationLog = Prisma.ApplicationLogModel
  * 
  */
 export type DriverStatusLog = Prisma.DriverStatusLogModel
+/**
+ * Model Alert
+ * 
+ */
+export type Alert = Prisma.AlertModel
+/**
+ * Model AlertPreferences
+ * 
+ */
+export type AlertPreferences = Prisma.AlertPreferencesModel

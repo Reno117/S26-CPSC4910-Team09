@@ -1,5 +1,6 @@
 "use server";
 
+import { createAlert } from "@/app/actions/alerts/create-alert";
 import { prisma } from "@/lib/prisma";
 import { requireDriver } from "@/lib/auth-helpers";
 import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
@@ -145,6 +146,11 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
           changeReason: reason,
         }
       })
+      await createAlert(
+        user.id,
+        "ORDER",
+        `Your order #${newOrder.id.slice(-8)} has been placed for ${totalPoints} points.`,
+      );
 
       const pchangeAlertOn = await tx.alertPreferences.findUnique({
         where: {
