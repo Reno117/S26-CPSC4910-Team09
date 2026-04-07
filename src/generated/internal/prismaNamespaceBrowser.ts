@@ -76,7 +76,9 @@ export const ModelName = {
   PointLog: 'PointLog',
   PasswordChangeLog: 'PasswordChangeLog',
   ApplicationLog: 'ApplicationLog',
-  DriverStatusLog: 'DriverStatusLog'
+  DriverStatusLog: 'DriverStatusLog',
+  Alert: 'Alert',
+  AlertPreferences: 'AlertPreferences'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -437,6 +439,32 @@ export const DriverStatusLogScalarFieldEnum = {
 export type DriverStatusLogScalarFieldEnum = (typeof DriverStatusLogScalarFieldEnum)[keyof typeof DriverStatusLogScalarFieldEnum]
 
 
+export const AlertScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  alertType: 'alertType',
+  alertContent: 'alertContent',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
+} as const
+
+export type AlertScalarFieldEnum = (typeof AlertScalarFieldEnum)[keyof typeof AlertScalarFieldEnum]
+
+
+export const AlertPreferencesScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  passwordChangeAlert: 'passwordChangeAlert',
+  pointChangeAlert: 'pointChangeAlert',
+  adminChangeAlert: 'adminChangeAlert',
+  orderAlert: 'orderAlert',
+  applicationAlert: 'applicationAlert',
+  statusAlert: 'statusAlert'
+} as const
+
+export type AlertPreferencesScalarFieldEnum = (typeof AlertPreferencesScalarFieldEnum)[keyof typeof AlertPreferencesScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -723,4 +751,21 @@ export const DriverStatusLogOrderByRelevanceFieldEnum = {
 } as const
 
 export type DriverStatusLogOrderByRelevanceFieldEnum = (typeof DriverStatusLogOrderByRelevanceFieldEnum)[keyof typeof DriverStatusLogOrderByRelevanceFieldEnum]
+
+
+export const AlertOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  alertContent: 'alertContent'
+} as const
+
+export type AlertOrderByRelevanceFieldEnum = (typeof AlertOrderByRelevanceFieldEnum)[keyof typeof AlertOrderByRelevanceFieldEnum]
+
+
+export const AlertPreferencesOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId'
+} as const
+
+export type AlertPreferencesOrderByRelevanceFieldEnum = (typeof AlertPreferencesOrderByRelevanceFieldEnum)[keyof typeof AlertPreferencesOrderByRelevanceFieldEnum]
 

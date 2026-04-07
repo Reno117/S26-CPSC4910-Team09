@@ -1,5 +1,6 @@
 "use server";
 
+import { createAlert } from "@/app/actions/alerts/create-alert";
 import { prisma } from "@/lib/prisma";
 import { requireDriver } from "@/lib/auth-helpers";
 import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
@@ -145,6 +146,40 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
           changeReason: reason,
         }
       })
+
+      // Send alert to sponsor about new order
+      const sponsorUsers = await tx.sponsorUser.findMany({
+        where: { sponsorId: cart.sponsorId },
+        select: { userId: true },
+      });
+      for (const sponsorUser of sponsorUsers) {
+        await createAlert(
+          sponsorUser.userId,
+          "ORDER",
+          `A new order #${newOrder.id.slice(-8)} has been placed for ${totalPoints} points.`,
+        );
+      }
+
+      const pchangeAlertOn = await tx.alertPreferences.findUnique({
+        where: {
+          userId: driverProfile.userId,
+        }
+      });
+      if(pchangeAlertOn?.pointChangeAlert)
+      {
+        await tx.alert.create({
+          data: {
+          alertContent: `${totalPoints} Points have been deducted from your account due to a new order`,
+          alertType: "POINT_CHANGE",
+          userId: driverProfile.userId,
+          }    
+        })
+      await createAlert(
+        user.id,
+        "ORDER",
+        `Your order #${newOrder.id.slice(-8)} has been placed for ${totalPoints} points.`,
+      );
+      }
 
       // 6. Clear this cart
       await tx.cartItem.deleteMany({

@@ -4,12 +4,19 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { use } from "react";
 
 export async function createAdminPointTransaction(formData: FormData) {
   const driverId = String(formData.get("driverId") ?? "").trim();
   const sponsorId = String(formData.get("sponsorId") ?? "").trim();
   const amountRaw = String(formData.get("amount") ?? "").trim();
   const reason = String(formData.get("reason") ?? "").trim();
+  const driverProfile = await prisma.driverProfile.findUnique({
+    where: { id: driverId },
+  });
+  if (!driverProfile) {
+    throw new Error("Driver not found");
+  }
 
   if (!driverId) {
     redirect("/admin?error=1");
@@ -50,7 +57,11 @@ export async function createAdminPointTransaction(formData: FormData) {
     const pointsBefore = sponsorship.points;
     const pointsAfter = pointsBefore + amount;
     const changeType = amount > 0 ? "ADD" : "DEDUCT";
-
+    const pchangeAlertOn = await prisma.alertPreferences.findUnique({
+      where: {
+        userId: driverProfile.userId,
+      }
+    });
     await prisma.$transaction([
       prisma.sponsoredBy.update({
         where: {
@@ -87,7 +98,25 @@ export async function createAdminPointTransaction(formData: FormData) {
           changeReason: reason,
         },
       }),
+    
+      prisma.alert.create({ 
+        data: {
+        alertContent: amount + "Points have been added/deducted by an admin",
+        alertType: "POINT_CHANGE",
+        userId: driverProfile.userId,
+        },
+      }),
     ]);
+    if(pchangeAlertOn?.pointChangeAlert)
+    {
+      await prisma.alert.create({ 
+        data: {
+        alertContent: amount + "Points have been added/deducted by an admin",
+        alertType: "POINT_CHANGE",
+        userId: driverProfile.userId,
+        },
+      })
+    };
   } catch (error: unknown) {
     if (
       typeof error === "object" &&

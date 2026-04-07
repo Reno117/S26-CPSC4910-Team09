@@ -62,6 +62,15 @@ console.log("sponsorId from auth:", sponsorId);
 
   const changeType = amount >= 0 ? "ADD" : "DEDUCT";
 
+  const alertContent = amount > 0
+  ? `${amount} Points have been added to your account`
+  : `${Math.abs(amount)} Points have been deducted from your account`;
+
+  const pchangeAlertOn = await prisma.alertPreferences.findUnique({
+    where: {
+      userId: driverProfile.userId,
+    }
+  });
   // Update points in transaction
   await prisma.$transaction([
     prisma.sponsoredBy.update({
@@ -102,6 +111,17 @@ console.log("sponsorId from auth:", sponsorId);
       },
     }),
   ]);
+
+  if(pchangeAlertOn?.pointChangeAlert)
+  {
+    await prisma.alert.create({
+      data: {
+        alertContent: alertContent,
+        alertType: "POINT_CHANGE",
+        userId: driverProfile.userId,
+      },
+    })
+  };
 
   revalidatePath(`/sponsor/drivers`);
   

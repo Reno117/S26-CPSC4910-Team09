@@ -96,6 +96,18 @@ export async function createSingleUser(formData: FormData) {
     },
   });
 
+  await prisma.alertPreferences.create({
+    data: {
+        adminChangeAlert: true,
+        applicationAlert: true,
+        orderAlert: true,
+        passwordChangeAlert: true,
+        pointChangeAlert: true,
+        statusAlert: true,
+        userId: user.id,
+    }
+  })
+
   if (userType === "driver") {
     const driverSponsorId = sponsorIdsInput[0] ?? null;
     const totalDriverPointsBalance =

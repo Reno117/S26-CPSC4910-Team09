@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { createAlert } from "@/app/actions/alerts/create-alert";
 import { revalidatePath } from "next/cache";
 
 export async function cancelOrder(orderId: string) {
@@ -70,7 +71,38 @@ export async function cancelOrder(orderId: string) {
         changedBy: user.id,
       },
     });
+
+    const driverProfile = await tx.driverProfile.findUnique({
+      where: {
+         id: order.driverProfileId, 
+        },
+    });
+
+    if (!driverProfile) {
+      throw new Error("Driver not found");
+    };
+    const pchangeAlertOn = await tx.alertPreferences.findUnique({
+      where: {
+        userId: driverProfile.userId,
+      }
+    })
+    if(pchangeAlertOn?.pointChangeAlert)
+    {
+    await tx.alert.create({
+      data: {
+        alertContent: `${order.totalPoints} Points have been refunded to your account due to order cancellation`,
+        alertType: "POINT_CHANGE",
+        userId: driverProfile.userId,
+      }
+    });
+  }
   });
+
+  await createAlert(
+    user.driverProfile?.userId || user.id,
+    "ORDER",
+    `Your order has been cancelled and ${order.totalPoints} points have been refunded.`
+  );
 
   revalidatePath("/driver/orders");
   revalidatePath(`/driver/orders/${orderId}`);

@@ -58,6 +58,7 @@ export default function DriverProfilePage() {
     setSaving(true);
     try {
       await authClient.updateUser({ name: editForm.name });
+
       setInitialForm(editForm);
       setSaveMsg("Profile updated successfully!");
     } catch {
@@ -102,7 +103,6 @@ export default function DriverProfilePage() {
       e.target.value = "";
     }
   };
-
   return (
     <div className="min-h-screen bg-gray-50 pt-20 px-4">
       <div className="max-w-lg mx-auto">
@@ -209,7 +209,6 @@ export default function DriverProfilePage() {
               </div>
             </div>
           </div>
-
           {saveMsg && (
             <p className={`mt-4 text-sm text-center ${saveMsg.includes("success") ? "text-green-500" : "text-red-500"}`}>
               {saveMsg}

@@ -409,7 +409,9 @@ export const ModelName = {
   PointLog: 'PointLog',
   PasswordChangeLog: 'PasswordChangeLog',
   ApplicationLog: 'ApplicationLog',
-  DriverStatusLog: 'DriverStatusLog'
+  DriverStatusLog: 'DriverStatusLog',
+  Alert: 'Alert',
+  AlertPreferences: 'AlertPreferences'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -425,7 +427,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "signInAttempt" | "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "passwordResetAttempt" | "passwordResetToken" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy" | "admin" | "loginLog" | "pointLog" | "passwordChangeLog" | "applicationLog" | "driverStatusLog"
+    modelProps: "signInAttempt" | "rule" | "user" | "driverProfile" | "sponsor" | "sponsorUser" | "driverApplication" | "pointChange" | "session" | "account" | "verification" | "passwordResetAttempt" | "passwordResetToken" | "catalogProduct" | "cart" | "cartItem" | "order" | "orderItem" | "verse" | "sponsoredBy" | "admin" | "loginLog" | "pointLog" | "passwordChangeLog" | "applicationLog" | "driverStatusLog" | "alert" | "alertPreferences"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -2145,6 +2147,138 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Alert: {
+      payload: Prisma.$AlertPayload<ExtArgs>
+      fields: Prisma.AlertFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AlertFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AlertFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPayload>
+        }
+        findFirst: {
+          args: Prisma.AlertFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AlertFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPayload>
+        }
+        findMany: {
+          args: Prisma.AlertFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPayload>[]
+        }
+        create: {
+          args: Prisma.AlertCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPayload>
+        }
+        createMany: {
+          args: Prisma.AlertCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.AlertDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPayload>
+        }
+        update: {
+          args: Prisma.AlertUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPayload>
+        }
+        deleteMany: {
+          args: Prisma.AlertDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AlertUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.AlertUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPayload>
+        }
+        aggregate: {
+          args: Prisma.AlertAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAlert>
+        }
+        groupBy: {
+          args: Prisma.AlertGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AlertGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AlertCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AlertCountAggregateOutputType> | number
+        }
+      }
+    }
+    AlertPreferences: {
+      payload: Prisma.$AlertPreferencesPayload<ExtArgs>
+      fields: Prisma.AlertPreferencesFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AlertPreferencesFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPreferencesPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AlertPreferencesFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPreferencesPayload>
+        }
+        findFirst: {
+          args: Prisma.AlertPreferencesFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPreferencesPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AlertPreferencesFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPreferencesPayload>
+        }
+        findMany: {
+          args: Prisma.AlertPreferencesFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPreferencesPayload>[]
+        }
+        create: {
+          args: Prisma.AlertPreferencesCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPreferencesPayload>
+        }
+        createMany: {
+          args: Prisma.AlertPreferencesCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.AlertPreferencesDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPreferencesPayload>
+        }
+        update: {
+          args: Prisma.AlertPreferencesUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPreferencesPayload>
+        }
+        deleteMany: {
+          args: Prisma.AlertPreferencesDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AlertPreferencesUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.AlertPreferencesUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AlertPreferencesPayload>
+        }
+        aggregate: {
+          args: Prisma.AlertPreferencesAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAlertPreferences>
+        }
+        groupBy: {
+          args: Prisma.AlertPreferencesGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AlertPreferencesGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AlertPreferencesCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AlertPreferencesCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -2526,6 +2660,32 @@ export const DriverStatusLogScalarFieldEnum = {
 export type DriverStatusLogScalarFieldEnum = (typeof DriverStatusLogScalarFieldEnum)[keyof typeof DriverStatusLogScalarFieldEnum]
 
 
+export const AlertScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  alertType: 'alertType',
+  alertContent: 'alertContent',
+  isRead: 'isRead',
+  createdAt: 'createdAt'
+} as const
+
+export type AlertScalarFieldEnum = (typeof AlertScalarFieldEnum)[keyof typeof AlertScalarFieldEnum]
+
+
+export const AlertPreferencesScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  passwordChangeAlert: 'passwordChangeAlert',
+  pointChangeAlert: 'pointChangeAlert',
+  adminChangeAlert: 'adminChangeAlert',
+  orderAlert: 'orderAlert',
+  applicationAlert: 'applicationAlert',
+  statusAlert: 'statusAlert'
+} as const
+
+export type AlertPreferencesScalarFieldEnum = (typeof AlertPreferencesScalarFieldEnum)[keyof typeof AlertPreferencesScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2814,6 +2974,23 @@ export const DriverStatusLogOrderByRelevanceFieldEnum = {
 export type DriverStatusLogOrderByRelevanceFieldEnum = (typeof DriverStatusLogOrderByRelevanceFieldEnum)[keyof typeof DriverStatusLogOrderByRelevanceFieldEnum]
 
 
+export const AlertOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  alertContent: 'alertContent'
+} as const
+
+export type AlertOrderByRelevanceFieldEnum = (typeof AlertOrderByRelevanceFieldEnum)[keyof typeof AlertOrderByRelevanceFieldEnum]
+
+
+export const AlertPreferencesOrderByRelevanceFieldEnum = {
+  id: 'id',
+  userId: 'userId'
+} as const
+
+export type AlertPreferencesOrderByRelevanceFieldEnum = (typeof AlertPreferencesOrderByRelevanceFieldEnum)[keyof typeof AlertPreferencesOrderByRelevanceFieldEnum]
+
+
 
 /**
  * Field references
@@ -2866,6 +3043,13 @@ export type EnumPointChangeTypesFieldRefInput<$PrismaModel> = FieldRefInputType<
  * Reference to a field of type 'ApplicationStatuses'
  */
 export type EnumApplicationStatusesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApplicationStatuses'>
+    
+
+
+/**
+ * Reference to a field of type 'AlertType'
+ */
+export type EnumAlertTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AlertType'>
     
 
 /**
@@ -2989,6 +3173,8 @@ export type GlobalOmitConfig = {
   passwordChangeLog?: Prisma.PasswordChangeLogOmit
   applicationLog?: Prisma.ApplicationLogOmit
   driverStatusLog?: Prisma.DriverStatusLogOmit
+  alert?: Prisma.AlertOmit
+  alertPreferences?: Prisma.AlertPreferencesOmit
 }
 
 /* Types for Logging */

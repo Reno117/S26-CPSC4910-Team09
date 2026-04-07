@@ -42,12 +42,14 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  sessions      Session[]
-  accounts      Account[]
-  signInAttempts SignInAttempt[]
-  driverProfile DriverProfile?
-  sponsorUser   SponsorUser?
-  admin         Admin?
+  sessions          Session[]
+  accounts          Account[]
+  signInAttempts    SignInAttempt[]
+  driverProfile     DriverProfile?
+  sponsorUser       SponsorUser?
+  admin             Admin?
+  alerts            Alert[]
+  alertPreferences  AlertPreferences?
   
   // Audit trail relations
   pointChangesGiven PointChange[] @relation("PointChanger")
@@ -517,4 +519,46 @@ model DriverStatusLog {
 
   @@index([driverId, createdAt])
   @@map("driver_status_log")
+}
+
+enum AlertType {
+  PASSWORD_CHANGE
+  POINT_CHANGE
+  ADMIN_CHANGE
+  ORDER
+  APPLICATION
+  STATUS
+}
+
+model Alert {
+  id          String          @id @default(cuid())
+  userId      String
+
+  alertType     AlertType
+  alertContent  String
+  isRead        Boolean   @default(false)  // ADD
+
+  createdAt   DateTime        @default(now())
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, isRead])  // ADD
+  @@map("alert")
+}
+
+
+model AlertPreferences {
+  id                    String         @id @default(cuid())
+  userId                String         @unique
+
+  passwordChangeAlert   Boolean   @default(true)
+  pointChangeAlert      Boolean   @default(true)
+  adminChangeAlert      Boolean   @default(true)
+  orderAlert           Boolean   @default(true)
+  applicationAlert      Boolean   @default(true)
+  statusAlert          Boolean   @default(true)
+
+  user                  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("alert_preferences")
 }
