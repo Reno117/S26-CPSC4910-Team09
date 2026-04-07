@@ -3,6 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireSponsorUser } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
+import { createAlert } from "@/app/actions/alerts/create-alert";
 
 export async function reviewApplication(
   applicationId: string,
@@ -89,6 +90,12 @@ export async function reviewApplication(
         changeReason: "Application approved by sponsor",
       },
     });
+
+    await createAlert(
+      application.driverProfile.userId,
+      "APPLICATION",
+      "Your application has been accepted by the sponsor."
+    );
   }
 
   revalidatePath("/sponsor/driverApplications");

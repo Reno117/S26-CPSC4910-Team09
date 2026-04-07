@@ -1,10 +1,14 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { requireDriver } from "@/lib/auth-helpers";
+import { getCurrentUser } from "@/lib/auth-helpers";
 
 export async function getUnreadAlerts() {
-  const user = await requireDriver();
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
 
   return prisma.alert.findMany({
     where: { userId: user.id, isRead: false },
@@ -14,7 +18,11 @@ export async function getUnreadAlerts() {
 }
 
 export async function markAllAlertsRead() {
-  const user = await requireDriver();
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
 
   await prisma.alert.updateMany({
     where: { userId: user.id, isRead: false },
