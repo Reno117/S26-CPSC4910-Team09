@@ -60,6 +60,14 @@ export async function toggleSponsorStatus(sponsorUserId: string) {
     data: { status: newStatus },
   });
 
+  // Send alert to sponsor about status change
+  const statusMessages: Record<string, string> = {
+    "active": "Your account has been activated by an admin.",
+    "disabled": "Your account has been disabled by an admin.",
+  };
+  const message = statusMessages[newStatus] || `Your account status has been changed to ${newStatus} by an admin.`;
+  await createAlert(sponsorUser.userId, "ADMIN_CHANGE", message);
+
   revalidatePath("/admin/users");
 
   return { success: true, newStatus };

@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
-import SettingsModal from '../Settings-Modal';
 import { getUnreadAlerts, markAllAlertsRead } from '@/app/actions/alerts/get-alerts';
 
 interface User {
@@ -39,7 +38,6 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
     const [lastScrollY, setLastScrollY] = useState(0);
     const [menuOpen, setMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
     const [alerts, setAlerts] = useState<Alert[]>([]);
     const [alertsOpen, setAlertsOpen] = useState(false);
     const alertsRef = useRef<HTMLDivElement>(null);
@@ -187,18 +185,14 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                             )}
                         </div>
 
-                        <button
-                            onClick={() => setIsOpen(true)}
+                        <Link
+                            href="/sponsor/settings"
                             className="text-white text-2xl focus:outline-none hover:text-blue-200"
                             title="Settings"
                         >
                             ⚙️
-                        </button>
-                        <SettingsModal
-                            user={userSettings}
-                            isOpen={isOpen}
-                            onClose={() => setIsOpen(false)}
-                        />
+                        </Link>
+
                         {/* Avatar — links to profile page */}
                         <Link
                             href="/sponsor/profile"

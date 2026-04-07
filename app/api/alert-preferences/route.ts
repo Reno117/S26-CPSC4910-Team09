@@ -16,20 +16,20 @@ const session = await auth.api.getSession({ headers: await headers() });
     where: { userId: session.user.id },
     create: {
       userId: session.user.id,
-      adminChangeAlert: body.adminChangeAlert,
-      pointChangeAlert: body.pointChangeAlert,
-      applicationAlert: body.applicationAlert,
-      orderAlert: body.orderAlert,
-      passwordChangeAlert: body.passwordChangeAlert,
-      statusAlert: body.statusAlert,
+      adminChangeAlert: body.adminChangeAlert ?? true,
+      pointChangeAlert: body.pointChangeAlert ?? true,
+      applicationAlert: body.applicationAlert ?? true,
+      orderAlert: body.orderAlert ?? true,
+      passwordChangeAlert: body.passwordChangeAlert ?? true,
+      statusAlert: body.statusAlert ?? true,
     },
-    data: {
-      adminChangeAlert: body.adminChangeAlert,
-      pointChangeAlert: body.pointChangeAlert,
-      applicationAlert: body.applicationAlert,
-      orderAlert: body.orderAlert,
-      passwordChangeAlert: body.passwordChangeAlert,
-      statusAlert: body.statusAlert,
+    update: {
+      adminChangeAlert: body.adminChangeAlert ?? true,
+      pointChangeAlert: body.pointChangeAlert ?? true,
+      applicationAlert: body.applicationAlert ?? true,
+      orderAlert: body.orderAlert ?? true,
+      passwordChangeAlert: body.passwordChangeAlert ?? true,
+      statusAlert: body.statusAlert ?? true,
     },
   });
 
