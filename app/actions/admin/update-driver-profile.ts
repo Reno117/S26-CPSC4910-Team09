@@ -2,6 +2,7 @@
 
 import { requireAdmin } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
+import { createAlert } from "@/app/actions/alerts/create-alert";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -164,6 +165,20 @@ if (statusInput !== existingDriver.status) {
       changeReason: "Admin updated driver status",
     },
   });
+
+  // Create status change alert for driver
+  const statusMessages: Record<string, string> = {
+    "active": "Your account has been activated by an admin.",
+    "dropped": "Your account has been dropped by an admin.",
+    "pending": "Your account status has been changed to pending by an admin.",
+    "disabled": "Your account has been disabled by an admin.",
+  };
+  const message = statusMessages[statusInput] || `Your account status has been changed to ${statusInput} by an admin.`;
+  await createAlert(
+    existingDriver.userId,
+    "STATUS",
+    message
+  );
 }
 
   revalidatePath("/admin");

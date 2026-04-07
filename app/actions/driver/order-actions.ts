@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth-helpers";
+import { createAlert } from "@/app/actions/alerts/create-alert";
 import { revalidatePath } from "next/cache";
 
 export async function cancelOrder(orderId: string) {
@@ -96,6 +97,12 @@ export async function cancelOrder(orderId: string) {
     });
   }
   });
+
+  await createAlert(
+    user.driverProfile?.userId || user.id,
+    "ORDER",
+    `Your order has been cancelled and ${order.totalPoints} points have been refunded.`
+  );
 
   revalidatePath("/driver/orders");
   revalidatePath(`/driver/orders/${orderId}`);

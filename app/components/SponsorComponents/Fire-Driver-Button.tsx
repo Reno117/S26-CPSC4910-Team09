@@ -17,7 +17,7 @@ interface FireDriverProps {
 
 export default function FireDriverButton({ driver }: FireDriverProps) {
     async function handleClick() {
-        await fireDriver(driver.id)
+        await fireDriver(driver.driver.id)
     }
   return (
     <>

@@ -12,8 +12,17 @@ const session = await auth.api.getSession({ headers: await headers() });
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  await prisma.alertPreferences.update({
+  await prisma.alertPreferences.upsert({
     where: { userId: session.user.id },
+    create: {
+      userId: session.user.id,
+      adminChangeAlert: body.adminChangeAlert,
+      pointChangeAlert: body.pointChangeAlert,
+      applicationAlert: body.applicationAlert,
+      orderAlert: body.orderAlert,
+      passwordChangeAlert: body.passwordChangeAlert,
+      statusAlert: body.statusAlert,
+    },
     data: {
       adminChangeAlert: body.adminChangeAlert,
       pointChangeAlert: body.pointChangeAlert,
@@ -34,8 +43,10 @@ const session = await auth.api.getSession({ headers: await headers() });
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const prefs = await prisma.alertPreferences.findUnique({
+  const prefs = await prisma.alertPreferences.upsert({
     where: { userId: session.user.id },
+    create: { userId: session.user.id },
+    update: {},
   });
 
   return NextResponse.json(prefs);

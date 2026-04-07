@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth-helpers";
+import { createAlert } from "@/app/actions/alerts/create-alert";
 import { revalidatePath } from "next/cache";
 
 export async function toggleDriverStatus(driverProfileId: string) {
@@ -22,6 +23,19 @@ export async function toggleDriverStatus(driverProfileId: string) {
     where: { id: driverProfileId },
     data: { status: newStatus },
   });
+
+  // Get user info for alert
+  const user = await prisma.user.findUnique({
+    where: { id: driverProfile.userId },
+    select: { id: true },
+  });
+
+  if (user) {
+    const message = newStatus === "disabled" 
+      ? "Your account has been disabled by an admin."
+      : "Your account has been activated by an admin.";
+    await createAlert(user.id, "STATUS", message);
+  }
 
   revalidatePath("/admin/users");
 
