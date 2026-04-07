@@ -64,7 +64,7 @@ export async function resetPassword(email: string, newPassword: string) {
     });
 
     const role = user.role?.toLowerCase();
-    if (role === "sponsor" || role === "driver") {
+    if (role === "admin" || role === "sponsor" || role === "driver") {
       await createAlert(
         user.id,
         "PASSWORD_CHANGE",
