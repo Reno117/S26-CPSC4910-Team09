@@ -8,6 +8,7 @@ interface FireDriverProps {
     sponsorOrgId: string | null;
     points: number;
     driver: {
+      id: string;
       user: {
         name: string;
       };
@@ -17,7 +18,7 @@ interface FireDriverProps {
 
 export default function FireDriverButton({ driver }: FireDriverProps) {
     async function handleClick() {
-        await fireDriver(driver.id)
+        await fireDriver(driver.driver.id)
     }
   return (
     <>

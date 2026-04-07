@@ -152,6 +152,19 @@ export async function checkout(deliveryInformation: DeliveryInformation) {
         `Your order #${newOrder.id.slice(-8)} has been placed for ${totalPoints} points.`,
       );
 
+      // Send alert to sponsor about new order
+      const sponsorUsers = await tx.sponsorUser.findMany({
+        where: { sponsorId: cart.sponsorId },
+        select: { userId: true },
+      });
+      for (const sponsorUser of sponsorUsers) {
+        await createAlert(
+          sponsorUser.userId,
+          "ORDER",
+          `A new order #${newOrder.id.slice(-8)} has been placed for ${totalPoints} points.`,
+        );
+      }
+
       const pchangeAlertOn = await tx.alertPreferences.findUnique({
         where: {
           userId: driverProfile.userId,

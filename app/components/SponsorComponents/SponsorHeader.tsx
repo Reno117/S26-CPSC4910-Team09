@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
-import SettingsModal from '../Settings-Modal';
+import { getUnreadAlerts, markAllAlertsRead } from '@/app/actions/alerts/get-alerts';
 
 interface User {
     name: string;
@@ -16,12 +16,31 @@ interface HeaderProps {
     userSettings: User;
 }
 
+type Alert = {
+    id: string;
+    alertType: string;
+    alertContent: string;
+    createdAt: Date;
+    isRead: boolean;
+};
+
+const ALERT_ICONS: Record<string, string> = {
+    ORDER: '📦',
+    POINT_CHANGE: '⭐',
+    PASSWORD_CHANGE: '🔒',
+    ADMIN_CHANGE: '🛠️',
+    APPLICATION: '📋',
+    STATUS: '🔄',
+};
+
 export default function SponsorHeader({ userSettings }: HeaderProps) {
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [menuOpen, setMenuOpen] = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+    const [alerts, setAlerts] = useState<Alert[]>([]);
+    const [alertsOpen, setAlertsOpen] = useState(false);
+    const alertsRef = useRef<HTMLDivElement>(null);
     const session = authClient.useSession();
     const user = session.data?.user as { name?: string | null; role?: string | null; image?: string | null } | undefined;
     const displayName = user?.name ?? 'User';
@@ -43,10 +62,50 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
 
+    // Alert polling — every 30 seconds
+    useEffect(() => {
+        let isMounted = true;
+        const loadAlerts = async () => {
+            try {
+                const data = await getUnreadAlerts();
+                if (isMounted) setAlerts(data);
+            } catch {}
+        };
+        loadAlerts();
+        const id = setInterval(loadAlerts, 30000);
+        return () => {
+            isMounted = false;
+            clearInterval(id);
+        };
+    }, []);
+
+    // Close alert dropdown when clicking outside
+    useEffect(() => {
+        const handler = (e: MouseEvent) => {
+            if (alertsRef.current && !alertsRef.current.contains(e.target as Node)) {
+                setAlertsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handler);
+        return () => document.removeEventListener('mousedown', handler);
+    }, []);
+
+    const handleBellClick = () => {
+        setAlertsOpen((prev) => !prev);
+    };
+
+    const handleMarkAllRead = async () => {
+        await markAllAlertsRead();
+        setAlerts([]);
+        setAlertsOpen(false);
+    };
+
     const handleLogout = async () => {
         await authClient.signOut();
         window.location.href = '/login';
     };
+
+    const unreadCount = alerts.length;
 
     return (
         <>
@@ -72,18 +131,68 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                         >
                             🛒
                         </button>
-                        <button
-                            onClick={() => setIsOpen(true)}
+
+                        <div className="relative" ref={alertsRef}>
+                            <button
+                                onClick={handleBellClick}
+                                className="text-white text-2xl focus:outline-none hover:text-blue-200"
+                                title="Notifications"
+                            >
+                                🔔
+                            </button>
+                            {unreadCount > 0 && (
+                                <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 bg-red-500 text-white text-[10px] leading-4 rounded-full text-center font-semibold">
+                                    {unreadCount > 99 ? '99+' : unreadCount}
+                                </span>
+                            )}
+
+                            {alertsOpen && (
+                                <div className="absolute right-0 top-10 w-80 bg-white text-gray-800 rounded-xl shadow-xl z-50 overflow-hidden">
+                                    <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                                        <span className="font-semibold text-sm">Notifications</span>
+                                        {unreadCount > 0 && (
+                                            <button
+                                                onClick={handleMarkAllRead}
+                                                className="text-xs text-blue-400 hover:text-blue-600"
+                                            >
+                                                Mark all read
+                                            </button>
+                                        )}
+                                    </div>
+
+                                    <ul className="max-h-80 overflow-y-auto divide-y divide-gray-50">
+                                        {alerts.length === 0 ? (
+                                            <li className="px-4 py-6 text-center text-sm text-gray-400">
+                                                You're all caught up!
+                                            </li>
+                                        ) : (
+                                            alerts.map((alert) => (
+                                                <li key={alert.id} className="flex gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
+                                                    <span className="text-xl mt-0.5">
+                                                        {ALERT_ICONS[alert.alertType] ?? '🔔'}
+                                                    </span>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm text-gray-700 leading-snug">{alert.alertContent}</p>
+                                                        <p className="text-xs text-gray-400 mt-1">
+                                                            {new Date(alert.createdAt).toLocaleString()}
+                                                        </p>
+                                                    </div>
+                                                </li>
+                                            ))
+                                        )}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+
+                        <Link
+                            href="/sponsor/settings"
                             className="text-white text-2xl focus:outline-none hover:text-blue-200"
                             title="Settings"
                         >
                             ⚙️
-                        </button>
-                        <SettingsModal
-                            user={userSettings}
-                            isOpen={isOpen}
-                            onClose={() => setIsOpen(false)}
-                        />
+                        </Link>
+
                         {/* Avatar — links to profile page */}
                         <Link
                             href="/sponsor/profile"

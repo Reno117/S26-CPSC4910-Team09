@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+import { createAlert } from "@/app/actions/alerts/create-alert";
 import { revalidatePath } from "next/cache";
 
 export async function applyToSponsor(
@@ -57,6 +58,19 @@ export async function applyToSponsor(
       newStatus: "PENDING",
     },
   });
+
+  // Send alert to sponsor about new application
+  const sponsorUsers = await prisma.sponsorUser.findMany({
+    where: { sponsorId: sponsorId },
+    select: { userId: true },
+  });
+  for (const sponsorUser of sponsorUsers) {
+    await createAlert(
+      sponsorUser.userId,
+      "APPLICATION",
+      `A new driver application has been submitted for your review.`,
+    );
+  }
 
   revalidatePath("/driver/apply");
   
