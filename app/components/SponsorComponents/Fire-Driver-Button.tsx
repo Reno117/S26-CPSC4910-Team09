@@ -8,6 +8,7 @@ interface FireDriverProps {
     sponsorOrgId: string | null;
     points: number;
     driver: {
+      id: string;
       user: {
         name: string;
       };
