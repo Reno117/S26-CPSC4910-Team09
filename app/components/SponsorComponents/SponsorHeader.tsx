@@ -1,53 +1,59 @@
 'use client';
-
+ 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { authClient } from '@/lib/auth-client';
-import { getUnreadAlerts, markAllAlertsRead } from '@/app/actions/alerts/get-alerts';
+import SettingsModal from '../Settings-Modal';
+import { getUnreadAlerts, markAllAlertsRead } from '@/app/actions/admin/alert-get-new';
 
+type Alert = {
+  id: string;
+  alertType: string;
+  alertContent: string;
+  createdAt: Date;
+  isRead: boolean;
+};
+ 
+const ALERT_ICONS: Record<string, string> = {
+  ORDER:           '📦',
+  POINT_CHANGE:    '⭐',
+  PASSWORD_CHANGE: '🔒',
+  ADMIN_CHANGE:    '🛠️',
+  APPLICATION:     '📋',
+  STATUS:          '🔄',
+};
+ 
 interface User {
     name: string;
     email: string;
     role: string;
     image?: string | null;
 }
-
+ 
 interface HeaderProps {
     userSettings: User;
 }
-
-type Alert = {
-    id: string;
-    alertType: string;
-    alertContent: string;
-    createdAt: Date;
-    isRead: boolean;
-};
-
-const ALERT_ICONS: Record<string, string> = {
-    ORDER: '📦',
-    POINT_CHANGE: '⭐',
-    PASSWORD_CHANGE: '🔒',
-    ADMIN_CHANGE: '🛠️',
-    APPLICATION: '📋',
-    STATUS: '🔄',
-};
-
+ 
 export default function SponsorHeader({ userSettings }: HeaderProps) {
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible]     = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen]       = useState(false);
     const [profileOpen, setProfileOpen] = useState(false);
-    const [alerts, setAlerts] = useState<Alert[]>([]);
+    const [isOpen, setIsOpen]           = useState(false);
+ 
+    // --- Alert state ---
+    const [alerts, setAlerts]       = useState<Alert[]>([]);
     const [alertsOpen, setAlertsOpen] = useState(false);
-    const alertsRef = useRef<HTMLDivElement>(null);
-    const session = authClient.useSession();
-    const user = session.data?.user as { name?: string | null; role?: string | null; image?: string | null } | undefined;
+    const alertsRef                 = useRef<HTMLDivElement>(null);
+ 
+    const session     = authClient.useSession();
+    const user        = session.data?.user as { name?: string | null; role?: string | null; image?: string | null } | undefined;
     const displayName = user?.name ?? 'User';
     const displayRole = user?.role
         ? `${user.role.charAt(0).toUpperCase()}${user.role.slice(1)}`
         : 'User';
-
+ 
+    // Scroll hide/show
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
@@ -61,7 +67,7 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
-
+ 
     // Alert polling — every 30 seconds
     useEffect(() => {
         let isMounted = true;
@@ -73,13 +79,10 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
         };
         loadAlerts();
         const id = setInterval(loadAlerts, 30000);
-        return () => {
-            isMounted = false;
-            clearInterval(id);
-        };
+        return () => { isMounted = false; clearInterval(id); };
     }, []);
-
-    // Close alert dropdown when clicking outside
+ 
+    // Close dropdown when clicking outside
     useEffect(() => {
         const handler = (e: MouseEvent) => {
             if (alertsRef.current && !alertsRef.current.contains(e.target as Node)) {
@@ -89,24 +92,20 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
         document.addEventListener('mousedown', handler);
         return () => document.removeEventListener('mousedown', handler);
     }, []);
-
-    const handleBellClick = () => {
-        setAlertsOpen((prev) => !prev);
-    };
-
+ 
     const handleMarkAllRead = async () => {
         await markAllAlertsRead();
         setAlerts([]);
         setAlertsOpen(false);
     };
-
+ 
     const handleLogout = async () => {
         await authClient.signOut();
         window.location.href = '/login';
     };
-
+ 
     const unreadCount = alerts.length;
-
+ 
     return (
         <>
             <header className={`fixed top-0 w-full bg-blue-400 text-white transition-transform duration-300 z-50 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
@@ -117,24 +116,15 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                     >
                         ☰
                     </button>
-                    <Link
-                        href="/sponsor"
-                        className="text-xl font-bold hover:text-blue-100"
-                    >
+                    <Link href="/sponsor" className="text-xl font-bold hover:text-blue-100">
                         Sponsor Dashboard
                     </Link>
                     <div className="flex items-center space-x-2">
-                        <button
-                            onClick={() => {/* Handle shopping cart click */}}
-                            className="text-white text-2xl focus:outline-none hover:text-blue-200"
-                            title="Shopping Cart"
-                        >
-                            🛒
-                        </button>
-
+ 
+                        {/* Bell */}
                         <div className="relative" ref={alertsRef}>
                             <button
-                                onClick={handleBellClick}
+                                onClick={() => setAlertsOpen((prev) => !prev)}
                                 className="text-white text-2xl focus:outline-none hover:text-blue-200"
                                 title="Notifications"
                             >
@@ -145,9 +135,11 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                                     {unreadCount > 99 ? '99+' : unreadCount}
                                 </span>
                             )}
-
+ 
+                            {/* Dropdown */}
                             {alertsOpen && (
                                 <div className="absolute right-0 top-10 w-80 bg-white text-gray-800 rounded-xl shadow-xl z-50 overflow-hidden">
+                                    {/* Header */}
                                     <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                                         <span className="font-semibold text-sm">Notifications</span>
                                         {unreadCount > 0 && (
@@ -159,7 +151,8 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                                             </button>
                                         )}
                                     </div>
-
+ 
+                                    {/* Alert list */}
                                     <ul className="max-h-80 overflow-y-auto divide-y divide-gray-50">
                                         {alerts.length === 0 ? (
                                             <li className="px-4 py-6 text-center text-sm text-gray-400">
@@ -184,16 +177,22 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                                 </div>
                             )}
                         </div>
-
-                        <Link
-                            href="/sponsor/settings"
+ 
+                        {/* Settings */}
+                        <button
+                            onClick={() => setIsOpen(true)}
                             className="text-white text-2xl focus:outline-none hover:text-blue-200"
                             title="Settings"
                         >
                             ⚙️
-                        </Link>
-
-                        {/* Avatar — links to profile page */}
+                        </button>
+                        <SettingsModal
+                            user={userSettings}
+                            isOpen={isOpen}
+                            onClose={() => setIsOpen(false)}
+                        />
+ 
+                        {/* Avatar */}
                         <Link
                             href="/sponsor/profile"
                             className="w-9 h-9 rounded-full bg-blue-600 border-2 border-white flex items-center justify-center overflow-hidden hover:opacity-80 transition flex-shrink-0"
@@ -210,13 +209,12 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                     </div>
                 </div>
             </header>
-
+ 
             {/* Hamburger Menu Sidebar */}
             <div className={`fixed inset-0 z-40 transition-opacity duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                 <div className="bg-black bg-opacity-50 absolute inset-0" onClick={() => setMenuOpen(false)}></div>
                 <div className={`absolute left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                     <div className="p-4">
-                        {/* Sidebar user info */}
                         <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
                             <div className="w-10 h-10 rounded-full bg-blue-400 border-2 border-blue-300 flex items-center justify-center overflow-hidden flex-shrink-0">
                                 {user?.image ? (
@@ -232,7 +230,7 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                                 <p className="text-xs text-gray-400 capitalize">{displayRole}</p>
                             </div>
                         </div>
-
+ 
                         <h2 className="text-lg font-bold mb-4 text-gray-800">Menu</h2>
                         <ul className="space-y-2">
                             <li><Link href="/sponsor" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>
@@ -246,8 +244,7 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                             <li><Link href="/sponsor/mass-upload-users" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Bulk Upload Users</Link></li>
                             <li><Link href="/sponsor/rules" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Rules</Link></li>
                         </ul>
-
-                        {/* Logout at bottom of sidebar */}
+ 
                         <div className="absolute bottom-6 left-4 right-4">
                             <button
                                 onClick={handleLogout}
@@ -259,17 +256,14 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                     </div>
                 </div>
             </div>
-
+ 
             {/* Profile Dropdown */}
             {profileOpen && (
                 <div className="fixed top-16 right-4 bg-white shadow-lg rounded-md z-50 w-48">
                     <div className="p-4">
                         <p className="text-sm text-gray-600">Logged in as: <strong>{displayName}</strong></p>
                         <p className="text-sm text-gray-600">Role: <strong>{displayRole}</strong></p>
-                        <button
-                            onClick={handleLogout}
-                            className="mt-2 w-full bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
-                        >
+                        <button onClick={handleLogout} className="mt-2 w-full bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600">
                             Logout
                         </button>
                     </div>
