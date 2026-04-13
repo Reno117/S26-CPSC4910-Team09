@@ -14,6 +14,7 @@ export default async function SponsorDashboard() {
   const user = await prisma.user.findUnique({
       where: {id: session?.user?.id},
       select: {
+          id: true,
           name: true,
           email: true,
           role: true,
@@ -41,6 +42,7 @@ export default async function SponsorDashboard() {
               name: true,
               email: true,
               image: true,
+              id: true,
             },
           },
         },

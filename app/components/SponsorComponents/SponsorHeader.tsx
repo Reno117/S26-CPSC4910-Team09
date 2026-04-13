@@ -236,13 +236,13 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                             <li><Link href="/sponsor" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>
                             <li><Link href="/sponsor/driverApplications" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Applications</Link></li>
                             <li><Link href="/sponsor/create-driver" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Make Driver</Link></li>
-                            <li><Link href="/sponsor/audits" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Audits</Link></li>
                             <li><Link href="/sponsor/catalog" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>View Catalog</Link></li>
                             <li><Link href="/sponsor/catalog/add" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Add to Catalog</Link></li>
                             <li><Link href="/sponsor/view-orders" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>View Orders</Link></li>
                             <li><Link href="/sponsor/sponsor-info" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Sponsor Info</Link></li>
                             <li><Link href="/sponsor/mass-upload-users" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Bulk Upload Users</Link></li>
                             <li><Link href="/sponsor/rules" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Rules</Link></li>
+                            <li><Link href="/sponsor/reports" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-sm" onClick={() => setMenuOpen(false)}>Reports</Link></li>
                         </ul>
  
                         <div className="absolute bottom-6 left-4 right-4">

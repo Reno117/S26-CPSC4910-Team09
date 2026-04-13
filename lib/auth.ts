@@ -1,7 +1,7 @@
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { betterAuth } from "better-auth";
 import { prisma } from "./prisma";
-import { createAuthMiddleware } from "better-auth/api";
+import { createAuthMiddleware, getSession, getSessionFromCtx } from "better-auth/api";
 import { admin } from "better-auth/plugins";
 
 const authBaseURL =
@@ -12,9 +12,10 @@ const authBaseURL =
 
 
 export const auth = betterAuth({
+
   plugins: [
     admin({
-      defaultRole: "user",
+      adminRoles: ["admin"],
       impersonationSessionDuration: 60 * 60, // 1 hour
     }),
   ],
@@ -44,7 +45,7 @@ export const auth = betterAuth({
             }
           }
              if (ctx.path.includes("/admin/impersonate-user")) {
-            const session = ctx.context?.session;
+            const session = await getSessionFromCtx(ctx);
             if (!session) throw new Error("Not authenticated.");
 
             const requestorRole = session.user.role;

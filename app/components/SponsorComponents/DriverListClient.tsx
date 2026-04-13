@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import PointsButton from './points-button';
 import { updateDriverProfile } from '@/app/actions/sponsor/edit-driver-as-sponsor';
 import FireDriverButton from './Fire-Driver-Button';
+import { ImpersonateButton } from '../AdminComponents/ImpersonateButton';
 type Driver = {
   id: string;
   points: number;
@@ -16,6 +17,7 @@ type Driver = {
       name: string;
       email: string;
       image: string | null;
+      id: string;
       };
     };
   sponsorOrg?: {
@@ -199,6 +201,7 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
 
                 />
               )}
+              <ImpersonateButton targetUserId={driver.driver.user.id} />
               <FireDriverButton driver={driver} /> 
               </div>
             </div>
