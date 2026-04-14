@@ -30,6 +30,7 @@ export default function DriverHeader() {
   const [menuOpen, setMenuOpen]         = useState(false);
   const [profileOpen, setProfileOpen]   = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
+  const [stoppingImpersonation, setStoppingImpersonation] = useState(false);
 
   // --- Alert state ---
   const [alerts, setAlerts]             = useState<Alert[]>([]);
@@ -38,6 +39,8 @@ export default function DriverHeader() {
 
   const session     = authClient.useSession();
   const user        = session.data?.user as { name?: string | null; role?: string | null; image?: string | null } | undefined;
+  const sessionData = session.data?.session as { impersonatedBy?: string | null } | undefined;
+  const isImpersonating = Boolean(sessionData?.impersonatedBy);
   const displayName = user?.name ?? 'User';
   const displayRole = user?.role
     ? `${user.role.charAt(0).toUpperCase()}${user.role.slice(1)}`
@@ -112,6 +115,29 @@ export default function DriverHeader() {
     window.location.href = '/login';
   };
 
+  const handleStopImpersonation = async () => {
+    try {
+      setStoppingImpersonation(true);
+      const res = await fetch('/api/auth/stop-impersonating', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        const message = await res.text();
+        throw new Error(message || 'Failed to stop impersonation.');
+      }
+
+      const data = (await res.json()) as { redirectPath?: string };
+      window.location.href = data.redirectPath || '/sponsor';
+    } catch (error) {
+      console.error('Failed to stop impersonation:', error);
+      alert(error instanceof Error ? error.message : 'Failed to stop impersonation.');
+    } finally {
+      setStoppingImpersonation(false);
+    }
+  };
+
   const unreadCount = alerts.length;
 
   return (
@@ -128,6 +154,16 @@ export default function DriverHeader() {
             Driver Dashboard
           </Link>
           <div className="flex items-center space-x-2">
+            {isImpersonating && (
+              <button
+                onClick={handleStopImpersonation}
+                disabled={stoppingImpersonation}
+                className="bg-yellow-500 hover:bg-yellow-600 disabled:opacity-60 text-black font-semibold text-xs px-3 py-1 rounded"
+                title="Return to your original account"
+              >
+                {stoppingImpersonation ? 'Returning...' : 'Exit Impersonation'}
+              </button>
+            )}
 
             {/* Cart */}
             <div className="relative">
@@ -251,6 +287,17 @@ export default function DriverHeader() {
             </div>
             <h2 className="text-lg font-bold mb-4 text-gray-800">Menu</h2>
             <ul className="space-y-2">
+              {isImpersonating && (
+                <li>
+                  <button
+                    onClick={handleStopImpersonation}
+                    disabled={stoppingImpersonation}
+                    className="w-full text-left p-2 text-yellow-700 bg-yellow-100 hover:bg-yellow-200 rounded disabled:opacity-60"
+                  >
+                    {stoppingImpersonation ? 'Returning...' : 'Exit Impersonation'}
+                  </button>
+                </li>
+              )}
               <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>
               <li><Link href="/driver/settings" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Settings</Link></li>
               <li><Link href="/driver/apply" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Apply to a Sponsor</Link></li>
