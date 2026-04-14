@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import ToggleStatusButton from '@/app/components/AdminComponents/toggle-status-button';
+import { ImpersonateButton } from '@/app/components/AdminComponents/ImpersonateButton';
 
 type ActiveUser = {
   id: string;
@@ -217,12 +218,15 @@ export default function ActiveUsersList({ users }: ActiveUsersListProps) {
                         currentStatus={selectedUser.driverStatus || 'active'}
                         userType="driver"
                       />
-                      <Link
-                        href={`/admin/${selectedUser.driverId}`}
-                        className="inline-flex rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-                      >
-                        Edit Driver Profile
-                      </Link>
+                      <div className="flex flex-wrap gap-3 items-center">
+                        <Link
+                          href={`/admin/${selectedUser.driverId}`}
+                          className="inline-flex rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+                        >
+                          Edit Driver Profile
+                        </Link>
+                        <ImpersonateButton targetUserId={selectedUser.id} />
+                      </div>
                     </div>
                   )}
                 </>

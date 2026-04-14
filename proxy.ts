@@ -1,12 +1,8 @@
-export const runtime = "nodejs";
-
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
-
-  // Get the session token from cookies
 
   const sessionToken =
     req.cookies.get("__Secure-better-auth.session_token")?.value ||
@@ -24,7 +20,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // For authenticated users, we'll check role in the page/layout instead
+  // For authenticated users, role checks happen in page/layout logic
   return NextResponse.next();
 }
 

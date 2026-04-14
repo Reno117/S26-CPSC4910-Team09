@@ -10,8 +10,11 @@ const authBaseURL =
     ? "https://main.d3snic3demckqa.amplifyapp.com"
     : "http://localhost:3000");
 
+const authSecret = process.env.BETTER_AUTH_SECRET ?? process.env.JWT_SECRET;
+
 
 export const auth = betterAuth({
+  secret: authSecret,
 
   plugins: [
     admin({

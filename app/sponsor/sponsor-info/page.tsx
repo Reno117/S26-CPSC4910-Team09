@@ -61,7 +61,7 @@ export default async function SponsorDashboard() {
           id: true,
           status: true,
           pointsBalance: true,
-          user: {select: {name: true, email: true, image: true } },
+          user: {select: {id: true, name: true, email: true, image: true } },
         },
       },
       sponsorOrg: {
