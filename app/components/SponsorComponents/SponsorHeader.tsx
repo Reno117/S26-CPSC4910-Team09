@@ -46,9 +46,12 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
     const [alertsOpen, setAlertsOpen] = useState(false);
     const alertsRef                 = useRef<HTMLDivElement>(null);
  
+    const [stoppingImpersonation, setStoppingImpersonation] = useState(false);
     const session     = authClient.useSession();
     const user        = session.data?.user as { name?: string | null; role?: string | null; image?: string | null } | undefined;
     const displayName = user?.name ?? 'User';
+    const sessionData = session.data?.session as { impersonatedBy?: string | null } | undefined;
+    const isImpersonating = Boolean(sessionData?.impersonatedBy);
     const displayRole = user?.role
         ? `${user.role.charAt(0).toUpperCase()}${user.role.slice(1)}`
         : 'User';
@@ -103,6 +106,30 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
         await authClient.signOut();
         window.location.href = '/login';
     };
+
+
+  const handleStopImpersonation = async () => {
+    try {
+      setStoppingImpersonation(true);
+      const res = await fetch('/api/auth/stop-impersonating', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (!res.ok) {
+        const message = await res.text();
+        throw new Error(message || 'Failed to stop impersonation.');
+      }
+
+      const data = (await res.json()) as { redirectPath?: string };
+      window.location.href = data.redirectPath || '/sponsor';
+    } catch (error) {
+      console.error('Failed to stop impersonation:', error);
+      alert(error instanceof Error ? error.message : 'Failed to stop impersonation.');
+    } finally {
+      setStoppingImpersonation(false);
+    }
+  };
  
     const unreadCount = alerts.length;
  
@@ -120,6 +147,16 @@ export default function SponsorHeader({ userSettings }: HeaderProps) {
                         Sponsor Dashboard
                     </Link>
                     <div className="flex items-center space-x-2">
+            {isImpersonating && (
+              <button
+                onClick={handleStopImpersonation}
+                disabled={stoppingImpersonation}
+                className="bg-yellow-500 hover:bg-yellow-600 disabled:opacity-60 text-black font-semibold text-xs px-3 py-1 rounded"
+                title="Return to your original account"
+              >
+                {stoppingImpersonation ? 'Returning...' : 'Exit Impersonation'}
+              </button>
+            )}
  
                         {/* Bell */}
                         <div className="relative" ref={alertsRef}>

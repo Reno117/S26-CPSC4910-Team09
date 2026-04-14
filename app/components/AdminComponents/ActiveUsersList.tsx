@@ -225,7 +225,7 @@ export default function ActiveUsersList({ users }: ActiveUsersListProps) {
                         >
                           Edit Driver Profile
                         </Link>
-                        <ImpersonateButton targetUserId={selectedUser.id} />
+                        <ImpersonateButton targetUserId={selectedUser.id} targetRole='driver'/>
                       </div>
                     </div>
                   )}
@@ -266,6 +266,7 @@ export default function ActiveUsersList({ users }: ActiveUsersListProps) {
                       >
                         Edit Sponsor Profile
                       </Link>
+                        <ImpersonateButton targetUserId={selectedUser.id} targetRole='sponsor'/>
                     </div>
                   )}
                 </>

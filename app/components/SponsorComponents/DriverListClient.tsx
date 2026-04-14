@@ -201,7 +201,7 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
 
                 />
               )}
-              <ImpersonateButton targetUserId={driver.driver.user.id} />
+              <ImpersonateButton targetUserId={driver.driver.user.id} targetRole='driver' />
               <FireDriverButton driver={driver} /> 
               </div>
             </div>
