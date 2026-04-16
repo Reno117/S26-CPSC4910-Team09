@@ -11,7 +11,6 @@ export default function Navbar() {
     pathname === "/" ||
     pathname === "/login" ||
     pathname === "/signup" ||
-    pathname === "/driver/apply" ||
     pathname === "/about";
 
   const session = authClient.useSession();

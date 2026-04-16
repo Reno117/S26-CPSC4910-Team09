@@ -351,7 +351,7 @@ export default async function PointChangeReportPage({ searchParams, sponsorId }:
         <div className="max-w-screen-xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
-              href="/admin/report/audits"
+              href="/sponsor/reports"
               className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

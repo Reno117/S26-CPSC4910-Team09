@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { requireDriver } from "@/lib/auth-helpers";
 import ApplicationForm from "@/app/components/DriverComponents/driver-application-form";
+import DriverHeader from "@/app/components/DriverComponents/DriverHeader";
 
 export default async function ApplyPage() {
   const user = await requireDriver();
@@ -29,8 +30,12 @@ export default async function ApplyPage() {
   });
 
   return (
-    <div className="p-8 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Apply to Sponsor</h1>
+    <div className= "min-h-screen bg-gray-50">
+      <div className="fixed top-0 w-full h-16 bg-blue-400 z-50" />
+        <DriverHeader /> 
+        <div className="h-16" />
+          <div className="p-8 max-w-4xl mx-auto">
+            <h1 className="text-3xl font-bold mb-6">Apply to Sponsor</h1>
 
       {/* Show existing applications */}
       {existingApplications.length > 0 && (
@@ -94,6 +99,7 @@ export default async function ApplyPage() {
           existingApplications={existingApplications}
         />
       </div>
+    </div>
     </div>
   );
 }
