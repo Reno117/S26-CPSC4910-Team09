@@ -279,7 +279,7 @@ export default async function LoginAttemptsReportPage({ searchParams }: PageProp
           <p className="text-sm font-medium text-slate-700">Invalid report parameters</p>
           <p className="text-xs text-slate-400">Please go back and select a valid date range.</p>
           <Link
-            href="/admin/report/audits"
+            href="/admin/reports"
             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-slate-900 rounded-lg hover:bg-slate-700 transition-colors"
           >
             ← Back to filters
@@ -300,7 +300,7 @@ export default async function LoginAttemptsReportPage({ searchParams }: PageProp
         <div className="max-w-screen-xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
-              href="/admin/report/audits"
+              href="/admin/reports"
               className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-800 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

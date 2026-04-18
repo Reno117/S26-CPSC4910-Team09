@@ -11,12 +11,12 @@ export default async function AdminRulesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
+    <div className="min-h-screen bg-[#e9eaeb] dark:bg-[#e9eaeb] text-black transition-colors duration-300">
+
       <AdminHeader />
-      <main className="px-4 pt-24 pb-10 sm:px-8">
-        <div className="max-w-6xl mx-auto">
-          <RulesClient initialRules={rules} />
-        </div>
+      <main className="mx-auto max-w-6xl px-6 pt-24 pb-16">
+
+        <RulesClient initialRules={rules} />
       </main>
     </div>
   );

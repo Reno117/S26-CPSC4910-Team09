@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 
 const allowedDriverStatuses = new Set(["pending", "active", "dropped", "disabled"]);
 const allowedSponsorUserStatuses = new Set(["active", "disabled"]);
+const allowedAdminStatuses = new Set(["pending", "active"]);
 
 export async function createSingleUser(formData: FormData) {
   await requireAdmin();
@@ -29,12 +30,13 @@ export async function createSingleUser(formData: FormData) {
   const driverPointsBalanceInput = String(formData.get("driverPointsBalance") ?? "0").trim();
   const driverAddressInput = String(formData.get("driverAddress") ?? "").trim();
   const sponsorUserStatus = String(formData.get("sponsorUserStatus") ?? "active").trim().toLowerCase();
+  const adminStatus = String(formData.get("adminStatus") ?? "active").trim().toLowerCase();
 
   if (!name || !email) {
     redirect("/admin/create-users?error=missing-required-fields");
   }
 
-  if (userType !== "driver" && userType !== "sponsor") {
+  if (userType !== "driver" && userType !== "sponsor" && userType !== "admin") {
     redirect("/admin/create-users?error=invalid-user-type");
   }
 
@@ -53,18 +55,20 @@ export async function createSingleUser(formData: FormData) {
     redirect("/admin/create-users?error=invalid-sponsor-user-status");
   }
 
+  if (!allowedAdminStatuses.has(adminStatus)) {
+    redirect("/admin/create-users?error=invalid-admin-status");
+  }
+
   if (userType === "sponsor" && !sponsorId) {
     redirect("/admin/create-users?error=missing-sponsor");
   }
 
-  const sponsorIdsToValidate = userType === "driver" ? sponsorIdsInput : sponsorId ? [sponsorId] : [];
+  const sponsorIdsToValidate =
+    userType === "driver" ? sponsorIdsInput : userType === "sponsor" && sponsorId ? [sponsorId] : [];
+
   if (sponsorIdsToValidate.length > 0) {
     const validSponsors = await prisma.sponsor.findMany({
-      where: {
-        id: {
-          in: sponsorIdsToValidate,
-        },
-      },
+      where: { id: { in: sponsorIdsToValidate } },
       select: { id: true },
     });
 
@@ -91,22 +95,20 @@ export async function createSingleUser(formData: FormData) {
       image: imageInput || null,
       emailVerified,
     },
-    select: {
-      id: true,
-    },
+    select: { id: true },
   });
 
   await prisma.alertPreferences.create({
     data: {
-        adminChangeAlert: true,
-        applicationAlert: true,
-        orderAlert: true,
-        passwordChangeAlert: true,
-        pointChangeAlert: true,
-        statusAlert: true,
-        userId: user.id,
-    }
-  })
+      adminChangeAlert: true,
+      applicationAlert: true,
+      orderAlert: true,
+      passwordChangeAlert: true,
+      pointChangeAlert: true,
+      statusAlert: true,
+      userId: user.id,
+    },
+  });
 
   if (userType === "driver") {
     const driverSponsorId = sponsorIdsInput[0] ?? null;
@@ -124,9 +126,7 @@ export async function createSingleUser(formData: FormData) {
         totalPointsSpent: 0,
         address: driverAddressInput || null,
       },
-      select: {
-        id: true,
-      },
+      select: { id: true },
     });
 
     if (sponsorIdsInput.length > 0) {
@@ -139,12 +139,19 @@ export async function createSingleUser(formData: FormData) {
         }
       });
     }
-  } else {
+  } else if (userType === "sponsor") {
     await prisma.sponsorUser.create({
       data: {
         userId: user.id,
         sponsorId,
         status: sponsorUserStatus,
+      },
+    });
+  } else if (userType === "admin") {
+    await prisma.admin.create({
+      data: {
+        userId: user.id,
+        status: adminStatus,
       },
     });
   }

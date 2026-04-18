@@ -32,7 +32,7 @@ export default async function CreateUsersPage({ searchParams }: CreateUsersPageP
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Create User</h1>
-              <p className="text-sm text-gray-600">Create a single driver or sponsor user account.</p>
+              <p className="text-sm text-gray-600">Create a single driver, sponsor, or admin user account.</p>
             </div>
             <div className="flex gap-2">
               <Link

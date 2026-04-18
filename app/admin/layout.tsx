@@ -16,5 +16,9 @@ export default async function AdminLayout({
     redirect("/unauthorized");
   }
 
-  return <>{children}</>;
+  return (
+    <div className="min-h-screen bg-gray-100">
+      {children}
+    </div>
+  );
 }

@@ -100,15 +100,12 @@ export default async function AdminDashboard() {
   }));
 
   return (
-    <div>
-      <AdminHeader />
+  <div className="min-h-screen bg-gray-100 dark:bg-gray-100">
+    <AdminHeader />
 
-      <main className="pt-24 px-6 min-h-screen flex flex-col items-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
-          Admin Dashboard
-        </h1>
-        <ActiveUsersList users={formattedUsers} />
-      </main>
-    </div>
-  );
+    <main className="pt-24 px-6 min-h-screen flex flex-col items-center">
+      <ActiveUsersList users={formattedUsers} />
+    </main>
+  </div>
+);
 }
