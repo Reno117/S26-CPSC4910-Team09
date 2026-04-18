@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 type OrderStatus = "pending" | "processing" | "shipped" | "delivered" | "cancelled";
 
 export async function updateOrderStatus(orderId: string, status: OrderStatus) {
-  const { isAdmin, sponsorId } = await requireSponsorOrAdmin();
+  const { isAdmin, sponsorId, user } = await requireSponsorOrAdmin();
 
   const order = await prisma.order.findUnique({
     where: { id: orderId },
@@ -23,13 +23,19 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus) {
     throw new Error("Unauthorized");
   }
 
-  // Can't update a cancelled or delivered order
+  // Can't update a cancelled order
   if (order.status === "cancelled") {
     throw new Error("Cannot update a cancelled order");
   }
 
-  if (order.status === "delivered" && status !== "cancelled") {
+  // Delivered orders are final
+  if (order.status === "delivered") {
     throw new Error("Cannot update a delivered order");
+  }
+
+  // Sponsors/admin can only cancel pending or processing orders
+  if (status === "cancelled" && order.status !== "pending" && order.status !== "processing") {
+    throw new Error("Only pending or processing orders can be cancelled");
   }
 
   // Get driver info for alerts
@@ -64,7 +70,7 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus) {
           sponsorId: order.sponsorId,
           amount: order.totalPoints,
           reason: `Order #${order.id.slice(-8)} - Cancelled by ${isAdmin ? "Admin" : "Sponsor"} (Refund)`,
-          changedBy: order.driverProfileId, // Use driverProfileId as reference
+          changedBy: user.id,
         },
       });
     });
@@ -100,6 +106,7 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus) {
   }
 
   revalidatePath("/sponsor/orders");
+  revalidatePath("/sponsor/view-orders");
 
   return { success: true };
 }

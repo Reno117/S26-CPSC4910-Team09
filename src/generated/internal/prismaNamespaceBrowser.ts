@@ -121,6 +121,9 @@ export const UserScalarFieldEnum = {
   name: 'name',
   email: 'email',
   role: 'role',
+  banned: 'banned',
+  banReason: 'banReason',
+  banExpires: 'banExpires',
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
@@ -502,6 +505,7 @@ export const UserOrderByRelevanceFieldEnum = {
   name: 'name',
   email: 'email',
   role: 'role',
+  banReason: 'banReason',
   image: 'image'
 } as const
 

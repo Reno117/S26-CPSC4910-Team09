@@ -16,11 +16,15 @@ import {
 
 const CATEGORIES: AuditCategory[] = [
   "Point Change",
+  "Sales by Sponsor",
+  "Sales by Driver",
 ];
 
 // Categories that have their own dedicated report page
 const ROUTED_CATEGORIES: Partial<Record<AuditCategory, string>> = {
   "Point Change":    "/sponsor/reports/point-change-report",
+  "Sales by Sponsor": "/sponsor/reports/sales-by-sponsor-report",
+  "Sales by Driver": "/sponsor/reports/sales-by-driver-report",
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

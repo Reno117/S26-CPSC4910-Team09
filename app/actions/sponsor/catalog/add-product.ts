@@ -4,6 +4,17 @@ import { prisma } from "@/lib/prisma";
 import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
 import { revalidatePath } from "next/cache";
 
+function normalizeExternalImageUrl(url: string): string {
+  const trimmed = url.trim();
+
+  if (!trimmed) return "";
+  if (trimmed.startsWith("//")) return `https:${trimmed}`;
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (trimmed.startsWith("/")) return "";
+
+  return `https://${trimmed}`;
+}
+
 export async function addProductToCatalog(data: {
   ebayItemId: string;
   title: string;
@@ -12,6 +23,7 @@ export async function addProductToCatalog(data: {
   sponsorId?: string; // For admins to specify which sponsor
 }) {
   const { isAdmin, sponsorId: userSponsorId } = await requireSponsorOrAdmin();
+  const normalizedImageUrl = normalizeExternalImageUrl(data.imageUrl);
 
   // Determine target sponsor
   const targetSponsorId =
@@ -37,7 +49,7 @@ export async function addProductToCatalog(data: {
       sponsorId: targetSponsorId,
       ebayItemId: data.ebayItemId,
       title: data.title,
-      imageUrl: data.imageUrl,
+      imageUrl: normalizedImageUrl,
       price: data.price, // ADD THIS
       isActive: true,
     },
