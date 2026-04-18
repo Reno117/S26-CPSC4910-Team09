@@ -51,8 +51,10 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
   const pageSize = initialCount;
 
   const filteredDrivers = useMemo(() => {
-    if (!normalizedQuery) return drivers;
-    return drivers.filter((driver) => {
+    return drivers
+    .filter((driver) => driver.driver.status != "dropped")
+    .filter((driver) => {
+      if(!normalizedQuery) return true;
       const name = driver.driver.user.name.toLowerCase();
       const email = driver.driver.user.email.toLowerCase();
       return name.includes(normalizedQuery) || email.includes(normalizedQuery);
@@ -158,9 +160,9 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
           placeholder="Search by name or email"
           className="w-full px-3 py-2 border rounded"
         />
-        {!normalizedQuery && drivers.length > pageSize && (
+        {!normalizedQuery && filteredDrivers.length > pageSize && (
           <p className="text-sm text-gray-500 mt-2">
-            Showing {currentPage * pageSize + 1}-{Math.min((currentPage+1) * pageSize, drivers.length)} of {drivers.length} drivers
+            Showing {currentPage * pageSize + 1}-{Math.min((currentPage+1) * pageSize, filteredDrivers.length)} of {filteredDrivers.length} drivers
           </p>
         )}
       </div>
@@ -192,6 +194,21 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
                 >
                   {driver.driver.user.name}
                 </div>
+                {driver.driver.status.toLowerCase() === "disabled" && (
+                  <span style= {{
+                    display: 'inline-block',
+                    marginLeft: '8px',
+                    fontSize: '11px',
+                    fontWeight: '600',
+                    color: '#856404',
+                    backgroundColor: '#fff3cd',
+                    border: '1px solid #ffc107',
+                    borderRadius: '4px',
+                    padding: '2px 6px',
+                  }}>
+                    inactive
+                  </span>
+                )}
                 {isAdmin && driver.sponsorOrg && (
                   <span style={{ fontSize: '12px', color: '#666', marginLeft: '10px' }}>
                     ({driver.sponsorOrg.name})
@@ -234,7 +251,7 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
             ←
           </button>
           <span style={{ fontSize: '14px', color: '#666' }}>
-              Page {currentPage === totalPages - 1}
+              Page {currentPage + 1} of {totalPages}
           </span>
           <button
               onClick={() => setCurrentPage(p => Math.min(totalPages - 1, p + 1))}
