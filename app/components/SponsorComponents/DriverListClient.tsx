@@ -47,6 +47,8 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
   const [newImageBase64, setNewImageBase64] = useState<string | null>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const pageSize = initialCount;
 
   const filteredDrivers = useMemo(() => {
     if (!normalizedQuery) return drivers;
@@ -57,9 +59,15 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
     });
   }, [drivers, normalizedQuery]);
 
-  const visibleDrivers = normalizedQuery
-    ? filteredDrivers
-    : filteredDrivers.slice(0, initialCount);
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [normalizedQuery]);
+
+  const totalPages = Math.ceil(filteredDrivers.length / pageSize);
+  const visibleDrivers = filteredDrivers.slice(
+    currentPage * pageSize,
+    (currentPage + 1) * pageSize
+  );
 
   const handleContextMenu = (e: React.MouseEvent, driver: Driver) => {
     e.preventDefault();
@@ -150,9 +158,9 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
           placeholder="Search by name or email"
           className="w-full px-3 py-2 border rounded"
         />
-        {!normalizedQuery && drivers.length > initialCount && (
+        {!normalizedQuery && drivers.length > pageSize && (
           <p className="text-sm text-gray-500 mt-2">
-            Showing first {initialCount} of {drivers.length} drivers
+            Showing {currentPage * pageSize + 1}-{Math.min((currentPage+1) * pageSize, drivers.length)} of {drivers.length} drivers
           </p>
         )}
       </div>
@@ -162,6 +170,7 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
           {normalizedQuery ? "No matching drivers" : "No registered drivers"}
         </div>
       ) : (
+        <>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {visibleDrivers.map((driver) => (
             <div
@@ -207,6 +216,44 @@ export default function DriverListClient({ drivers, isAdmin, initialCount }: Dri
             </div>
           ))}
         </div>
+        {totalPages > 1 && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', marginTop: '16px'}}>
+            <button
+              onClick={() => setCurrentPage(p => Math.max(0, p -1 ))}
+              disabled={currentPage === 0}
+              style={{
+                background: 'none',
+                border: '1px solid #ddd',
+                borderRadius: '6px',
+                padding: '6px 12px',
+                cursor: currentPage === 0 ? 'not-allowed' : 'pointer',
+                opacity: currentPage === 0 ? 0.4 : 1,
+                fontSize: '18px',
+              }}
+          >
+            ←
+          </button>
+          <span style={{ fontSize: '14px', color: '#666' }}>
+              Page {currentPage === totalPages - 1}
+          </span>
+          <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages - 1, p + 1))}
+              disabled = {currentPage === totalPages - 1}
+              style = {{
+                background: 'none',
+                border: '1px solid #ddd',
+                borderRadius: '6px',
+                padding: '6px 12px',
+                cursor: currentPage === totalPages - 1 ? 'not-allowed' : 'pointer',
+                opacity: currentPage === totalPages - 1 ? 0.4 : 1,
+                fontSize: '18px',
+              }} 
+              >
+                →
+              </button>
+            </div>
+        )}
+        </>
       )}
 
       {contextMenu && selectedDriver && (
