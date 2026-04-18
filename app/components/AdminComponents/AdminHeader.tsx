@@ -47,7 +47,6 @@ export default function AdminHeader() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
 
-    // Alert polling — every 30 seconds
     useEffect(() => {
         let isMounted = true;
         const loadAlerts = async () => {
@@ -64,7 +63,6 @@ export default function AdminHeader() {
         };
     }, []);
 
-    // Close alert dropdown when clicking outside
     useEffect(() => {
         const handler = (e: MouseEvent) => {
             if (alertsRef.current && !alertsRef.current.contains(e.target as Node)) {
@@ -75,9 +73,7 @@ export default function AdminHeader() {
         return () => document.removeEventListener('mousedown', handler);
     }, []);
 
-    const handleBellClick = () => {
-        setAlertsOpen((prev) => !prev);
-    };
+    const handleBellClick = () => setAlertsOpen((prev) => !prev);
 
     const handleMarkAllRead = async () => {
         await markAllAlertsRead();
@@ -89,25 +85,35 @@ export default function AdminHeader() {
 
     return (
         <>
-            <header className={`fixed top-0 w-full bg-blue-400 text-white transition-transform duration-300 z-50 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-                <div className="flex justify-between items-center p-4 h-16">
-                    <button
-                        onClick={() => setMenuOpen(!menuOpen)}
-                        className="text-white text-2xl focus:outline-none"
-                    >
-                        ☰
-                    </button>
-                    <Link
-                        href="/admin"
-                        className="text-xl font-bold hover:text-blue-100"
-                    >
-                        Admin Dashboard
-                    </Link>
-                    <div className="flex items-center space-x-2">
+            <header
+                className={`fixed top-0 w-full z-50 transition-transform duration-300 ${
+                    isVisible ? 'translate-y-0' : '-translate-y-full'
+                }`}
+                style={{ backgroundColor: '#0d2b45' }}
+            >
+                <div className="flex justify-between items-center px-6 h-16">
+                    {/* Left: hamburger + brand */}
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            className="text-white text-2xl focus:outline-none hover:opacity-70 transition-opacity"
+                        >
+                            ☰
+                        </button>
+                        <Link
+                    href="/admin"
+                    className="text-white text-sm font-light tracking-[0.18em] uppercase hover:opacity-70 transition-opacity"
+                >
+                    Admin Dashboard
+                </Link>
+                    </div>
+
+                    {/* Right: alerts, settings, profile */}
+                    <div className="flex items-center gap-4">
                         <div className="relative" ref={alertsRef}>
                             <button
                                 onClick={handleBellClick}
-                                className="text-white text-2xl focus:outline-none hover:text-blue-200"
+                                className="text-white text-xl focus:outline-none hover:opacity-70 transition-opacity"
                                 title="Notifications"
                             >
                                 🔔
@@ -117,7 +123,6 @@ export default function AdminHeader() {
                                     {unreadCount > 99 ? '99+' : unreadCount}
                                 </span>
                             )}
-
                             {alertsOpen && (
                                 <div className="absolute right-0 top-10 w-80 bg-white text-gray-800 rounded-xl shadow-xl z-50 overflow-hidden">
                                     <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
@@ -125,13 +130,12 @@ export default function AdminHeader() {
                                         {unreadCount > 0 && (
                                             <button
                                                 onClick={handleMarkAllRead}
-                                                className="text-xs text-blue-400 hover:text-blue-600"
+                                                className="text-xs text-blue-500 hover:text-blue-700"
                                             >
                                                 Mark all read
                                             </button>
                                         )}
                                     </div>
-
                                     <ul className="max-h-80 overflow-y-auto divide-y divide-gray-50">
                                         {alerts.length === 0 ? (
                                             <li className="px-4 py-6 text-center text-sm text-gray-400">
@@ -159,14 +163,16 @@ export default function AdminHeader() {
 
                         <Link
                             href="/admin/settings"
-                            className="text-white text-2xl focus:outline-none hover:text-blue-200"
+                            className="text-white text-xl focus:outline-none hover:opacity-70 transition-opacity"
                             title="Settings"
                         >
                             ⚙️
                         </Link>
+
                         <Link
                             href="/admin/profile"
-                            className="w-9 h-9 rounded-full bg-blue-600 border-2 border-white flex items-center justify-center overflow-hidden hover:opacity-80 transition flex-shrink-0"
+                            className="w-9 h-9 rounded-full border-2 border-white/40 flex items-center justify-center overflow-hidden hover:opacity-80 transition flex-shrink-0"
+                            style={{ backgroundColor: '#1a4a6e' }}
                             title="Profile"
                         >
                             {user?.image ? (
@@ -181,25 +187,44 @@ export default function AdminHeader() {
                 </div>
             </header>
 
+            {/* Side drawer */}
             <div className={`fixed inset-0 z-40 transition-opacity duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                <div className="bg-black bg-opacity-50 absolute inset-0" onClick={() => setMenuOpen(false)}></div>
-                <div className={`absolute left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-                    <div className="p-4">
-                        <h2 className="text-lg font-bold mb-4 text-gray-800">Menu</h2>
-                        <ul className="space-y-2">
-                            <li><Link href="/admin" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Manage Users</Link></li>
-                            <li><Link href="/admin/create-users" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Create Users</Link></li>
-                            <li><Link href="/admin/create-sponsor-org" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Create Sponsor Organization</Link></li>
-                            <li><Link href="/admin/view-catalogs" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>View Catalogs</Link></li>
-                            <li><Link href="/admin/all-orders" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Orders</Link></li>
-                            <li><Link href="/admin/rules" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Rules</Link></li>
-                            <li><Link href="/admin/audit" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Audits</Link></li>
-                            <li><Link href="/admin/report/audits" className="block p-2 hover:bg-gray-200 text-black-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Reports</Link></li>
+                <div
+                style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+                className="absolute inset-0"
+                onClick={() => setMenuOpen(false)}
+                />
+                <div
+                    className={`absolute left-0 top-0 h-full w-64 shadow-2xl transform transition-transform duration-300 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                    style={{ backgroundColor: '#0d2b45' }}
+                >
+                    <div className="p-6">
+                        <h2 className="text-white text-xs font-semibold tracking-widest uppercase mb-8 opacity-50">Navigation</h2>
+                        <ul className="space-y-1">
+                            {[
+                                { href: '/admin', label: 'Manage Users' },
+                                { href: '/admin/create-users', label: 'Create Users' },
+                                { href: '/admin/create-sponsor-org', label: 'Create Sponsor Org' },
+                                { href: '/admin/view-catalogs', label: 'View Catalogs' },
+                                { href: '/admin/all-orders', label: 'Orders' },
+                                { href: '/admin/rules', label: 'Rules' },
+                                { href: '/admin/audit', label: 'Audits' },
+                                { href: '/admin/reports', label: 'Reports' },
+                            ].map(({ href, label }) => (
+                                <li key={href}>
+                                    <Link
+                                        href={href}
+                                        onClick={() => setMenuOpen(false)}
+                                        className="block px-4 py-3 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors text-base"
+                                    >
+                                        {label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
             </div>
-
         </>
     );
 }

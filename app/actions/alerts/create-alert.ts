@@ -21,9 +21,9 @@ async function getCurrentUserId() {
 export async function setupCreateAlertProcedure() {
   try {
     await prisma.$executeRawUnsafe(`DROP PROCEDURE IF EXISTS create_alert_if_enabled`);
-    console.log("✅ Dropped old procedure");
+    console.log("Dropped old procedure");
   } catch (e) {
-    console.error("❌ Failed to drop procedure:", e);
+    console.error("Failed to drop procedure:", e);
   }
 
   try {
@@ -67,9 +67,8 @@ export async function setupCreateAlertProcedure() {
       END IF;
     END
   `);
-    console.log("✅ Created procedure successfully");
   } catch (e) {
-    console.error("❌ Failed to create procedure:", e);
+    console.error("Failed to create procedure:", e);
     throw e;
   }
 }

@@ -26,13 +26,13 @@ const CATEGORIES: AuditCategory[] = [
  
 // Categories that have their own dedicated report page
 const ROUTED_CATEGORIES: Partial<Record<AuditCategory, string>> = {
-  "Login Attempts": "/admin/report/audits/login-attempts-report",
-  "Point Change":   "/admin/report/audits/point-change-report",
-  "Password Change": "/admin/report/audits/password-change-report",
-  "Driver Status":  "/admin/report/audits/driver-status-report",
-  "In Depth Point Change": "/admin/report/audits/in-depth-point-report",
-  "Sales by Sponsor": "/admin/report/audits/sales-by-sponsor-report",
-  "Sales by Driver": "/admin/report/audits/sales-by-driver-report",
+  "Login Attempts": "/admin/reports/login-attempts-report",
+  "Point Change":   "/admin/reports/point-change-report",
+  "Password Change": "/admin/reports/password-change-report",
+  "Driver Status":  "/admin/reports/driver-status-report",
+  "In Depth Point Change": "/admin/reports/in-depth-point-report",
+  "Sales by Sponsor": "/admin/reports/sales-by-sponsor-report",
+  "Sales by Driver": "/admin/reports/sales-by-driver-report",
 };
  
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -227,7 +227,7 @@ export default function AuditReportPage() {
       {/* ── Page header ── */}
       <div className="bg-white border-b border-slate-200 px-8 py-5 pt-24">
         <div className="max-w-screen-xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-semibold text-slate-900">Audit Log</h1>
+          <h1 className="text-xl font-semibold text-slate-900">Reports</h1>
  
           {appliedFilters && (
             <div className="flex items-center gap-2">
