@@ -42,7 +42,7 @@ export async function getSponsors(): Promise<string[]> {
     select: { name: true },
     orderBy: { name: "asc" },
   });
-  return sponsors.map((s) => s.name);
+  return sponsors.map((s: {name: string}) => s.name);
 }
 
 /**
@@ -130,8 +130,8 @@ export async function getAuditLogs({
       });
       // Admin userIds are NOT included when filtering by a specific sponsor
       userIdFilter = [
-        ...sponsorUserIds.map((r) => r.userId),
-        ...driverUserIds.map((r) => r.userId),
+        ...sponsorUserIds.map((r: {userId: string}) => r.userId),
+        ...driverUserIds.map((r: {userId: string}) => r.userId),
       ];
     }
  

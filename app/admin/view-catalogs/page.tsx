@@ -2,9 +2,11 @@ import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth-helpers";
 import AdminHeader from "../../components/AdminComponents/AdminHeader";
 import SponsorCatalogSelector from "../../components/AdminComponents/SponsorCatalogSelector";
+import UpdatePointsModal from "@/app/components/catalog/edit-pointconversion-button";
 
+// Fix the interface
 interface ViewCatalogsPageProps {
-  searchParams: Promise<{ sponsorId?: string }>;
+  searchParams: Promise<{ sponsorId?: string | null }>;
 }
 
 export default async function ViewCatalogsPage({ searchParams }: ViewCatalogsPageProps) {
@@ -58,6 +60,10 @@ export default async function ViewCatalogsPage({ searchParams }: ViewCatalogsPag
           <p className="text-gray-600 mb-8">
             Select a sponsor organization to view their product catalog
           </p>
+          <div>
+
+            <UpdatePointsModal itemId={sponsorId ?? null} pointConversion={null} />
+          </div>
 
           <SponsorCatalogSelector
             sponsors={sponsors}

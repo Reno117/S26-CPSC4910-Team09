@@ -2,6 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import ProductCard from "../catalog/catalog-product-card";
+import UpdatePointsModal from "../catalog/edit-pointconversion-button";
+import { requireSponsorOrAdmin } from "@/lib/auth-helpers";
 
 interface Sponsor {
   id: string;
@@ -28,6 +30,8 @@ interface SponsorCatalogSelectorProps {
   catalogProducts: CatalogProduct[] | null;
   selectedSponsor: Sponsor | null | undefined;
 }
+
+
 
 export default function SponsorCatalogSelector({
   sponsors,
@@ -83,6 +87,7 @@ export default function SponsorCatalogSelector({
               <h2 className="text-xl font-bold text-gray-900 mb-2 md:mb-0">
                 {selectedSponsor.name}
               </h2>
+
               <button
                 onClick={() =>
                   router.push(`/admin/view-catalogs/add?sponsorId=${selectedSponsorId}`)

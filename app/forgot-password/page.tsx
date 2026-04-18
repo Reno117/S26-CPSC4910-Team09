@@ -55,9 +55,7 @@ export default function ForgotPasswordPage() {
         router.push("/login");
       }, 2000);
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to reset password"
-      );
+      setError(err instanceof Error ? err.message : "Failed to reset password");
     } finally {
       setIsLoading(false);
     }
