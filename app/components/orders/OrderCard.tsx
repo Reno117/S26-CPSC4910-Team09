@@ -32,7 +32,7 @@ type OrderWithRelations = {
 const allowedTransitions: Record<string, string[]> = {
   pending: ["processing", "cancelled"],
   processing: ["shipped", "cancelled"],
-  shipped: ["delivered", "cancelled"],
+  shipped: ["delivered"],
   delivered: [],
   cancelled: [],
 };
@@ -55,6 +55,7 @@ export default function OrderCard({ order, isAdmin = false }: OrderCardProps) {
   const router = useRouter();
 
   const transitions = allowedTransitions[order.status] || [];
+  const canCancel = order.status === "pending" || order.status === "processing";
 
   const handleStatusUpdate = async (newStatus: string) => {
     setLoading(true);
@@ -117,7 +118,7 @@ export default function OrderCard({ order, isAdmin = false }: OrderCardProps) {
       {/* Order date + cancel button - UNCHANGED */}
       <div className="flex justify-between items-center text-sm text-gray-500 mt-2">
         Ordered: {new Date(order.createdAt).toLocaleDateString()}
-        <CancelOrderButton orderId={order.id} canCancel={order.status === "pending"} />
+        <CancelOrderButton orderId={order.id} canCancel={canCancel} />
       </div>
 
       {/* NEW: Sponsor/Admin Status Management */}

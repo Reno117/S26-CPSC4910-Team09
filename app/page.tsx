@@ -1,13 +1,20 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 
 export default function Home() {
-  const router = useRouter();
   const session = authClient.useSession();
   const isLoggedIn = !!session.data?.user;
+  const userRole = session.data?.user?.role;
+
+  const dashboardHref =
+    userRole === "admin"
+      ? "/admin"
+      : userRole === "sponsor"
+        ? "/sponsor"
+        : userRole === "driver"
+          ? "/driver"
+          : null;
 
   return (
     <div className="min-h-screen bg-[#e9eaeb] text-black">
@@ -25,6 +32,15 @@ export default function Home() {
               Track and improve driver preformance, and reward your drivers <br />
               with customized catalog products changed on demand
             </p>
+
+            {isLoggedIn && dashboardHref && (
+              <a
+                href={dashboardHref}
+                className="inline-flex w-fit items-center rounded-lg bg-[#003862] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#002a4a]"
+              >
+                To Dashboard
+              </a>
+            )}
           </div>
 
           {/* RIGHT SIDE (image/video placeholder) */}

@@ -38,9 +38,16 @@ export async function cancelOrder(orderId: string) {
     throw new Error("Unauthorized");
   }
 
-  // Can only cancel pending orders
-  if (order.status !== "pending") {
-    throw new Error("Only pending orders can be cancelled");
+  // Drivers can only cancel pending or processing orders.
+  // Sponsors/Admins can cancel pending or processing orders.
+  if (isDriver) {
+    if (order.status !== "pending" && order.status !== "processing") {
+      throw new Error("Only pending or processing orders can be cancelled");
+    }
+  } else {
+    if (order.status !== "pending" && order.status !== "processing") {
+      throw new Error("Only pending or processing orders can be cancelled");
+    }
   }
 
   // Use transaction for refund

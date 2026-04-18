@@ -93,7 +93,7 @@ export default async function OrdersPage() {
         <div className="space-y-4">
           {orders.map((order) => {
             const statusColor = statusColors[order.status as keyof typeof statusColors] || statusColors.pending;
-            const canCancel = order.status === "pending";
+            const canCancel = order.status === "pending" || order.status === "processing";
 
             return (
               <div key={order.id} className="bg-white border rounded-lg p-6 hover:shadow-md transition">
@@ -164,10 +164,8 @@ export default async function OrdersPage() {
                   >
                     View Details
                   </Link>
-                  
-                  {canCancel && (
-                    <CancelOrderButton orderId={order.id} />
-                  )}
+
+                  <CancelOrderButton orderId={order.id} canCancel={canCancel} />
                 </div>
               </div>
             );

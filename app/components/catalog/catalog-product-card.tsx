@@ -20,8 +20,30 @@ interface ProductCardProps {
   isAdmin: boolean;
 }
 
+function normalizeExternalImageUrl(url: string | null): string | null {
+  if (!url) return null;
+
+  const trimmed = url.trim();
+  if (!trimmed) return null;
+
+  if (trimmed.startsWith("//")) {
+    return `https:${trimmed}`;
+  }
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+
+  if (trimmed.startsWith("/")) {
+    return null;
+  }
+
+  return `https://${trimmed}`;
+}
+
 export default function ProductCard({ product, isAdmin }: ProductCardProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const safeImageUrl = normalizeExternalImageUrl(product.imageUrl);
 
   return (
     <>
@@ -32,9 +54,9 @@ export default function ProductCard({ product, isAdmin }: ProductCardProps) {
       >
         {/* Image */}
         <div className="h-48 bg-gray-100 flex items-center justify-center relative">
-          {product.imageUrl ? (
+          {safeImageUrl ? (
             <img
-              src={product.imageUrl}
+              src={safeImageUrl}
               alt={product.title}
               className="max-h-full max-w-full object-contain"
             />

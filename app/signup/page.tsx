@@ -9,18 +9,11 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [role, setRole] = useState(""); // Add role state
   const [error, setError] = useState(""); // Add error state for feedback
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
 const onSignup = async () => {
-  // Validate role
-  if (!role || role === "Select role") {
-    setError("Please select a role");
-    return;
-  }
-
   setError("");
 
   try {
@@ -28,7 +21,6 @@ const onSignup = async () => {
       email,
       password,
       name,
-      role,
     });
 
     // If your auth client returns errors instead of throwing
@@ -41,7 +33,6 @@ const onSignup = async () => {
     setEmail("");
     setPassword("");
     setName("");
-    setRole("");
     router.refresh();
   } catch (e) {
     setError("That email is already in use.");
@@ -154,22 +145,6 @@ const onSignup = async () => {
                   {showPassword ? "Hide" : "Show"}
                 </button>
               </div>
-            </div>
-
-            <div>
-              <label className="mb-1 block text-sm font-medium text-slate-700">
-                Role
-              </label>
-              <select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100"
-              >
-                <option value="">Select role</option>
-                <option>sponsor</option>
-                <option>driver</option>
-                {/* KEEP THE SPONSOR AND DRIVER LOWERCASE IT WILL BREAK EVERYTHING IF NOT */}
-              </select>
             </div>
 
             <button

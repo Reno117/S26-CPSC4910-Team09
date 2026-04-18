@@ -18,6 +18,7 @@ export const auth = betterAuth({
 
   plugins: [
     admin({
+      defaultRole: "driver",
       adminRoles: ["admin"],
       impersonationSessionDuration: 60 * 60, // 1 hour
     }),
@@ -89,9 +90,16 @@ export const auth = betterAuth({
         
         after: createAuthMiddleware(async (ctx) => {
             if(ctx.path.startsWith("/sign-up")){
-              console.log("ctx", ctx.body)
-              if ( ctx.body.role !== 'driver') return;
               if (!ctx.context.newSession) return;
+              if (ctx.context.newSession.user.role !== "driver") return;
+
+              const existingProfile = await prisma.driverProfile.findUnique({
+                where: { userId: ctx.context.newSession.user.id },
+                select: { id: true },
+              });
+
+              if (existingProfile) return;
+
               await prisma.driverProfile.create({
                 data: {
                   userId: ctx.context.newSession.user.id
@@ -113,7 +121,7 @@ export const auth = betterAuth({
     additionalFields: {
       role: {
         type: "string",
-        required: true,
+        required: false,
         defaultValue: "driver",
       },
     },
