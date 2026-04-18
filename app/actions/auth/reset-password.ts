@@ -37,7 +37,9 @@ export async function resetPassword(email: string, newPassword: string) {
     const hashedPassword = await hashPassword(newPassword);
 
     // Find the existing credential account
-    const existingAccount = user.accounts.find((a) => a.providerId === "credential");
+    const existingAccount = user.accounts.find(
+      (a) => a.providerId === "credential",
+    );
 
     if (existingAccount) {
       // Update the existing account with new password hash
@@ -68,7 +70,7 @@ export async function resetPassword(email: string, newPassword: string) {
       await createAlert(
         user.id,
         "PASSWORD_CHANGE",
-        "Your password was reset successfully."
+        "Your password was reset successfully.",
       );
     }
 
@@ -77,12 +79,13 @@ export async function resetPassword(email: string, newPassword: string) {
 
     return {
       success: true,
-      message: "Password reset successfully. Please log in with your new password.",
+      message:
+        "Password reset successfully. Please log in with your new password.",
     };
   } catch (error) {
     console.error("Password reset error:", error);
     throw new Error(
-      error instanceof Error ? error.message : "Failed to reset password"
+      error instanceof Error ? error.message : "Failed to reset password",
     );
   }
 }

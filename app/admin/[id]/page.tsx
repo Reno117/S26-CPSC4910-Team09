@@ -4,13 +4,17 @@ import AdminHeader from "../../components/AdminComponents/AdminHeader";
 import { updateDriverProfile } from "@/app/actions/admin/update-driver-profile";
 import Link from "next/link";
 import DriverEditForm from "../../components/AdminComponents/DriverEditForm";
+import ResetDriverPasswordForm from "@/app/components/AdminComponents/ResetDriverPasswordForm";
 
 interface AdminDriverEditPageProps {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ saved?: string; error?: string }>;
 }
 
-export default async function AdminDriverEditPage({ params, searchParams }: AdminDriverEditPageProps) {
+export default async function AdminDriverEditPage({
+  params,
+  searchParams,
+}: AdminDriverEditPageProps) {
   const { id } = await params;
   const { saved, error } = await searchParams;
 
@@ -46,11 +50,12 @@ export default async function AdminDriverEditPage({ params, searchParams }: Admi
     notFound();
   }
 
-  const selectedSponsorIds = sponsorLinks.length > 0
-    ? sponsorLinks.map((link) => link.sponsorOrgId)
-    : driver.sponsorId
-      ? [driver.sponsorId]
-      : [];
+  const selectedSponsorIds =
+    sponsorLinks.length > 0
+      ? sponsorLinks.map((link) => link.sponsorOrgId)
+      : driver.sponsorId
+        ? [driver.sponsorId]
+        : [];
 
   return (
     <div>
@@ -58,8 +63,13 @@ export default async function AdminDriverEditPage({ params, searchParams }: Admi
 
       <main className="pt-24 px-6 min-h-screen flex flex-col items-center">
         <section className="w-full max-w-3xl bg-white rounded-lg border border-gray-200 shadow-sm p-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-1">Edit Driver Profile</h1>
-          <p className="text-sm text-gray-600 mb-6">Update driver and user fields, then click save to permanently apply changes.</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">
+            Edit Driver Profile
+          </h1>
+          <p className="text-sm text-gray-600 mb-6">
+            Update driver and user fields, then click save to permanently apply
+            changes.
+          </p>
 
           <div className="flex flex-wrap gap-3 mb-6">
             <Link
@@ -84,12 +94,15 @@ export default async function AdminDriverEditPage({ params, searchParams }: Admi
 
           {error && (
             <div className="mb-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-              Unable to save changes. Please verify the form values and try again.
+              Unable to save changes. Please verify the form values and try
+              again.
             </div>
           )}
 
           <div className="mb-6 rounded-md border border-gray-200 bg-gray-50 p-4">
-            <h2 className="text-sm font-semibold text-gray-800 mb-2">Current Sponsor Associations</h2>
+            <h2 className="text-sm font-semibold text-gray-800 mb-2">
+              Current Sponsor Associations
+            </h2>
             {sponsorLinks.length === 0 ? (
               <p className="text-sm text-gray-600">No sponsors associated.</p>
             ) : (
@@ -106,7 +119,9 @@ export default async function AdminDriverEditPage({ params, searchParams }: Admi
             )}
           </div>
 
-          <DriverEditForm 
+          <ResetDriverPasswordForm driverEmail={driver.user.email} />
+
+          <DriverEditForm
             driver={driver}
             selectedSponsorIds={selectedSponsorIds}
             sponsors={sponsors}
