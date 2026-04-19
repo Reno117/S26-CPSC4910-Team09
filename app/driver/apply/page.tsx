@@ -6,100 +6,93 @@ import DriverHeader from "@/app/components/DriverComponents/DriverHeader";
 export default async function ApplyPage() {
   const user = await requireDriver();
 
-  // Get all sponsors
   const sponsors = await prisma.sponsor.findMany({
     orderBy: { name: "asc" },
   });
 
-  // Get driver's existing applications
   const existingApplications = await prisma.driverApplication.findMany({
-    where: {
-      driverProfileId: user.driverProfile!.id,
-    },
+    where: { driverProfileId: user.driverProfile!.id },
     include: {
       sponsor: true,
-      reviewer: {
-        select: {
-          name: true,
-        },
-      },
+      reviewer: { select: { name: true } },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: { createdAt: "desc" },
   });
 
+  const statusStyles: Record<string, string> = {
+    pending:  "bg-amber-50 border-amber-200",
+    approved: "bg-emerald-50 border-emerald-200",
+    dropped:  "bg-black/5 border-black/10",
+    rejected: "bg-red-50 border-red-200",
+  };
+
   return (
-    <div className= "min-h-screen bg-gray-50">
-      <div className="fixed top-0 w-full h-16 bg-blue-400 z-50" />
-        <DriverHeader /> 
-        <div className="h-16" />
-          <div className="p-8 max-w-4xl mx-auto">
-            <h1 className="text-3xl font-bold mb-6">Apply to Sponsor</h1>
+    <div className="min-h-screen bg-[#e9eaeb] text-black">
+      <DriverHeader />
 
-      {/* Show existing applications */}
-      {existingApplications.length > 0 && (
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-4">Your Applications</h2>
-          <div className="space-y-3">
-            {existingApplications.map((app) => (
-              <div
-                key={app.id}
-                className={`p-4 rounded border ${
-                  app.status === "pending"
-                    ? "bg-yellow-50 border-yellow-300"
-                    : app.status === "approved"
-                      ? "bg-green-50 border-green-300"
-                      : app.status === "dropped"
-                        ? "bg-gray-50 border-gray-300"
-                        : "bg-red-50 border-red-300"
-                }`}
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold">{app.sponsor.name}</h3>
-                    <p className="text-sm text-gray-600">
-                      Status:{" "}
-                      <span className="font-semibold capitalize">
-                        {app.status}
-                      </span>
-                    </p>
-                    {app.status === "approved" && app.reviewer && (
-                      <p className="text-sm text-gray-600 mt-1">
-                        Approved by: {app.reviewer.name}
-                      </p>
-                    )}
-                    {app.status === "dropped" && (
-                      <p className="text-sm text-gray-600 mt-1">
-                        Your account was dropped. You can reapply below.
-                      </p>
-                    )}
-                    {app.reason && (
-                      <p className="text-sm text-gray-600 mt-1">
-                        Reason: {app.reason}
-                      </p>
-                    )}
-                  </div>
-                  <span className="text-xs text-gray-400">
-                    {new Date(app.createdAt).toLocaleDateString()}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+      <main className="mx-auto max-w-4xl px-6 pt-24 pb-16">
+        <div className="mb-8 space-y-1">
+          <h1 className="text-3xl font-semibold leading-tight tracking-tight">
+            Apply to Sponsor
+          </h1>
+          <p className="text-sm text-black/70">
+            Submit an application to join a sponsor organization.
+          </p>
         </div>
-      )}
 
-      {/* Application form */}
-      <div className="bg-white p-6 rounded-lg shadow">
-        <h2 className="text-xl font-semibold mb-4">Apply to New Sponsor</h2>
-        <ApplicationForm
-          sponsors={sponsors}
-          driverProfileId={user.driverProfile!.id}
-          existingApplications={existingApplications}
-        />
-      </div>
-    </div>
+        {/* Existing applications */}
+        {existingApplications.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-base font-semibold mb-3">Your Applications</h2>
+            <div className="space-y-3">
+              {existingApplications.map((app) => (
+                <div
+                  key={app.id}
+                  className={`p-4 rounded-xl border ${statusStyles[app.status] ?? "bg-black/5 border-black/10"}`}
+                >
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="font-semibold text-sm">{app.sponsor.name}</h3>
+                      <p className="text-xs text-black/60 mt-0.5">
+                        Status:{" "}
+                        <span className="font-semibold capitalize">{app.status}</span>
+                      </p>
+                      {app.status === "approved" && app.reviewer && (
+                        <p className="text-xs text-black/50 mt-1">
+                          Approved by: {app.reviewer.name}
+                        </p>
+                      )}
+                      {app.status === "dropped" && (
+                        <p className="text-xs text-black/50 mt-1">
+                          Your account was dropped. You can reapply below.
+                        </p>
+                      )}
+                      {app.reason && (
+                        <p className="text-xs text-black/50 mt-1">
+                          Reason: {app.reason}
+                        </p>
+                      )}
+                    </div>
+                    <span className="text-xs text-black/40">
+                      {new Date(app.createdAt).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Application form */}
+        <div className="bg-white rounded-xl border border-black/10 shadow-sm p-6">
+          <h2 className="text-base font-semibold mb-4">Apply to New Sponsor</h2>
+          <ApplicationForm
+            sponsors={sponsors}
+            driverProfileId={user.driverProfile!.id}
+            existingApplications={existingApplications}
+          />
+        </div>
+      </main>
     </div>
   );
 }

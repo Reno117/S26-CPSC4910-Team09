@@ -209,7 +209,7 @@ export default function SponsorAudientClient({ sponsorId }: { sponsorId: string 
       {/* ── Page header ── */}
       <div className="bg-white border-b border-slate-200 px-8 py-5 pt-24">
         <div className="max-w-screen-xl mx-auto flex items-center justify-between">
-          <h1 className="text-xl font-semibold text-slate-900">Audit Log</h1>
+          <h1 className="text-xl font-semibold text-slate-900">Reports</h1>
 
           {appliedFilters && (
             <div className="flex items-center gap-2">

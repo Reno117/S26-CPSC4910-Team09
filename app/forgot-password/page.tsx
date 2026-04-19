@@ -1,10 +1,10 @@
 "use client";
-
+ 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { resetPassword } from "@/app/actions/auth/reset-password";
-
+ 
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -14,42 +14,42 @@ export default function ForgotPasswordPage() {
   const [success, setSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+ 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setSuccess(false);
-
+ 
     // Validation
     if (!email.trim()) {
       setError("Email is required");
       return;
     }
-
+ 
     if (!password.trim()) {
       setError("New password is required");
       return;
     }
-
+ 
     if (password.length < 8) {
       setError("Password must be at least 8 characters");
       return;
     }
-
+ 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
-
+ 
     setIsLoading(true);
-
+ 
     try {
       await resetPassword(email.trim(), password);
       setSuccess(true);
       setEmail("");
       setPassword("");
       setConfirmPassword("");
-
+ 
       // Redirect to login after 2 seconds
       setTimeout(() => {
         router.push("/login");
@@ -60,7 +60,7 @@ export default function ForgotPasswordPage() {
       setIsLoading(false);
     }
   };
-
+ 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -68,11 +68,11 @@ export default function ForgotPasswordPage() {
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-gray-900">Reset Password</h1>
-            <p className="text-gray-600 mt-2">
+            <p className="text-gray-800 mt-2">
               Enter your email and new password to reset your account
             </p>
           </div>
-
+ 
           {/* Success Message */}
           {success && (
             <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
@@ -84,7 +84,7 @@ export default function ForgotPasswordPage() {
               </p>
             </div>
           )}
-
+ 
           {/* Error Message */}
           {error && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -92,14 +92,14 @@ export default function ForgotPasswordPage() {
               <p className="text-red-700 text-sm mt-1">{error}</p>
             </div>
           )}
-
+ 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email Field */}
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-800 mb-2"
               >
                 Email Address
               </label>
@@ -110,16 +110,16 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 disabled={isLoading || success}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500 placeholder:text-gray-500 text-gray-900"
                 required
               />
             </div>
-
+ 
             {/* Password Field */}
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-800 mb-2"
               >
                 New Password
               </label>
@@ -131,7 +131,7 @@ export default function ForgotPasswordPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Minimum 8 characters"
                   disabled={isLoading || success}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500 placeholder:text-gray-500 text-gray-900"
                   required
                 />
                 <button
@@ -178,12 +178,12 @@ export default function ForgotPasswordPage() {
                 </button>
               </div>
             </div>
-
+ 
             {/* Confirm Password Field */}
             <div>
               <label
                 htmlFor="confirmPassword"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-sm font-medium text-gray-800 mb-2"
               >
                 Confirm Password
               </label>
@@ -194,11 +194,11 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Re-enter your password"
                 disabled={isLoading || success}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-50 disabled:text-gray-500 placeholder:text-gray-500 text-gray-900"
                 required
               />
             </div>
-
+ 
             {/* Submit Button */}
             <button
               type="submit"
@@ -208,10 +208,10 @@ export default function ForgotPasswordPage() {
               {isLoading ? "Resetting..." : "Reset Password"}
             </button>
           </form>
-
+ 
           {/* Footer Links */}
           <div className="mt-6 text-center">
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-800 text-sm">
               Remember your password?{" "}
               <Link
                 href="/login"

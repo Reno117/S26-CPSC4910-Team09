@@ -204,6 +204,7 @@ export default function AdminHeader() {
                             {[
                                 { href: '/admin', label: 'Manage Users' },
                                 { href: '/admin/create-users', label: 'Create Users' },
+                                { href: '/admin/mass-upload-users', label: 'Mass Upload Users' },
                                 { href: '/admin/create-sponsor-org', label: 'Create Sponsor Org' },
                                 { href: '/admin/view-catalogs', label: 'View Catalogs' },
                                 { href: '/admin/all-orders', label: 'Orders' },

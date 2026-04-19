@@ -8,25 +8,14 @@ import { headers } from "next/headers";
 
 export default async function SponsorDashboard() {
   const { isAdmin, sponsorId } = await requireSponsorOrAdmin();
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await auth.api.getSession({ headers: await headers() });
   const user = await prisma.user.findUnique({
-      where: {id: session?.user?.id},
-      select: {
-          id: true,
-          name: true,
-          email: true,
-          role: true,
-          image: true,
-      },
+    where: { id: session?.user?.id },
+    select: { id: true, name: true, email: true, role: true, image: true },
   });
-      
-  // If admin, show all drivers; if sponsor, show only their drivers
+
   const drivers = await prisma.sponsoredBy.findMany({
-    where: isAdmin
-      ? { }
-      : { sponsorOrgId: sponsorId!},
+    where: isAdmin ? {} : { sponsorOrgId: sponsorId! },
     select: {
       id: true,
       points: true,
@@ -36,79 +25,43 @@ export default async function SponsorDashboard() {
         select: {
           id: true,
           status: true,
-          pointsBalance: true, 
+          pointsBalance: true,
           user: {
-            select: {
-              name: true,
-              email: true,
-              image: true,
-              id: true,
-            },
+            select: { name: true, email: true, image: true, id: true },
           },
         },
       },
-      sponsorOrg: {
-        select: {
-          name: true,
-        },
-      },
+      sponsorOrg: { select: { name: true } },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: { createdAt: "desc" },
   });
-  if(!user)
-  {
-    return null;
-  }
+
+  if (!user) return null;
+
   return (
-    <div>
-      <SponsorHeader userSettings= {user}/>
+    <div className="min-h-screen bg-[#e9eaeb] text-black">
+      <SponsorHeader userSettings={user} />
 
-      <div>
-        <div className="w-full h-130 overflow-hidden">
-          <img
-            src="/semitruck.jpg"
-            alt="Sponsor Dashboard"
-            className="w-full h-auto object-cover object-center"
-          />
-        </div>
-      </div>
-
-      <div style={{
-        padding: '100px',
-        fontFamily: 'Arial, sans-serif',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        minHeight: '100vh'
-      }}>
-        <div style={{
-          maxWidth: '900px',
-          width: '100%',
-          backgroundColor: '#f5f5f5',
-          borderRadius: '8px',
-          padding: '20px',
-          justifyContent: 'center'
-        }}>
-          {/* Header */}
-          <h2 style={{ marginTop: 0, color: '#333', textAlign: 'center', fontSize: '35px'}}>
-            {isAdmin ? "All Registered Drivers" : "Registered Drivers"}
-          </h2>
+      <main className="pt-24 px-6 min-h-screen flex flex-col items-center">
+        <div className="w-full max-w-6xl">
+          <div className="mb-8 space-y-2">
+            <h1 className="text-3xl font-semibold leading-tight tracking-tight">
+              {isAdmin ? "All Drivers" : "Your Drivers"}
+            </h1>
+            <p className="text-sm text-black/70">
+              {isAdmin
+                ? "Viewing all registered drivers across sponsors."
+                : "Manage and view your registered drivers."}
+            </p>
+          </div>
 
           {drivers.length === 0 ? (
-            <div style={{
-              textAlign: 'center',
-              padding: '20px',
-              color: '#666'
-            }}>
-              No registered drivers
-            </div>
+            <p className="text-sm text-black/50">No registered drivers found.</p>
           ) : (
             <DriverListClient drivers={drivers} isAdmin={isAdmin} initialCount={10} />
           )}
         </div>
-      </div>
+      </main>
     </div>
   );
 }

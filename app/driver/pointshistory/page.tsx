@@ -5,9 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { headers } from "next/headers";
 
 export default async function PointsHistoryPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await auth.api.getSession({ headers: await headers() });
 
   let totalPointsBalance = 0;
   let sponsorBalances: {
@@ -28,7 +26,6 @@ export default async function PointsHistoryPage() {
     const driverProfile = await prisma.driverProfile.findUnique({
       where: { userId: session.user.id },
     });
-    totalPointsBalance = driverProfile?.pointsBalance || 0;
 
     if (driverProfile) {
       const sponsorshipTotals = await prisma.$queryRaw<{
@@ -52,7 +49,7 @@ export default async function PointsHistoryPage() {
         points: Number(row.points),
       }));
 
-      totalPointsBalance = sponsorBalances.reduce((sum, sponsor) => sum + sponsor.points, 0);
+      totalPointsBalance = sponsorBalances.reduce((sum, s) => sum + s.points, 0);
 
       const pointChanges = await prisma.pointChange.findMany({
         where: { driverProfileId: driverProfile.id },
@@ -72,13 +69,15 @@ export default async function PointsHistoryPage() {
   }
 
   return (
-    <div>
+    <div className="min-h-screen bg-[#e9eaeb] text-black">
       <DriverHeader />
-      <PointsHistoryClient
-        pointsBalance={totalPointsBalance}
-        sponsorBalances={sponsorBalances}
-        transactions={transactions}
-      />
+      <main className="mx-auto max-w-6xl px-6 pt-05 pb-16">
+        <PointsHistoryClient
+          pointsBalance={totalPointsBalance}
+          sponsorBalances={sponsorBalances}
+          transactions={transactions}
+        />
+      </main>
     </div>
   );
 }

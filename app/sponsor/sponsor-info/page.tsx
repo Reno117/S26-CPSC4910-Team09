@@ -7,21 +7,13 @@ import { headers } from "next/headers";
 
 export default async function SponsorDashboard() {
   const { isAdmin, sponsorId } = await requireSponsorOrAdmin();
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await auth.api.getSession({ headers: await headers() });
 
   const user = await prisma.user.findUnique({
     where: { id: session?.user?.id },
-    select: {
-      name: true,
-      email: true,
-      role: true,
-      image: true,
-    },
+    select: { name: true, email: true, role: true, image: true },
   });
 
-  // Fetch the sponsor organization (skip if admin viewing all)
   const sponsor =
     !isAdmin && sponsorId
       ? await prisma.sponsor.findUnique({
@@ -30,27 +22,16 @@ export default async function SponsorDashboard() {
         })
       : null;
 
-  // Fetch sponsor users (users associated with this sponsor org)
   const sponsorUsers =
     !isAdmin && sponsorId
       ? await prisma.user.findMany({
-          where: {
-            sponsorUser: {
-              sponsorId: sponsorId,
-            },
-          },
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
+          where: { sponsorUser: { sponsorId: sponsorId } },
+          select: { id: true, name: true, email: true },
         })
       : [];
 
   const drivers = await prisma.sponsoredBy.findMany({
-    where: isAdmin
-      ? {}
-      : { sponsorOrgId: sponsorId!},
+    where: isAdmin ? {} : { sponsorOrgId: sponsorId! },
     select: {
       id: true,
       points: true,
@@ -61,109 +42,50 @@ export default async function SponsorDashboard() {
           id: true,
           status: true,
           pointsBalance: true,
-          user: {select: {id: true, name: true, email: true, image: true } },
+          user: { select: { id: true, name: true, email: true, image: true } },
         },
       },
-      sponsorOrg: {
-        select: {
-          name: true,
-        },
-      },
+      sponsorOrg: { select: { name: true } },
     },
-    orderBy: {
-      createdAt: "desc",
-    },
+    orderBy: { createdAt: "desc" },
   });
 
   if (!user) return null;
 
   return (
-    <div>
+    <div className="min-h-screen bg-[#e9eaeb] text-black">
       <SponsorHeader userSettings={user} />
 
-      <div className="w-full h-130 overflow-hidden">
-        <img
-          src="/semitruck.jpg"
-          alt="Sponsor Dashboard"
-          className="w-full h-auto object-cover object-center"
-        />
-      </div>
-
-      <div
-        style={{
-          padding: "60px 100px",
-          fontFamily: "Arial, sans-serif",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          minHeight: "100vh",
-        }}
-      >
-        {/* Sponsor Name */}
-        {sponsor && (
-          <h1 style={{ fontSize: "40px", color: "#222", marginBottom: "40px" }}>
-            {sponsor.name}
+      <main className="mx-auto max-w-6xl px-6 pt-24 pb-16">
+        {/* Page heading */}
+        <div className="mb-8 space-y-1">
+          <h1 className="text-3xl font-semibold leading-tight tracking-tight">
+            {isAdmin ? "Admin Overview" : sponsor?.name ?? "Dashboard"}
           </h1>
-        )}
-        {isAdmin && (
-          <h1 style={{ fontSize: "40px", color: "#222", marginBottom: "40px" }}>
-            Admin Overview
-          </h1>
-        )}
+          <p className="text-sm text-black/70">
+            {isAdmin
+              ? "Viewing all drivers and sponsor activity."
+              : "Manage your sponsor users and registered drivers."}
+          </p>
+        </div>
 
-        {/* Side-by-side lists */}
-        <div
-          style={{
-            display: "flex",
-            gap: "40px",
-            width: "100%",
-            maxWidth: "1200px",
-            alignItems: "flex-start",
-          }}
-        >
-          {/* Sponsor Users List */}
+        <div className="flex gap-6 items-start">
+          {/* Sponsor Users */}
           {!isAdmin && (
-            <div
-              style={{
-                flex: 1,
-                backgroundColor: "#f5f5f5",
-                borderRadius: "8px",
-                padding: "20px",
-              }}
-            >
-              <h2
-                style={{
-                  marginTop: 0,
-                  color: "#333",
-                  textAlign: "center",
-                  fontSize: "28px",
-                }}
-              >
-                Sponsor Users
-              </h2>
+            <div className="flex-1 bg-white rounded-xl border border-black/10 shadow-sm overflow-hidden">
+              <div className="px-5 py-4 border-b border-black/10">
+                <h2 className="text-base font-semibold">Sponsor Users</h2>
+              </div>
               {sponsorUsers.length === 0 ? (
-                <p style={{ textAlign: "center", color: "#666" }}>
-                  No sponsor users found
+                <p className="text-sm text-black/50 text-center py-8">
+                  No sponsor users found.
                 </p>
               ) : (
-                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                <ul className="divide-y divide-black/10">
                   {sponsorUsers.map((u) => (
-                    <li
-                      key={u.id}
-                      style={{
-                        padding: "12px 16px",
-                        borderBottom: "1px solid #ddd",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "4px",
-                      }}
-                    >
-                      <span style={{ fontWeight: "bold", color: "#333" }}>
-                        {u.name}
-                      </span>
-                      <span style={{ fontSize: "14px", color: "#666" }}>
-                        {u.email}
-                      </span>
+                    <li key={u.id} className="px-5 py-3 flex flex-col gap-0.5">
+                      <span className="text-sm font-medium">{u.name}</span>
+                      <span className="text-xs text-black/50">{u.email}</span>
                     </li>
                   ))}
                 </ul>
@@ -171,39 +93,23 @@ export default async function SponsorDashboard() {
             </div>
           )}
 
-          {/* Drivers List */}
-          <div
-            style={{
-              flex: 1,
-              backgroundColor: "#f5f5f5",
-              borderRadius: "8px",
-              padding: "20px",
-            }}
-          >
-            <h2
-              style={{
-                marginTop: 0,
-                color: "#333",
-                textAlign: "center",
-                fontSize: "28px",
-              }}
-            >
-              {isAdmin ? "All Registered Drivers" : "Registered Drivers"}
-            </h2>
+          {/* Drivers */}
+          <div className="flex-1 bg-white rounded-xl border border-black/10 shadow-sm overflow-hidden">
+            <div className="px-5 py-4 border-b border-black/10">
+              <h2 className="text-base font-semibold">
+                {isAdmin ? "All Registered Drivers" : "Registered Drivers"}
+              </h2>
+            </div>
             {drivers.length === 0 ? (
-              <p style={{ textAlign: "center", color: "#666" }}>
-                No registered drivers
+              <p className="text-sm text-black/50 text-center py-8">
+                No registered drivers.
               </p>
             ) : (
-              <DriverListClient
-                drivers={drivers}
-                isAdmin={isAdmin}
-                initialCount={10}
-              />
+              <DriverListClient drivers={drivers} isAdmin={isAdmin} initialCount={10} />
             )}
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

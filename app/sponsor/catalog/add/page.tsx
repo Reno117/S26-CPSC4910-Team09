@@ -15,47 +15,39 @@ export default async function AddProductsPage({ searchParams }: AddProductsPageP
 
   const effectiveSponsorId = isAdmin ? (requestedSponsorId || null) : sponsorId;
 
-  // If admin, fetch sponsors for dropdown
   const sponsors = isAdmin
-    ? await prisma.sponsor.findMany({
-        orderBy: { name: "asc" },
-      })
+    ? await prisma.sponsor.findMany({ orderBy: { name: "asc" } })
     : undefined;
 
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await auth.api.getSession({ headers: await headers() });
 
   const user = await prisma.user.findUnique({
     where: { id: session?.user?.id },
-    select: {
-      name: true,
-      email: true,
-      role: true,
-      image: true,
-    },
+    select: { name: true, email: true, role: true, image: true },
   });
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
 
   return (
-    <div>
+    <div className="min-h-screen bg-[#e9eaeb] text-black">
       <SponsorHeader userSettings={user} />
-      <div className="p-8 pt-24 max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Add Products to Catalog</h1>
-        <p className="text-gray-600 mb-8">
-          Search eBay for products to add to your catalog. Your drivers will be
-          able to redeem points for these items.
-        </p>
+      <main className="mx-auto max-w-6xl px-6 pt-24 pb-16">
+        <div className="mb-8 space-y-2">
+          <h1 className="text-3xl font-semibold leading-tight tracking-tight">
+            Add Products to Catalog
+          </h1>
+          <p className="text-sm text-black/70">
+            Search eBay for products to add to your catalog. Your drivers will
+            be able to redeem points for these items.
+          </p>
+        </div>
 
         <EbaySearchForm
           isAdmin={isAdmin}
           sponsorId={effectiveSponsorId}
           sponsors={sponsors}
         />
-      </div>
+      </main>
     </div>
   );
 }

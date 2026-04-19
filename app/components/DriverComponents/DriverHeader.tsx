@@ -25,17 +25,14 @@ const ALERT_ICONS: Record<string, string> = {
 };
 
 export default function DriverHeader() {
-  const [isVisible, setIsVisible]       = useState(true);
-  const [lastScrollY, setLastScrollY]   = useState(0);
-  const [menuOpen, setMenuOpen]         = useState(false);
-  const [profileOpen, setProfileOpen]   = useState(false);
+  const [isVisible, setIsVisible]         = useState(true);
+  const [lastScrollY, setLastScrollY]     = useState(0);
+  const [menuOpen, setMenuOpen]           = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
   const [stoppingImpersonation, setStoppingImpersonation] = useState(false);
-
-  // --- Alert state ---
-  const [alerts, setAlerts]             = useState<Alert[]>([]);
-  const [alertsOpen, setAlertsOpen]     = useState(false);
-  const alertsRef                       = useRef<HTMLDivElement>(null);
+  const [alerts, setAlerts]               = useState<Alert[]>([]);
+  const [alertsOpen, setAlertsOpen]       = useState(false);
+  const alertsRef                         = useRef<HTMLDivElement>(null);
 
   const session     = authClient.useSession();
   const user        = session.data?.user as { name?: string | null; role?: string | null; image?: string | null } | undefined;
@@ -48,18 +45,16 @@ export default function DriverHeader() {
   const router   = useRouter();
   const pathname = usePathname();
 
-  // Scroll hide/show
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      setIsVisible(currentScrollY <= lastScrollY || currentScrollY <= 100);
+      setIsVisible(!(currentScrollY > lastScrollY && currentScrollY > 100));
       setLastScrollY(currentScrollY);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
-  // Cart count polling
   useEffect(() => {
     let isMounted = true;
     const loadCartCount = async () => {
@@ -75,7 +70,6 @@ export default function DriverHeader() {
     return () => { isMounted = false; clearInterval(id); };
   }, [pathname]);
 
-  // Alert polling — every 30 seconds
   useEffect(() => {
     let isMounted = true;
     const loadAlerts = async () => {
@@ -89,7 +83,6 @@ export default function DriverHeader() {
     return () => { isMounted = false; clearInterval(id); };
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (alertsRef.current && !alertsRef.current.contains(e.target as Node)) {
@@ -99,10 +92,6 @@ export default function DriverHeader() {
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
-
-  const handleBellClick = () => {
-    setAlertsOpen((prev) => !prev);
-  };
 
   const handleMarkAllRead = async () => {
     await markAllAlertsRead();
@@ -118,20 +107,11 @@ export default function DriverHeader() {
   const handleStopImpersonation = async () => {
     try {
       setStoppingImpersonation(true);
-      const res = await fetch('/api/auth/stop-impersonating', {
-        method: 'POST',
-        credentials: 'include',
-      });
-
-      if (!res.ok) {
-        const message = await res.text();
-        throw new Error(message || 'Failed to stop impersonation.');
-      }
-
+      const res = await fetch('/api/auth/stop-impersonating', { method: 'POST', credentials: 'include' });
+      if (!res.ok) throw new Error((await res.text()) || 'Failed to stop impersonation.');
       const data = (await res.json()) as { redirectPath?: string };
       window.location.href = data.redirectPath || '/sponsor';
     } catch (error) {
-      console.error('Failed to stop impersonation:', error);
       alert(error instanceof Error ? error.message : 'Failed to stop impersonation.');
     } finally {
       setStoppingImpersonation(false);
@@ -142,24 +122,34 @@ export default function DriverHeader() {
 
   return (
     <>
-      <header className={`fixed top-0 w-full bg-blue-400 text-white transition-transform duration-300 z-50 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="flex justify-between items-center p-4 h-16">
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="text-white text-2xl focus:outline-none"
-          >
-            ☰
-          </button>
-          <Link href="/driver" className="text-xl font-bold hover:text-blue-100">
-            Driver Dashboard
-          </Link>
-          <div className="flex items-center space-x-2">
+      <header
+        className={`fixed top-0 w-full z-50 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        style={{ backgroundColor: '#0d2b45' }}
+      >
+        <div className="flex justify-between items-center px-6 h-16">
+          {/* Left */}
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="text-white text-2xl focus:outline-none hover:opacity-70 transition-opacity"
+            >
+              ☰
+            </button>
+            <Link
+              href="/driver"
+              className="text-white text-sm font-light tracking-[0.18em] uppercase hover:opacity-70 transition-opacity"
+            >
+              Driver Dashboard
+            </Link>
+          </div>
+
+          {/* Right */}
+          <div className="flex items-center gap-4">
             {isImpersonating && (
               <button
                 onClick={handleStopImpersonation}
                 disabled={stoppingImpersonation}
                 className="bg-yellow-500 hover:bg-yellow-600 disabled:opacity-60 text-black font-semibold text-xs px-3 py-1 rounded"
-                title="Return to your original account"
               >
                 {stoppingImpersonation ? 'Returning...' : 'Exit Impersonation'}
               </button>
@@ -169,7 +159,7 @@ export default function DriverHeader() {
             <div className="relative">
               <button
                 onClick={() => router.push('/driver/cart')}
-                className="text-white text-2xl focus:outline-none hover:text-blue-200"
+                className="text-white text-xl focus:outline-none hover:opacity-70 transition-opacity"
                 title="Shopping Cart"
               >
                 🛒
@@ -184,8 +174,8 @@ export default function DriverHeader() {
             {/* Bell */}
             <div className="relative" ref={alertsRef}>
               <button
-                onClick={handleBellClick}
-                className="text-white text-2xl focus:outline-none hover:text-blue-200"
+                onClick={() => setAlertsOpen((prev) => !prev)}
+                className="text-white text-xl focus:outline-none hover:opacity-70 transition-opacity"
                 title="Notifications"
               >
                 🔔
@@ -195,40 +185,26 @@ export default function DriverHeader() {
                   {unreadCount > 99 ? '99+' : unreadCount}
                 </span>
               )}
-
-              {/* Dropdown */}
               {alertsOpen && (
                 <div className="absolute right-0 top-10 w-80 bg-white text-gray-800 rounded-xl shadow-xl z-50 overflow-hidden">
-                  {/* Header */}
                   <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                     <span className="font-semibold text-sm">Notifications</span>
                     {unreadCount > 0 && (
-                      <button
-                        onClick={handleMarkAllRead}
-                        className="text-xs text-blue-400 hover:text-blue-600"
-                      >
+                      <button onClick={handleMarkAllRead} className="text-xs text-blue-500 hover:text-blue-700">
                         Mark all read
                       </button>
                     )}
                   </div>
-
-                  {/* Alert list */}
                   <ul className="max-h-80 overflow-y-auto divide-y divide-gray-50">
                     {alerts.length === 0 ? (
-                      <li className="px-4 py-6 text-center text-sm text-gray-400">
-                        You're all caught up!
-                      </li>
+                      <li className="px-4 py-6 text-center text-sm text-gray-400">You're all caught up!</li>
                     ) : (
                       alerts.map((alert) => (
                         <li key={alert.id} className="flex gap-3 px-4 py-3 hover:bg-gray-50 transition-colors">
-                          <span className="text-xl mt-0.5">
-                            {ALERT_ICONS[alert.alertType] ?? '🔔'}
-                          </span>
+                          <span className="text-xl mt-0.5">{ALERT_ICONS[alert.alertType] ?? '🔔'}</span>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm text-gray-700 leading-snug">{alert.alertContent}</p>
-                            <p className="text-xs text-gray-400 mt-1">
-                              {new Date(alert.createdAt).toLocaleString()}
-                            </p>
+                            <p className="text-xs text-gray-400 mt-1">{new Date(alert.createdAt).toLocaleString()}</p>
                           </div>
                         </li>
                       ))
@@ -241,7 +217,7 @@ export default function DriverHeader() {
             {/* Settings */}
             <button
               onClick={() => router.push('/driver/settings')}
-              className="text-white text-2xl focus:outline-none hover:text-blue-200"
+              className="text-white text-xl focus:outline-none hover:opacity-70 transition-opacity"
               title="Settings"
             >
               ⚙️
@@ -250,7 +226,8 @@ export default function DriverHeader() {
             {/* Avatar */}
             <Link
               href="/driver/profile"
-              className="w-9 h-9 rounded-full bg-blue-600 border-2 border-white flex items-center justify-center overflow-hidden hover:opacity-80 transition flex-shrink-0"
+              className="w-9 h-9 rounded-full border-2 border-white/40 flex items-center justify-center overflow-hidden hover:opacity-80 transition flex-shrink-0"
+              style={{ backgroundColor: '#1a4a6e' }}
               title="Profile"
             >
               {user?.image ? (
@@ -265,72 +242,79 @@ export default function DriverHeader() {
         </div>
       </header>
 
-      {/* Hamburger sidebar — unchanged */}
+      {/* Side drawer */}
       <div className={`fixed inset-0 z-40 transition-opacity duration-300 ${menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className="bg-black bg-opacity-50 absolute inset-0" onClick={() => setMenuOpen(false)}></div>
-        <div className={`absolute left-0 top-0 h-full w-64 bg-white shadow-lg transform transition-transform duration-300 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-          <div className="p-4">
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
-              <div className="w-10 h-10 rounded-full bg-blue-400 border-2 border-blue-300 flex items-center justify-center overflow-hidden flex-shrink-0">
+        <div
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          className="absolute inset-0"
+          onClick={() => setMenuOpen(false)}
+        />
+        <div
+          className={`absolute left-0 top-0 h-full w-64 shadow-2xl transform transition-transform duration-300 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          style={{ backgroundColor: '#0d2b45' }}
+        >
+          <div className="p-6 flex flex-col h-full">
+            {/* User info */}
+            <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/10 flex-shrink-0">
+              <div
+                className="w-10 h-10 rounded-full border-2 border-white/40 flex items-center justify-center overflow-hidden flex-shrink-0"
+                style={{ backgroundColor: '#1a4a6e' }}
+              >
                 {user?.image ? (
                   <img src={user.image} alt="Profile" className="w-full h-full object-cover" />
                 ) : (
-                  <span className="text-white text-sm font-bold">
-                    {(user?.name ?? 'D').charAt(0).toUpperCase()}
-                  </span>
+                  <span className="text-white text-sm font-bold">{(user?.name ?? 'D').charAt(0).toUpperCase()}</span>
                 )}
               </div>
               <div>
-                <p className="font-semibold text-gray-800 text-sm">{displayName}</p>
-                <p className="text-xs text-gray-400 capitalize">{displayRole}</p>
+                <p className="text-white text-sm font-semibold">{displayName}</p>
+                <p className="text-white/40 text-xs capitalize">{displayRole}</p>
               </div>
             </div>
-            <h2 className="text-lg font-bold mb-4 text-gray-800">Menu</h2>
-            <ul className="space-y-2">
+
+            <h2 className="text-white text-xs font-semibold tracking-widest uppercase mb-4 opacity-50 flex-shrink-0">Navigation</h2>
+
+            <ul className="space-y-1 overflow-y-auto flex-1 mb-4">
               {isImpersonating && (
                 <li>
                   <button
                     onClick={handleStopImpersonation}
                     disabled={stoppingImpersonation}
-                    className="w-full text-left p-2 text-yellow-700 bg-yellow-100 hover:bg-yellow-200 rounded disabled:opacity-60"
+                    className="w-full text-left px-4 py-3 rounded-md text-yellow-300 hover:bg-white/10 transition-colors text-base disabled:opacity-60"
                   >
                     {stoppingImpersonation ? 'Returning...' : 'Exit Impersonation'}
                   </button>
                 </li>
               )}
-              <li><Link href="/driver" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Dashboard</Link></li>
-              <li><Link href="/driver/settings" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Settings</Link></li>
-              <li><Link href="/driver/apply" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Apply to a Sponsor</Link></li>
-              <li><Link href="/driver/catalog" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Sponsor Catalog</Link></li>
-              <li><Link href="/driver/orders" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Order History</Link></li>
-              <li><Link href="/driver/mysponsor" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>My Sponsor</Link></li>
-              <li><Link href="/driver/pointshistory" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Points History</Link></li>
-              <li><Link href="/driver/profile" className="block p-2 hover:bg-gray-200 text-gray-700 hover:text-blue-400 text-xl" onClick={() => setMenuOpen(false)}>Profile</Link></li>
+              {[
+                { href: '/driver',               label: 'Dashboard' },
+                { href: '/driver/apply',          label: 'Apply to a Sponsor' },
+                { href: '/driver/catalog',        label: 'Sponsor Catalog' },
+                { href: '/driver/orders',         label: 'Order History' },
+                { href: '/driver/mysponsor',      label: 'My Sponsor' },
+                { href: '/driver/pointshistory',  label: 'Points History' },
+              ].map(({ href, label }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
+                    onClick={() => setMenuOpen(false)}
+                    className="block px-4 py-3 rounded-md text-white/80 hover:text-white hover:bg-white/10 transition-colors text-base"
+                  >
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-            <div className="absolute bottom-6 left-4 right-4">
-              <button
-                onClick={handleLogout}
-                className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition text-sm"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      {/* Profile dropdown — unchanged */}
-      {profileOpen && (
-        <div className="fixed top-16 right-4 bg-white shadow-lg rounded-md z-50 w-48">
-          <div className="p-4">
-            <p className="text-sm text-gray-600">Logged in as: <strong>{displayName}</strong></p>
-            <p className="text-sm text-gray-600">Role: <strong>{displayRole}</strong></p>
-            <button onClick={handleLogout} className="mt-2 w-full bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600">
+            <button
+              onClick={handleLogout}
+              className="w-full bg-red-500/80 hover:bg-red-500 text-white py-2 rounded-lg transition text-sm flex-shrink-0"
+            >
               Logout
             </button>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 }
